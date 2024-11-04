@@ -1,0 +1,48 @@
+<template>
+    <div class="navigation-bar">
+      <div v-if="username" class="welcome-message">Hola, {{ username }}</div>
+      <div class="buttons">
+        <button v-if="showBack" class="btn btn-secondary mb-2" @click="goBack">Regresar</button>
+        <button v-if="showHome" class="btn btn-primary mb-2" @click="goHome">Salir</button>
+        <button v-if="showLogout" class="btn btn-danger" @click="logout">Logout</button>
+      </div>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    name: 'NavigationBar',
+    props: {
+      showBack: {
+        type: Boolean,
+        default: false
+      },
+      showHome: {
+        type: Boolean,
+        default: false
+      },
+      showLogout: {
+        type: Boolean,
+        default: false
+      }
+    },
+    computed: {
+      username() {
+        return localStorage.getItem('username')
+      }
+    },
+    methods: {
+      goBack() {
+        this.$router.push('/dashboard')
+      },
+      goHome() {
+        this.$router.push('/')
+      },
+      logout() {
+        localStorage.removeItem('token')
+        localStorage.removeItem('username')
+        this.$router.push('/login')
+      }
+    }
+  }
+  </script>

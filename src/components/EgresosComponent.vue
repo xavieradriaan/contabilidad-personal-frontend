@@ -1,0 +1,155 @@
+<template>
+  <div class="container mt-5">
+    <navigation-bar :showBack="true" :showHome="true" :showLogout="true"></navigation-bar>
+    <h1 class="text-center mb-4">Registrar Egresos</h1>
+    <form @submit.prevent="addEgreso" class="card p-4 shadow-sm">
+      <div class="mb-3">
+        <label for="categoria" class="form-label">Categoría</label>
+        <select v-model="nuevoEgreso.categoria" id="categoria" class="form-select" required>
+          <option v-for="categoria in categorias" :key="categoria" :value="categoria">{{ categoria }}</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="subcategoria" class="form-label">Subcategoría</label>
+        <input v-model="nuevoEgreso.subcategoria" id="subcategoria" class="form-control" placeholder="Descripción (opcional)">
+      </div>
+      <div class="mb-3">
+        <label for="monto" class="form-label">Monto</label>
+        <input v-model.number="nuevoEgreso.monto" id="monto" type="text" class="form-control" inputmode="decimal" @input="validateNumber" required>
+      </div>
+      <div class="mb-3">
+        <label for="fecha" class="form-label">Fecha</label>
+        <input v-model="nuevoEgreso.fecha" id="fecha" type="date" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Agregar Egreso</button>
+    </form>
+
+    <!-- Modal para seleccionar pagos recurrentes -->
+    <div v-if="showModal" class="modal" tabindex="-1" style="display: block;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Seleccionar Pagos Recurrentes</h5>
+            <button type="button" class="btn-close" @click="closeModal"></button>
+          </div>
+          <div class="modal-body">
+            <div v-for="categoria in categorias" :key="categoria" class="form-check">
+              <input class="form-check-input" type="checkbox" :value="categoria" v-model="selectedCategorias">
+              <label class="form-check-label">{{ categoria }}</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" @click="savePagosRecurrentes">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from 'axios'
+import Swal from 'sweetalert2'
+import NavigationBar from './NavigationBar.vue'
+
+export default {
+  name: 'EgresosComponent',
+  components: {
+    NavigationBar
+  },
+  data() {
+    return {
+      nuevoEgreso: {
+        categoria: '',
+        subcategoria: '',
+        monto: 0,
+        fecha: ''
+      },
+      categorias: [
+        'Teléfono Móvil', 'GitHub', 'Mami', 'Comida', 'Movilización Trabajo', 'Diners Club', 'Spotify', 'Maestría', 'Ropa', 'Zapatos', 'Tecnología', 'Restaurantes', 'Salud', 'Cursos Online', 'Gastos Hijos', 'Videojuegos', 'Netflix', 'Amazon Prime', 'Alquiler', 'Transporte', 'Entretenimiento', 'Manutención', 'Otros (Gastos Varios)'
+      ],
+      showModal: false,
+      selectedCategorias: []
+    }
+  },
+  async created() {
+    await this.checkFirstTime()
+  },
+  methods: {
+    async checkFirstTime() {
+      try {
+        const response = await axios.get('/pagos_recurrentes', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        if (response.data.length === 0) {
+          this.showModal = true
+        }
+      } catch (error) {
+        console.error('Error al verificar pagos recurrentes:', error)
+      }
+    },
+    async savePagosRecurrentes() {
+      try {
+        await axios.post('/pagos_recurrentes', { categorias: this.selectedCategorias }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        this.showModal = false
+        Swal.fire({
+          icon: 'success',
+          title: 'Pagos Recurrentes Guardados',
+          text: 'Los pagos recurrentes han sido guardados correctamente.',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      } catch (error) {
+        console.error('Error al guardar pagos recurrentes:', error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un problema al guardar los pagos recurrentes.',
+          showConfirmButton: true
+        })
+      }
+    },
+    closeModal() {
+      this.showModal = false
+    },
+    async addEgreso() {
+      try {
+        await axios.post('/egresos', this.nuevoEgreso, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        this.nuevoEgreso = { categoria: '', subcategoria: '', monto: 0, fecha: '' }
+        Swal.fire({
+          icon: 'success',
+          title: 'Egreso Exitoso!',
+          text: 'El egreso ha sido agregado correctamente.',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      } catch (error) {
+        console.error('Error al registrar egreso:', error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un problema al registrar el egreso.',
+          showConfirmButton: true
+        })
+      }
+    },
+    validateNumber(event) {
+      const value = event.target.value
+      const regex = /^[0-9]*\.?[0-9]*$/
+      if (!regex.test(value)) {
+        event.target.value = value.slice(0, -1)
+      }
+    }
+  }
+}
+</script>

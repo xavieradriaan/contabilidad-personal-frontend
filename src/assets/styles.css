@@ -1,0 +1,236 @@
+/* Global Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #444;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+nav {
+  padding: 1em;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+nav a {
+  margin: 0 1em;
+  color: white;
+  font-weight: bold;
+}
+
+nav a.router-link-exact-active {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: 800px;
+  margin: 4em auto; /* Ajustar la posición del contenedor */
+  padding: 1em;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.75em 1.5em;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-bottom: 1em;
+  width: 100%;
+  max-width: 300px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form input, form select, form button {
+  margin-bottom: 1em;
+}
+
+form input, form select {
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  align-self: flex-start;
+}
+
+.link-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.link-buttons a {
+  margin-bottom: 1em;
+  padding: 0.75em 1.5em;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  text-align: center;
+  width: 100%;
+  max-width: 300px;
+}
+
+.link-buttons a:hover {
+  background-color: #0056b3;
+}
+
+.detalles {
+  margin-top: 2em;
+}
+
+.detalles h2 {
+  margin-top: 1em;
+  color: #007bff;
+}
+
+.detalles table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+.detalles th, .detalles td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.detalles th {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.detalles tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.detalles tr:hover {
+  background-color: #f1f1f1;
+}
+
+.detalles th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #007bff;
+  color: white;
+}
+
+.navigation-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: absolute;
+  top: 6em; /* Ajustar la posición de los botones */
+  right: 1em;
+  gap: 0.5em;
+}
+
+.welcome-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 1em;
+  font-size: 1.2em;
+  color: #007bff;
+  background-color: #f4f4f9;
+  width: 100%;
+  text-align: left;
+  z-index: 1000;
+}
+
+.navigation-bar .buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.navigation-bar button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75em;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.navigation-bar button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+/* Styles for DashboardComponent */
+.nav-pills .nav-link {
+  background-color: #f8f9fa;
+  color: #007bff;
+  border: 1px solid #007bff;
+  border-radius: 0.25rem;
+  margin: 0 0.5rem;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-pills .nav-link:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.nav-pills .nav-link.router-link-exact-active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Styles for Export Button */
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+/* Styles for InformesGraficosComponent */
+.chart-container {
+  position: relative;
+  height: 400px;
+}
+
+.table {
+  margin-top: 20px;
+}

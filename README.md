@@ -1,3 +1,9 @@
+# SOLO MOSTRAR EL TREE JUSTO Y NECESARIO
+
+cd /Users/xavierandrade/Documents/contabilidadPersonalFRONTEND/frontend/frontend
+tree src/components
+tree src/router
+
 # frontend
 
 ## Project setup
