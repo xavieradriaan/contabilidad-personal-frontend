@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start": "serve -s dist" 
+    "start": "serve -s dist -l $PORT" 
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.6.0",
@@ -18,7 +18,7 @@
     "vue": "^3.2.13",
     "vue-router": "^4.4.5",
     "vue3-apexcharts": "^1.7.0",
-    "serve": "^14.0.1"  
+    "serve": "^14.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
