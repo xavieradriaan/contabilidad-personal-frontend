@@ -5,13 +5,15 @@
     <form @submit.prevent="register" class="card p-4 shadow-sm">
       <div class="mb-3">
         <label for="username" class="form-label">Nombre de usuario</label>
-        <input v-model="username" id="username" type="text" class="form-control" required>
+        <input v-model="username" id="username" type="text" class="form-control" required autocapitalize="none" @input="validateNoSpaces('username')">
+        <div v-if="usernameError" class="text-danger">{{ usernameError }}</div>
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Contraseña</label>
-        <input v-model="password" id="password" type="password" class="form-control" required>
+        <input v-model="password" id="password" type="password" class="form-control" required autocapitalize="none" @input="validateNoSpaces('password')">
+        <div v-if="passwordError" class="text-danger">{{ passwordError }}</div>
       </div>
-      <button type="submit" class="btn btn-primary w-100">Registrar</button>
+      <button type="submit" class="btn btn-primary w-100" :disabled="isFormInvalid">Registrar</button>
     </form>
   </div>
 </template>
@@ -29,11 +31,28 @@ export default {
   data() {
     return {
       username: '',
-      password: ''
+      password: '',
+      usernameError: '',
+      passwordError: ''
+    }
+  },
+  computed: {
+    isFormInvalid() {
+      return this.usernameError || this.passwordError || !this.username || !this.password
     }
   },
   methods: {
+    validateNoSpaces(field) {
+      if (this[field].includes(' ')) {
+        this[`${field}Error`] = 'No se permiten espacios en este campo.'
+      } else {
+        this[`${field}Error`] = ''
+      }
+    },
     async register() {
+      if (this.isFormInvalid) {
+        return
+      }
       try {
         const response = await axios.post('/register', {
           username: this.username,

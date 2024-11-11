@@ -5,14 +5,16 @@
     <form @submit.prevent="login">
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
-        <input v-model="username" id="username" class="form-control" placeholder="Username" required>
+        <input v-model="username" id="username" class="form-control" placeholder="Username" required autocapitalize="none" @input="validateNoSpaces('username')">
+        <div v-if="usernameError" class="text-danger">{{ usernameError }}</div>
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input v-model="password" id="password" type="password" class="form-control" placeholder="Password" required>
+        <input v-model="password" id="password" type="password" class="form-control" placeholder="Password" required autocapitalize="none" @input="validateNoSpaces('password')">
+        <div v-if="passwordError" class="text-danger">{{ passwordError }}</div>
       </div>
       <div v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="submit" class="btn btn-primary" :disabled="isFormInvalid">Login</button>
     </form>
   </div>
 </template>
@@ -31,11 +33,28 @@ export default {
     return {
       username: '',
       password: '',
+      usernameError: '',
+      passwordError: '',
       errorMessage: ''
     }
   },
+  computed: {
+    isFormInvalid() {
+      return this.usernameError || this.passwordError || !this.username || !this.password
+    }
+  },
   methods: {
+    validateNoSpaces(field) {
+      if (this[field].includes(' ')) {
+        this[`${field}Error`] = 'No se permiten espacios en este campo.'
+      } else {
+        this[`${field}Error`] = ''
+      }
+    },
     async login() {
+      if (this.isFormInvalid) {
+        return
+      }
       try {
         const response = await axios.post('/login', {
           username: this.username,
