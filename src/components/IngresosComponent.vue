@@ -20,8 +20,8 @@
         <input v-model="nuevoIngreso.fecha" id="fecha" type="date" class="form-control" required>
       </div>
       <div class="mb-3">
-        <label for="monto" class="form-label">Monto</label>
-        <input v-model="nuevoIngreso.monto" id="monto" type="text" class="form-control" inputmode="numeric" @input="validateMonto" required placeholder="Ingrese solo valores enteros">
+        <label for="monto" class="form-label">Valor</label>
+        <input v-model="nuevoIngreso.monto" id="monto" type="text" class="form-control" inputmode="numeric" @input="validateMonto" required placeholder="Ingrese solo valores enteros" style="color: #6c757d;">
       </div>
       <button type="submit" class="btn btn-primary w-100">Agregar Ingreso</button>
     </form>
