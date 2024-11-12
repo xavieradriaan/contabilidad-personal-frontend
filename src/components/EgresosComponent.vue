@@ -15,7 +15,7 @@
       </div>
       <div class="mb-3">
         <label for="monto" class="form-label">Monto</label>
-        <input v-model="nuevoEgreso.monto" id="monto" type="text" class="form-control" inputmode="decimal" @input="validateMonto" required>
+        <input v-model="nuevoEgreso.monto" id="monto" type="text" class="form-control" inputmode="decimal" @input="validateMonto" required placeholder="Ingrese valores con decimales, ej: 300.50">
       </div>
       <div class="mb-3">
         <label for="fecha" class="form-label">Fecha</label>
@@ -85,13 +85,9 @@ export default {
       if (parts.length > 2) {
         value = parts[0] + '.' + parts.slice(1).join('')
       }
-      // Limit to three decimal places
-      if (parts[1] && parts[1].length > 3) {
-        value = parts[0] + '.' + parts[1].slice(0, 3)
-      }
-      // Limit to six digits in total
-      if (value.length > 6) {
-        value = value.slice(0, 6)
+      // Limit to two decimal places
+      if (parts[1] && parts[1].length > 2) {
+        value = parts[0] + '.' + parts[1].slice(0, 2)
       }
       this.nuevoEgreso.monto = value
     },

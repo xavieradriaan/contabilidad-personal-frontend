@@ -21,7 +21,7 @@
       </div>
       <div class="mb-3">
         <label for="monto" class="form-label">Monto</label>
-        <input v-model="nuevoIngreso.monto" id="monto" type="text" class="form-control" inputmode="numeric" @input="validateMonto" required>
+        <input v-model="nuevoIngreso.monto" id="monto" type="text" class="form-control" inputmode="numeric" @input="validateMonto" required placeholder="Ingrese solo valores enteros">
       </div>
       <button type="submit" class="btn btn-primary w-100">Agregar Ingreso</button>
     </form>
