@@ -88,6 +88,10 @@ export default {
         }
       }
     }
+  },
+  created() {
+    this.username = ''
+    this.password = ''
   }
 }
 </script>

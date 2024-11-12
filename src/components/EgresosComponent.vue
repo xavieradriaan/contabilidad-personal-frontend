@@ -15,7 +15,7 @@
       </div>
       <div class="mb-3">
         <label for="monto" class="form-label">Monto</label>
-        <input v-model.number="nuevoEgreso.monto" id="monto" type="text" class="form-control" inputmode="decimal" @input="validateNumber" required>
+        <input v-model="nuevoEgreso.monto" id="monto" type="text" class="form-control" inputmode="decimal" @input="validateMonto" required>
       </div>
       <div class="mb-3">
         <label for="fecha" class="form-label">Fecha</label>
@@ -62,7 +62,7 @@ export default {
       nuevoEgreso: {
         categoria: '',
         subcategoria: '',
-        monto: 0,
+        monto: '',
         fecha: ''
       },
       categorias: [
@@ -76,6 +76,25 @@ export default {
     await this.checkFirstTime()
   },
   methods: {
+    validateMonto(event) {
+      let value = event.target.value.replace(/,/g, '.')
+      // Remove non-numeric characters except for the first dot
+      value = value.replace(/[^0-9.]/g, '')
+      // Ensure only one dot is present
+      const parts = value.split('.')
+      if (parts.length > 2) {
+        value = parts[0] + '.' + parts.slice(1).join('')
+      }
+      // Limit to three decimal places
+      if (parts[1] && parts[1].length > 3) {
+        value = parts[0] + '.' + parts[1].slice(0, 3)
+      }
+      // Limit to six digits in total
+      if (value.length > 6) {
+        value = value.slice(0, 6)
+      }
+      this.nuevoEgreso.monto = value
+    },
     async checkFirstTime() {
       try {
         const response = await axios.get('/pagos_recurrentes', {
@@ -120,12 +139,17 @@ export default {
     },
     async addEgreso() {
       try {
-        await axios.post('/egresos', this.nuevoEgreso, {
+        await axios.post('/egresos', {
+          categoria: this.nuevoEgreso.categoria,
+          subcategoria: this.nuevoEgreso.subcategoria,
+          monto: parseFloat(this.nuevoEgreso.monto),
+          fecha: this.nuevoEgreso.fecha
+        }, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         })
-        this.nuevoEgreso = { categoria: '', subcategoria: '', monto: 0, fecha: '' }
+        this.nuevoEgreso = { categoria: '', subcategoria: '', monto: '', fecha: '' }
         Swal.fire({
           icon: 'success',
           title: 'Egreso Exitoso!',
@@ -141,13 +165,6 @@ export default {
           text: 'Hubo un problema al registrar el egreso.',
           showConfirmButton: true
         })
-      }
-    },
-    validateNumber(event) {
-      const value = event.target.value
-      const regex = /^[0-9]*\.?[0-9]*$/
-      if (!regex.test(value)) {
-        event.target.value = value.slice(0, -1)
       }
     }
   }

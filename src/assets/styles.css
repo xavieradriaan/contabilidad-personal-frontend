@@ -234,3 +234,42 @@ form button {
 .table {
   margin-top: 20px;
 }
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .container {
+    margin: 2em auto;
+    padding: 1em;
+  }
+
+  .navigation-bar {
+    top: 4em;
+    right: 0.5em;
+  }
+
+  .welcome-message {
+    font-size: 1em;
+  }
+
+  button {
+    font-size: 0.9em;
+    padding: 0.5em 1em;
+  }
+
+  .link-buttons a {
+    font-size: 0.9em;
+    padding: 0.5em 1em;
+  }
+
+  .detalles th, .detalles td {
+    padding: 6px;
+  }
+
+  .detalles th {
+    font-size: 0.9em;
+  }
+
+  .detalles td {
+    font-size: 0.8em;
+  }
+}

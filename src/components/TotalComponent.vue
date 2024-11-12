@@ -33,6 +33,7 @@
             <th>Fuente</th>
             <th>Fecha</th>
             <th>Monto</th>
+            <th>Descripción</th>
           </tr>
         </thead>
         <tbody>
@@ -40,9 +41,10 @@
             <td>{{ ingreso.fuente }}</td>
             <td>{{ formatDate(ingreso.fecha) }}</td>
             <td>${{ ingreso.monto.toFixed(2) }}</td>
+            <td>{{ ingreso.descripcion }}</td>
           </tr>
           <tr>
-            <td colspan="2"><strong>Total Ingresos:</strong></td>
+            <td colspan="3"><strong>Total Ingresos:</strong></td>
             <td><strong>${{ total_ingresos.toFixed(2) }}</strong></td>
           </tr>
         </tbody>
@@ -200,6 +202,7 @@ export default {
         xml += `      <Fuente>${ingreso.fuente}</Fuente>\n`
         xml += `      <Fecha>${this.formatDate(ingreso.fecha)}</Fecha>\n`
         xml += `      <Monto>${ingreso.monto.toFixed(2)}</Monto>\n`
+        xml += `      <Descripcion>${ingreso.descripcion}</Descripcion>\n`
         xml += '    </Ingreso>\n'
       })
       xml += '    <TotalIngresos>\n'

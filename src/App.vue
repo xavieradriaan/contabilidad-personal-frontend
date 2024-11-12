@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div v-if="isLoggedIn" class="welcome-message">Hola, {{ username }}</div>
-    <navigation-bar :showHome="isLoggedIn" :showLogout="isLoggedIn"></navigation-bar>
+    <navigation-bar :showHome="isLoggedIn" :showLogout="isLoggedIn" @user-logged-out="handleUserLoggedOut"></navigation-bar>
     <router-view/>
   </div>
 </template>
@@ -14,19 +14,23 @@ export default {
   components: {
     NavigationBar
   },
-  computed: {
-    isLoggedIn() {
-      return !!localStorage.getItem('token')
-    },
-    username() {
-      return localStorage.getItem('username')
+  data() {
+    return {
+      isLoggedIn: !!localStorage.getItem('token'),
+      username: localStorage.getItem('username')
+    }
+  },
+  watch: {
+    isLoggedIn(newVal) {
+      if (!newVal) {
+        this.$router.push('/login')
+      }
     }
   },
   methods: {
-    logout() {
-      localStorage.removeItem('token')
-      localStorage.removeItem('username')
-      this.$router.push('/login')
+    handleUserLoggedOut() {
+      this.isLoggedIn = false
+      this.username = null
     }
   }
 }
