@@ -13,7 +13,7 @@
       </div>
       <div v-if="nuevoIngreso.fuente === 'Ingresos Extras'" class="mb-3">
         <label for="descripcion" class="form-label">Descripción</label>
-        <input v-model="nuevoIngreso.descripcion" id="descripcion" type="text" class="form-control" maxlength="70" placeholder="Descripción (máximo 70 caracteres)" required style="color: #000;" :style="{ '::placeholder': { color: '#6c757d' } }">
+        <input v-model="nuevoIngreso.descripcion" id="descripcion" type="text" class="form-control" maxlength="70" placeholder="Descripción (máximo 70 caracteres)" required style="color: #000;" :style="{ '::placeholder': { color: '#d3d3d3' } }">
       </div>
       <div class="mb-3">
         <label for="fecha" class="form-label">Fecha</label>
@@ -21,7 +21,7 @@
       </div>
       <div class="mb-3">
         <label for="monto" class="form-label">Valor</label>
-        <input v-model="nuevoIngreso.monto" id="monto" type="text" class="form-control" inputmode="numeric" @input="validateMonto" required placeholder="Ingrese solo valores enteros" style="color: #000;" :style="{ '::placeholder': { color: '#6c757d' } }">
+        <input v-model="nuevoIngreso.monto" id="monto" type="text" class="form-control" inputmode="numeric" @input="validateMonto" required placeholder="Ingrese solo valores enteros" style="color: #000;" :style="{ '::placeholder': { color: '#d3d3d3' } }">
       </div>
       <button type="submit" class="btn btn-primary w-100">Agregar Ingreso</button>
     </form>

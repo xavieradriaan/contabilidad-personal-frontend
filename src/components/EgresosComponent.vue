@@ -11,11 +11,11 @@
       </div>
       <div class="mb-3">
         <label for="subcategoria" class="form-label">Subcategoría</label>
-        <input v-model="nuevoEgreso.subcategoria" id="subcategoria" class="form-control" placeholder="Descripción (opcional)" style="color: #000;" :style="{ '::placeholder': { color: '#6c757d' } }">
+        <input v-model="nuevoEgreso.subcategoria" id="subcategoria" class="form-control" placeholder="Descripción (opcional)" style="color: #000;" :style="{ '::placeholder': { color: '#d3d3d3' } }">
       </div>
       <div class="mb-3">
         <label for="monto" class="form-label">Valor</label>
-        <input v-model="nuevoEgreso.monto" id="monto" type="text" class="form-control" inputmode="decimal" @input="validateMonto" required placeholder="Ingrese valores con decimales, ej: 300.50" style="color: #000;" :style="{ '::placeholder': { color: '#6c757d' } }">
+        <input v-model="nuevoEgreso.monto" id="monto" type="text" class="form-control" inputmode="decimal" @input="validateMonto" required placeholder="Ingrese valores con decimales, ej: 300.50" style="color: #000;" :style="{ '::placeholder': { color: '#d3d3d3' } }">
       </div>
       <div class="mb-3">
         <label for="fecha" class="form-label">Fecha</label>
