@@ -1,6 +1,6 @@
 /* Global Styles */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Nunito', sans-serif;
   background-color: #f4f4f9;
   margin: 0;
   padding: 0;
@@ -272,4 +272,20 @@ form button {
   .detalles td {
     font-size: 0.8em;
   }
+}
+
+/* Placeholder Styles */
+::placeholder {
+  color: rgba(0, 0, 0, 0.3); /* Color más transparente para el placeholder */
+}
+
+/* Styles for RegisterComponent */
+.text-muted {
+  font-size: 0.875em;
+  color: #6c757d;
+}
+
+.text-success {
+  font-size: 0.875em;
+  color: #28a745;
 }

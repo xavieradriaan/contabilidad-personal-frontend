@@ -33,7 +33,11 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push('/dashboard')
+      if (this.$route.path === '/register') {
+        this.$router.push('/dashboard')
+      } else {
+        this.$router.go(-1)
+      }
     },
     goHome() {
       this.$router.push('/')

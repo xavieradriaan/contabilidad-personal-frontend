@@ -8,6 +8,7 @@
       <router-link class="nav-link" to="/total">Balance Detalles</router-link>
       <router-link class="nav-link" to="/informes_graficos">Informes Gráficos</router-link>
       <router-link class="nav-link" to="/pagos_recurrentes">Pagos Recurrentes</router-link>
+      <router-link class="nav-link" to="/depositos_bancos">Depósitos en Bancos</router-link>  <!-- Nuevo enlace -->
     </nav>
   </div>
 </template>

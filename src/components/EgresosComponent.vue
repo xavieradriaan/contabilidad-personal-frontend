@@ -11,11 +11,18 @@
       </div>
       <div class="mb-3">
         <label for="subcategoria" class="form-label">Subcategoría</label>
-        <input v-model="nuevoEgreso.subcategoria" id="subcategoria" class="form-control" placeholder="Descripción (opcional)" style="color: #000;" :style="{ '::placeholder': { color: '#d3d3d3' } }">
+        <input v-model="nuevoEgreso.subcategoria" id="subcategoria" class="form-control" placeholder="Descripción (opcional)" style="color: #000;">
       </div>
       <div class="mb-3">
         <label for="monto" class="form-label">Valor</label>
-        <input v-model="nuevoEgreso.monto" id="monto" type="text" class="form-control" inputmode="decimal" @input="validateMonto" required placeholder="Ingrese valores con decimales, ej: 300.50" style="color: #000;" :style="{ '::placeholder': { color: '#d3d3d3' } }">
+        <input v-model="nuevoEgreso.monto" id="monto" type="text" class="form-control" inputmode="decimal" @input="validateMonto" required placeholder="Ingrese un valor con decimales, Ejm: '217,50'" :style="{ color: nuevoEgreso.monto ? '#000' : 'rgba(0, 0, 0, 0.3)' }">
+      </div>
+      <div class="mb-3">
+        <label for="bancos" class="form-label">Banco (opcional)</label>
+        <select v-model="nuevoEgreso.bancos" id="bancos" class="form-select">
+          <option value="">Seleccione un banco</option>
+          <option v-for="banco in bancos" :key="banco" :value="banco">{{ banco }}</option>
+        </select>
       </div>
       <div class="mb-3">
         <label for="fecha" class="form-label">Fecha</label>
@@ -63,10 +70,14 @@ export default {
         categoria: '',
         subcategoria: '',
         monto: '',
-        fecha: ''
+        fecha: '',
+        bancos: ''  // Nueva propiedad para el banco
       },
       categorias: [
-        'Teléfono Móvil', 'GitHub', 'Mami', 'Comida', 'Movilización Trabajo', 'Diners Club', 'Spotify', 'Maestría', 'Ropa', 'Zapatos', 'Tecnología', 'Restaurantes', 'Salud', 'Cursos Online', 'Gastos Hijos', 'Videojuegos', 'Netflix', 'Amazon Prime', 'Alquiler', 'Transporte', 'Entretenimiento', 'Manutención', 'Otros (Gastos Varios)'
+        'Teléfono Móvil', 'GitHub', 'Mami', 'Comida', 'Movilización Trabajo', 'Diners Club', 'Spotify', 'Maestría', 'Ropa', 'Zapatos', 'Tecnología', 'Restaurantes', 'Salud', 'Cursos Online', 'Gastos Hijos', 'Videojuegos', 'Netflix', 'Amazon Prime', 'Alquiler', 'Transporte', 'Entretenimiento', 'Manutención', 'Otros (Gastos Varios)', 'Pacificard', 'Bankard', 'American Express', 'PayPal', 'Luz', 'Agua', 'Teléfono Fijo', 'Préstamos', 'Seguros', 'Automóvil'
+      ],
+      bancos: [
+        'Pacificard', 'Bankard', 'Banco Diners Club', 'American Express', 'Banco Pichincha', 'Produbanco', 'Banco Guayaquil', 'Banco del Pacífico', 'Banco Bolivariano', 'Banco Internacional', 'Banco del Austro', 'Banco G. Rumiñahui', 'Banco de Machala', 'CitiBank', 'Banco ProCredit', 'Banco Amazonas', 'Banco CoopNacional', 'Banco del Litoral', 'Banco DelBank'
       ],
       showModal: false,
       selectedCategorias: []
@@ -139,13 +150,14 @@ export default {
           categoria: this.nuevoEgreso.categoria,
           subcategoria: this.nuevoEgreso.subcategoria,
           monto: parseFloat(this.nuevoEgreso.monto),
-          fecha: this.nuevoEgreso.fecha
+          fecha: this.nuevoEgreso.fecha,
+          bancos: this.nuevoEgreso.bancos  // Incluir el banco en la solicitud
         }, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         })
-        this.nuevoEgreso = { categoria: '', subcategoria: '', monto: '', fecha: '' }
+        this.nuevoEgreso = { categoria: '', subcategoria: '', monto: '', fecha: '', bancos: '' }
         Swal.fire({
           icon: 'success',
           title: 'Egreso Exitoso!',
