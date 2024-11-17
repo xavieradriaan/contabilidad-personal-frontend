@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5">
-    <navigation-bar :showBack="true" :showHome="true" :showLogout="true"></navigation-bar>
+    <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
     <h1 class="text-center mb-4">Depósitos en Bancos</h1>
     <form @submit.prevent="fetchDepositos" class="mb-4">
       <div class="row mb-3">
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="detalles">
-      <h2 class="text-center mb-4">Detalles de Depósitos en Bancos</h2>
+      <h2 class="text-center mb-4">Detalles de banco a Depositar</h2>
       <div v-for="(egresos, banco) in depositosPorBanco" :key="banco" class="mb-4">
         <h3>{{ banco }}</h3>
         <table class="table table-striped table-hover">

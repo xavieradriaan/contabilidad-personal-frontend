@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5">
-    <navigation-bar :showBack="true" :showHome="true" :showLogout="true"></navigation-bar>
+    <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
     <h1 class="text-center mb-4">Registrar Egresos</h1>
     <form @submit.prevent="addEgreso" class="card p-4 shadow-sm">
       <div class="mb-3">

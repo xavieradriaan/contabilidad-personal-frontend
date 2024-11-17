@@ -1,6 +1,6 @@
 <template>
-  <div class="container mt-5">
-    <navigation-bar :showBack="true" :showHome="true" :showLogout="true"></navigation-bar>
+  <div class="container mt-5" style="position: relative;">
+    <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
     <h1 class="text-center mb-4">Registrar Ingresos</h1>
     <form @submit.prevent="addIngreso" class="card p-4 shadow-sm">
       <div class="mb-3">

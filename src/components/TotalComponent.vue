@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5">
-    <navigation-bar :showBack="true" :showHome="true" :showLogout="true"></navigation-bar>
+    <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
     <h1 class="text-center mb-4">Balance Detalles</h1>
     <form @submit.prevent="fetchTotals" class="mb-4">
       <div class="row mb-3">

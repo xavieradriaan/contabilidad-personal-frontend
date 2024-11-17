@@ -171,19 +171,6 @@ form button {
   gap: 0.5em;
 }
 
-.welcome-message {
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 1em;
-  font-size: 1.2em;
-  color: #007bff;
-  background-color: #f4f4f9;
-  width: 100%;
-  text-align: left;
-  z-index: 1000;
-}
-
 .navigation-bar .buttons {
   display: flex;
   flex-direction: column;
@@ -262,10 +249,6 @@ form button {
     right: 0.5em;
   }
 
-  .welcome-message {
-    font-size: 1em;
-  }
-
   button {
     font-size: 0.9em;
     padding: 0.5em 1em;
@@ -333,6 +316,39 @@ form button {
   border-width: 0.2em;
 }
 
+/* Estilos para los botones de navegación */
+.navigation-bar .btn-secondary,
+.navigation-bar .btn-primary,
+.navigation-bar .btn-danger {
+  position: absolute; /* Cambiar a absolute para que estén relativos al contenedor */
+  top: 1em; /* Ajustar la posición de los botones */
+  right: 1em; /* Mover los botones al lado derecho */
+  z-index: 1050; /* Asegurarse de que estén frente a otros elementos */
+  font-size: 1em; /* Ajustar el tamaño del texto */
+  padding: 0.25em 0.5em; /* Ajustar el padding para reducir el tamaño de los botones */
+  background-color: #007bff; /* Cambiar el color de fondo a azul */
+  color: white; /* Cambiar el color del texto a blanco */
+  border: none; /* Eliminar el borde */
+  border-radius: 4px; /* Añadir bordes redondeados */
+  cursor: pointer; /* Cambiar el cursor al pasar sobre los botones */
+  width: auto; /* Ajustar el ancho de los botones al tamaño del texto */
+}
+
+.navigation-bar .btn-secondary:hover,
+.navigation-bar .btn-primary:hover,
+.navigation-bar .btn-danger:hover {
+  background-color: #0056b3; /* Cambiar el color de fondo al pasar sobre los botones */
+}
+
+@media (max-width: 768px) {
+  .navigation-bar .btn-secondary,
+  .navigation-bar .btn-primary,
+  .navigation-bar .btn-danger {
+    top: 0.5em; /* Ajustar la posición de los botones para pantallas pequeñas */
+    right: 0.5em;
+  }
+}
+
 /* Estilos para el botón de regresar */
 .back-button {
   position: absolute; /* Cambiar a absolute para que esté relativo al contenedor */
@@ -358,4 +374,62 @@ form button {
     bottom: -3em; /* Ajustar este valor para pantallas pequeñas */
     right: 0.5em;
   }
+}
+
+/* Estilos para el botón de logout */
+.navigation-bar .btn-logout {
+  background-color: #dc3545; /* Rojo */
+  color: white;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75em;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.navigation-bar .btn-logout:hover {
+  background-color: #c82333; /* Rojo más oscuro */
+  transform: scale(1.1);
+}
+
+/* Animación para el mensaje de bienvenida */
+.welcome-message {
+  animation: fadeInUp 2s ease-in-out;
+  font-size: 1.5em;
+  color: #007bff;
+  margin-bottom: 2em;
+  text-align: center;
+}
+
+/* Añadir margen superior a los botones para que no se cubran */
+.link-buttons {
+  margin-top: 3em;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos para el mensaje de error */
+.error-message {
+  animation: shake 0.5s;
+  color: #dc3545;
+  font-weight: bold;
+  text-align: center;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
 }

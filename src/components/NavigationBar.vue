@@ -1,10 +1,9 @@
 <template>
   <div class="navigation-bar">
-    <div v-if="username" class="welcome-message">Hola, {{ username }}</div>
     <div class="buttons">
       <button v-if="showBack" class="btn btn-secondary mb-2" @click="goBack">Regresar</button>
       <button v-if="showHome" class="btn btn-primary mb-2" @click="goHome">Salir</button>
-      <button v-if="showLogout" class="btn btn-danger" @click="logout">Logout</button>
+      <button v-if="showLogout" class="btn btn-logout mb-2" @click="emitLogoutClicked">Logout</button>
     </div>
   </div>
 </template>
@@ -26,11 +25,6 @@ export default {
       default: false
     }
   },
-  computed: {
-    username() {
-      return localStorage.getItem('username')
-    }
-  },
   methods: {
     goBack() {
       if (this.$route.path === '/register') {
@@ -42,11 +36,9 @@ export default {
     goHome() {
       this.$router.push('/')
     },
-    logout() {
-      localStorage.removeItem('token')
-      localStorage.removeItem('username')
-      this.$emit('user-logged-out')
-      this.$router.push('/login')
+    emitLogoutClicked() {
+      console.log('Logout button clicked'); // Log
+      this.$emit('logout-clicked');
     }
   }
 }

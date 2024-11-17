@@ -1,6 +1,6 @@
 <template>
-  <div class="container mt-5">
-    <navigation-bar :showHome="true" :showLogout="true"></navigation-bar>
+  <div class="container mt-5" style="position: relative;">
+    <navigation-bar :showHome="false" :showLogout="true" @logout-clicked="logout"></navigation-bar>
     <h1 class="text-center mb-4">Dashboard</h1>
     <nav class="nav nav-pills justify-content-center mb-4">
       <router-link class="nav-link" to="/ingresos">Registrar Ingresos</router-link>
@@ -20,6 +20,14 @@ export default {
   name: 'DashboardComponent',
   components: {
     NavigationBar
+  },
+  methods: {
+    logout() {
+      console.log('Logout confirmed'); // Log
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
+      this.$router.push('/login');
+    }
   }
 }
 </script>

@@ -50,11 +50,10 @@
           <span class="countdown-text">Tiempo restante:</span>
           <span class="countdown-time">{{ formattedTime }}</span>
         </div>
-        <button v-else type="button" class="btn btn-secondary w-100" @click="resendOTP">Enviar código nuevamente</button>
+        <button v-else type="button" class="btn w-100" @click="resendOTP">Enviar código nuevamente</button>
       </div>
       <button v-if="timeLeft > 0" type="submit" class="btn btn-primary w-100">Confirmar Código</button>
     </form>
-    <button class="btn btn-secondary back-button" @click="goBack">Regresar</button>
   </div>
 </template>
 

@@ -15,11 +15,11 @@
     "bootstrap": "^5.3.3",
     "core-js": "^3.8.3",
     "serve": "^14.0.1",
-    "sweetalert2": "^11.14.4",
-    "vue": "^3.2.13",
+    "sweetalert2": "^11.14.5",
+    "vue": "^3.5.13",
     "vue-router": "^4.4.5",
     "vue3-apexcharts": "^1.7.0",
-    "vuex": "^4.0.2"
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

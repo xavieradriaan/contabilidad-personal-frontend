@@ -11,9 +11,11 @@
         <label for="password" class="form-label">Contraseña</label>
         <input v-model="password" id="password" type="password" class="form-control" required>
       </div>
+      <div v-if="errorMessage" class="mb-3 text-danger error-message">
+        <strong>{{ errorMessage }}</strong>
+      </div>
       <button type="submit" class="btn btn-primary w-100" :disabled="isFormInvalid">Iniciar Sesión</button>
     </form>
-    <button class="btn btn-secondary back-button" @click="goBack">Regresar</button>
   </div>
 </template>
 
@@ -31,7 +33,9 @@ export default {
     return {
       username: '',
       password: '',
-      isLoading: false
+      isLoading: false,
+      remainingAttempts: null,
+      errorMessage: ''
     }
   },
   computed: {
@@ -40,9 +44,6 @@ export default {
     }
   },
   methods: {
-    goBack() {
-      this.$router.go(-1)
-    },
     async login() {
       if (this.isFormInvalid) {
         return
@@ -66,10 +67,21 @@ export default {
         })
       } catch (error) {
         console.error('Error al iniciar sesión:', error)
+        this.password = '' // Limpiar el campo de la contraseña
+        if (error.response) {
+          if (error.response.data.remaining_attempts !== undefined) {
+            this.remainingAttempts = error.response.data.remaining_attempts
+            this.errorMessage = `Credenciales Incorrectas. Intentos restantes: ${this.remainingAttempts}`
+          } else {
+            this.errorMessage = 'Credenciales Incorrectas.'
+          }
+        } else {
+          this.errorMessage = 'Error al conectar con el servidor.'
+        }
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Nombre de usuario o contraseña incorrectos',
+          text: this.errorMessage,
           showConfirmButton: true
         })
       } finally {

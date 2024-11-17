@@ -55,7 +55,6 @@
       </div>
       <button type="submit" class="btn btn-primary w-100" :disabled="isFormInvalid">Restablecer Contraseña</button>
     </form>
-    <button class="btn btn-secondary back-button" @click="goBack">Regresar</button>
   </div>
 </template>
 
@@ -94,9 +93,6 @@ export default {
     }
   },
   methods: {
-    goBack() {
-      this.$router.go(-1)
-    },
     preventSpace(event) {
       if (event.key === ' ') {
         event.preventDefault()
