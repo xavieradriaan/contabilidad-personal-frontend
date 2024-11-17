@@ -46,6 +46,7 @@ nav a.router-link-exact-active {
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  position: relative; /* Añadir posición relativa para el posicionamiento del enlace */
 }
 
 button {
@@ -103,6 +104,20 @@ form button {
 
 .link-buttons a:hover {
   background-color: #0056b3;
+}
+
+/* Estilo específico para el enlace "¿Olvidó su contraseña?" */
+.forgot-password-link {
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  font-size: 0.75em;
+  color: #007bff;
+}
+
+.forgot-password-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
 }
 
 .detalles {
@@ -288,4 +303,59 @@ form button {
 .text-success {
   font-size: 0.875em;
   color: #28a745;
+}
+
+.countdown-timer {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.countdown-text {
+  margin-right: 0.5em;
+}
+
+.countdown-time {
+  background-color: #f8f9fa;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  border: 1px solid #007bff;
+}
+
+/* Styles for PasswordResetComponent */
+.input-group-append .input-group-text {
+  background-color: transparent;
+  border: none;
+}
+.spinner-border {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.2em;
+}
+
+/* Estilos para el botón de regresar */
+.back-button {
+  position: absolute; /* Cambiar a absolute para que esté relativo al contenedor */
+  bottom: -3em; /* Ajustar este valor para que el botón baje más */
+  right: 1em; /* Mover el botón al lado derecho */
+  z-index: 1050; /* Asegurarse de que esté frente a otros elementos */
+  font-size: 1em; /* Ajustar el tamaño del texto */
+  padding: 0.25em 0.5em; /* Ajustar el padding para reducir el tamaño del botón */
+  background-color: #007bff; /* Cambiar el color de fondo a azul */
+  color: white; /* Cambiar el color del texto a blanco */
+  border: none; /* Eliminar el borde */
+  border-radius: 4px; /* Añadir bordes redondeados */
+  cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+  width: auto; /* Ajustar el ancho del botón al tamaño del texto */
+}
+
+.back-button:hover {
+  background-color: #0056b3; /* Cambiar el color de fondo al pasar sobre el botón */
+}
+
+@media (max-width: 768px) {
+  .back-button {
+    bottom: -3em; /* Ajustar este valor para pantallas pequeñas */
+    right: 0.5em;
+  }
 }

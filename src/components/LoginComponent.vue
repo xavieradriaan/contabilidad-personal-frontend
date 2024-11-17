@@ -1,21 +1,19 @@
 <template>
-  <div class="container">
-    <navigation-bar :showHome="true"></navigation-bar>
-    <h1>Login</h1>
-    <form @submit.prevent="login">
+  <div class="container mt-5" style="position: relative;">
+    <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
+    <h1 class="text-center mb-4">Iniciar Sesión</h1>
+    <form @submit.prevent="login" class="card p-4 shadow-sm">
       <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input v-model="username" id="username" class="form-control" placeholder="Username" required autocapitalize="none" @input="validateNoSpaces('username')">
-        <div v-if="usernameError" class="text-danger">{{ usernameError }}</div>
+        <label for="username" class="form-label">Nombre de usuario</label>
+        <input v-model="username" id="username" type="text" class="form-control" required>
       </div>
       <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input v-model="password" id="password" type="password" class="form-control" placeholder="Password" required autocapitalize="none" @input="validateNoSpaces('password')">
-        <div v-if="passwordError" class="text-danger">{{ passwordError }}</div>
+        <label for="password" class="form-label">Contraseña</label>
+        <input v-model="password" id="password" type="password" class="form-control" required>
       </div>
-      <div v-if="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-      <button type="submit" class="btn btn-primary" :disabled="isFormInvalid">Login</button>
+      <button type="submit" class="btn btn-primary w-100" :disabled="isFormInvalid">Iniciar Sesión</button>
     </form>
+    <button class="btn btn-secondary back-button" @click="goBack">Regresar</button>
   </div>
 </template>
 
@@ -33,28 +31,23 @@ export default {
     return {
       username: '',
       password: '',
-      usernameError: '',
-      passwordError: '',
-      errorMessage: ''
+      isLoading: false
     }
   },
   computed: {
     isFormInvalid() {
-      return this.usernameError || this.passwordError || !this.username || !this.password
+      return !this.username || !this.password || this.isLoading
     }
   },
   methods: {
-    validateNoSpaces(field) {
-      if (this[field].includes(' ')) {
-        this[`${field}Error`] = 'No se permiten espacios en este campo.'
-      } else {
-        this[`${field}Error`] = ''
-      }
+    goBack() {
+      this.$router.go(-1)
     },
     async login() {
       if (this.isFormInvalid) {
         return
       }
+      this.isLoading = true
       try {
         const response = await axios.post('/login', {
           username: this.username,
@@ -64,46 +57,25 @@ export default {
         localStorage.setItem('username', this.username)
         Swal.fire({
           icon: 'success',
-          title: 'Ingreso Exitoso!',
-          text: 'Has iniciado sesión correctamente.',
+          title: 'Inicio de Sesión Exitoso',
+          text: 'Bienvenido de nuevo',
           showConfirmButton: false,
           timer: 1500
+        }).then(() => {
+          this.$router.push('/dashboard')
         })
-        this.$router.push('/dashboard')
       } catch (error) {
-        if (error.response && error.response.data && error.response.data.message) {
-          let errorMessage = error.response.data.message
-          if (error.response.data.remaining_attempts !== undefined) {
-            errorMessage = `Credenciales Incorrectas. Intentos restantes: ${error.response.data.remaining_attempts}`
-          }
-          this.errorMessage = errorMessage
-          this.password = ''  // Vaciar el campo de contraseña
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: errorMessage
-          })
-        } else {
-          this.errorMessage = 'An error occurred. Please try again.'
-          this.password = ''  // Vaciar el campo de contraseña
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'An error occurred. Please try again.'
-          })
-        }
+        console.error('Error al iniciar sesión:', error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Nombre de usuario o contraseña incorrectos',
+          showConfirmButton: true
+        })
+      } finally {
+        this.isLoading = false
       }
     }
-  },
-  created() {
-    this.username = ''
-    this.password = ''
   }
 }
 </script>
-
-<style scoped>
-.alert {
-  margin-top: 10px;
-}
-</style>

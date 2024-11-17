@@ -34,7 +34,7 @@ export default {
   methods: {
     goBack() {
       if (this.$route.path === '/register') {
-        this.$router.push('/dashboard')
+        this.$router.push('/')
       } else {
         this.$router.go(-1)
       }

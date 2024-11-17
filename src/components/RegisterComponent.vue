@@ -1,8 +1,8 @@
 <template>
-  <div class="container mt-5">
+  <div class="container mt-5" style="position: relative;">
     <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
     <h1 class="text-center mb-4">Registrar</h1>
-    <form @submit.prevent="register" class="card p-4 shadow-sm">
+    <form @submit.prevent="register" class="card p-4 shadow-sm" v-if="!otpSent">
       <div class="mb-3">
         <label for="username" class="form-label">Nombre de usuario</label>
         <input v-model="username" id="username" type="text" class="form-control" required autocapitalize="none" @input="validateUsername">
@@ -10,6 +10,13 @@
         <div v-if="usernameAvailable !== null" :class="{'text-success': usernameAvailable, 'text-danger': !usernameAvailable}">
           {{ usernameMessage }}
         </div>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo</label>
+        <div class="input-group">
+          <input v-model="email" id="email" type="email" class="form-control" required @input="validateEmail" @keydown="preventSpace">
+        </div>
+        <div v-if="emailError" class="text-danger">{{ emailError }}</div>
       </div>
       <div class="mb-3">
         <label for="password" class="form-label">Contraseña</label>
@@ -32,6 +39,22 @@
       </div>
       <button type="submit" class="btn btn-primary w-100" :disabled="isFormInvalid">Registrar</button>
     </form>
+    <form @submit.prevent="confirmOTP" class="card p-4 shadow-sm" v-else>
+      <div class="mb-3">
+        <label for="otp" class="form-label">Código de Confirmación</label>
+        <input v-model="otp" id="otp" type="text" class="form-control" required @input="validateOTP">
+        <div v-if="otpError" class="text-danger">{{ otpError }}</div>
+      </div>
+      <div class="mb-3 text-center">
+        <div v-if="timeLeft > 0" class="countdown-timer">
+          <span class="countdown-text">Tiempo restante:</span>
+          <span class="countdown-time">{{ formattedTime }}</span>
+        </div>
+        <button v-else type="button" class="btn btn-secondary w-100" @click="resendOTP">Enviar código nuevamente</button>
+      </div>
+      <button v-if="timeLeft > 0" type="submit" class="btn btn-primary w-100">Confirmar Código</button>
+    </form>
+    <button class="btn btn-secondary back-button" @click="goBack">Regresar</button>
   </div>
 </template>
 
@@ -48,20 +71,32 @@ export default {
   data() {
     return {
       username: '',
+      email: '',
       password: '',
       confirmPassword: '',
+      otp: '',
       usernameError: '',
+      emailError: '',
       passwordError: '',
       confirmPasswordError: '',
+      otpError: '',
       confirmPasswordTouched: false,
       passwordValid: false,
       usernameAvailable: null,
-      usernameMessage: ''
+      usernameMessage: '',
+      otpSent: false,
+      timeLeft: 300, // 5 minutos en segundos
+      timer: null
     }
   },
   computed: {
     isFormInvalid() {
-      return this.usernameError || this.passwordError || this.confirmPasswordError || !this.username || !this.password || !this.confirmPassword || !this.passwordValid || !this.usernameAvailable
+      return this.usernameError || this.emailError || this.passwordError || this.confirmPasswordError || !this.username || !this.email || !this.password || !this.confirmPassword || !this.passwordValid || !this.usernameAvailable
+    },
+    formattedTime() {
+      const minutes = Math.floor(this.timeLeft / 60)
+      const seconds = this.timeLeft % 60
+      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
     }
   },
   methods: {
@@ -89,6 +124,21 @@ export default {
         }
       }
     },
+    preventSpace(event) {
+      if (event.key === ' ') {
+        event.preventDefault()
+      }
+    },
+    async validateEmail() {
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailPattern.test(this.email)) {
+        this.emailError = 'El correo debe contener un "@" y un ".com".'
+      } else if (!this.email.endsWith('.com')) {
+        this.emailError = 'El correo debe terminar en ".com".'
+      } else {
+        this.emailError = ''
+      }
+    },
     validatePassword() {
       // Eliminar espacios en blanco
       this.password = this.password.replace(/\s/g, '')
@@ -113,6 +163,14 @@ export default {
         this.confirmPasswordError = ''
       }
     },
+    validateOTP() {
+      this.otp = this.otp.replace(/\D/g, '') // Eliminar cualquier carácter no numérico
+      if (this.otp.length !== 6) {
+        this.otpError = 'El código de confirmación debe tener 6 dígitos.'
+      } else {
+        this.otpError = ''
+      }
+    },
     async register() {
       if (this.isFormInvalid) {
         return
@@ -120,20 +178,18 @@ export default {
       try {
         const response = await axios.post('/register', {
           username: this.username,
+          email: this.email,
           password: this.password
         })
         Swal.fire({
           icon: 'success',
-          title: 'Registro Exitoso',
+          title: 'Código Enviado',
           text: response.data.message,
           showConfirmButton: false,
           timer: 1500
-        }).then(() => {
-          this.$router.push('/login')
         })
-        this.username = ''
-        this.password = ''
-        this.confirmPassword = ''
+        this.otpSent = true
+        this.startTimer()
       } catch (error) {
         if (error.response && error.response.status === 400) {
           Swal.fire({
@@ -152,12 +208,81 @@ export default {
           })
         }
       }
+    },
+    async confirmOTP() {
+      if (this.otpError) {
+        return
+      }
+      try {
+        const response = await axios.post('/confirm_otp', {
+          email: this.email,
+          otp: this.otp
+        })
+        Swal.fire({
+          icon: 'success',
+          title: 'Registro Exitoso',
+          text: response.data.message,
+          showConfirmButton: false,
+          timer: 1500
+        }).then(() => {
+          this.$router.push('/login')
+        })
+      } catch (error) {
+        console.error('Error al confirmar OTP:', error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Código de confirmación inválido o expirado.',
+          showConfirmButton: true
+        })
+      }
+    },
+    startTimer() {
+      this.timeLeft = 300 // 5 minutos en segundos
+      this.timer = setInterval(() => {
+        if (this.timeLeft > 0) {
+          this.timeLeft--
+        } else {
+          clearInterval(this.timer)
+        }
+      }, 1000)
+    },
+    async resendOTP() {
+      try {
+        const response = await axios.post('/send_recovery_otp', {
+          email: this.email
+        })
+        Swal.fire({
+          icon: 'success',
+          title: 'Código Enviado',
+          text: response.data.message,
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.startTimer()
+      } catch (error) {
+        console.error('Error al enviar el código nuevamente:', error)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un problema al enviar el código nuevamente.',
+          showConfirmButton: true
+        })
+      }
+    },
+    goBack() {
+      this.$router.go(-1)
+    },
+    goHome() {
+      this.$router.push('/')
     }
   },
   created() {
     this.username = ''
+    this.email = ''
     this.password = ''
     this.confirmPassword = ''
+    this.otp = ''
   }
 }
 </script>
