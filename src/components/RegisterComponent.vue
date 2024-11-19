@@ -185,7 +185,7 @@ export default {
           title: 'Código Enviado',
           text: response.data.message,
           showConfirmButton: false,
-          timer: 1500
+          timer: 10000 // Mostrar el mensaje durante 10 segundos
         })
         this.otpSent = true
         this.startTimer()
