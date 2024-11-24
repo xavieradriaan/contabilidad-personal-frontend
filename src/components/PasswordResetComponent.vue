@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-5" style="position: relative;">
     <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
-    <h1 class="text-center mb-4">Recuperar Contraseña</h1>
+    <h1 class="text-center mb-4">Recuperar Contraseña/Usuario</h1>
     <form @submit.prevent="requestPasswordReset" class="card p-4 shadow-sm" v-if="!otpSent">
       <div class="mb-3">
         <label for="email" class="form-label">Correo</label>

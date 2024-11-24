@@ -8,12 +8,14 @@
 
 <script>
 import NavigationBar from './components/NavigationBar.vue'
+import inactivityLogout from './mixins/inactivityLogout.js'
 
 export default {
   name: 'App',
   components: {
     NavigationBar
   },
+  mixins: [inactivityLogout],
   data() {
     return {
       isLoggedIn: !!localStorage.getItem('token'),

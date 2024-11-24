@@ -5,7 +5,7 @@
       <router-link class="btn btn-primary mb-2" to="/login">Login</router-link>
       <router-link class="btn btn-secondary mb-2" to="/register">Register</router-link>
     </div>
-    <router-link class="forgot-password-link" to="/password_reset">¿Olvidó su contraseña?</router-link>
+    <router-link class="forgot-password-link" to="/password_reset">¿Olvidó su Contraseña/Usuario?</router-link>
   </div>
 </template>
 
