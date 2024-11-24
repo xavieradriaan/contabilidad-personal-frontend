@@ -1,20 +1,17 @@
 export default {
-  data() {
-    return {
-      inactivityTimeout: null,
-      logoutTime: 8 * 1000 // 8 segundos en milisegundos
-    };
-  },
-  methods: {
-    resetInactivityTimeout() {
-      if (localStorage.getItem('token')) {
+    data() {
+      return {
+        inactivityTimeout: null,
+        logoutTime: 8 * 1000 // 8 segundos en milisegundos
+      };
+    },
+    methods: {
+      resetInactivityTimeout() {
         clearTimeout(this.inactivityTimeout);
         this.inactivityTimeout = setTimeout(this.logoutUser, this.logoutTime);
         console.log('Inactivity timeout reset');
-      }
-    },
-    logoutUser() {
-      if (localStorage.getItem('token')) {
+      },
+      logoutUser() {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
         this.$router.push('/login');
@@ -25,23 +22,16 @@ export default {
           showConfirmButton: true
         });
       }
-    }
-  },
-  mounted() {
-    if (localStorage.getItem('token')) {
+    },
+    mounted() {
       this.resetInactivityTimeout();
       window.addEventListener('mousemove', this.resetInactivityTimeout);
       window.addEventListener('keydown', this.resetInactivityTimeout);
-      window.addEventListener('touchstart', this.resetInactivityTimeout);
-      window.addEventListener('touchmove', this.resetInactivityTimeout);
       console.log('Inactivity timeout initialized');
+    },
+    beforeDestroy() {
+      clearTimeout(this.inactivityTimeout);
+      window.removeEventListener('mousemove', this.resetInactivityTimeout);
+      window.removeEventListener('keydown', this.resetInactivityTimeout);
     }
-  },
-  beforeDestroy() {
-    clearTimeout(this.inactivityTimeout);
-    window.removeEventListener('mousemove', this.resetInactivityTimeout);
-    window.removeEventListener('keydown', this.resetInactivityTimeout);
-    window.removeEventListener('touchstart', this.resetInactivityTimeout);
-    window.removeEventListener('touchmove', this.resetInactivityTimeout);
-  }
-};
+  };
