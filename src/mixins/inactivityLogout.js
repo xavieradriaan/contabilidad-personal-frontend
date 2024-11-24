@@ -3,7 +3,7 @@ export default {
   data() {
     return {
       inactivityTimeout: null,
-      logoutTime: 5 * 60 * 1000 // 5 minutos en milisegundos
+      logoutTime: 8 * 1000 // 8 segundos en milisegundos
     };
   },
   methods: {
@@ -33,8 +33,6 @@ export default {
       this.resetInactivityTimeout();
       window.addEventListener('mousemove', this.resetInactivityTimeout);
       window.addEventListener('keydown', this.resetInactivityTimeout);
-      window.addEventListener('touchstart', this.resetInactivityTimeout);
-      window.addEventListener('touchmove', this.resetInactivityTimeout);
       console.log('Inactivity timeout initialized');
     }
   },
@@ -42,7 +40,5 @@ export default {
     clearTimeout(this.inactivityTimeout);
     window.removeEventListener('mousemove', this.resetInactivityTimeout);
     window.removeEventListener('keydown', this.resetInactivityTimeout);
-    window.removeEventListener('touchstart', this.resetInactivityTimeout);
-    window.removeEventListener('touchmove', this.resetInactivityTimeout);
   }
 };
