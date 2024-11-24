@@ -2,7 +2,7 @@ export default {
   data() {
     return {
       inactivityTimeout: null,
-      logoutTime: 8 * 1000 // 5 minutos en milisegundos
+      logoutTime: 8 * 1000 // 8 segundos en milisegundos
     };
   },
   methods: {
