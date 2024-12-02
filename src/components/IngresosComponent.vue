@@ -23,7 +23,7 @@
         <label for="monto" class="form-label">Valor</label>
         <input v-model="nuevoIngreso.monto" id="monto" type="text" class="form-control" inputmode="numeric" @input="validateMonto" required placeholder="Ingrese sólo valores enteros" :style="{ color: nuevoIngreso.monto ? '#000' : 'rgba(0, 0, 0, 0.3)' }">
       </div>
-      <button type="submit" class="btn btn-primary w-100">Agregar Ingreso</button>
+      <button type="submit" class="btn btn-primary w-100" :disabled="isSubmitting">Agregar Ingreso</button>
     </form>
   </div>
 </template>
@@ -45,7 +45,8 @@ export default {
         descripcion: '',
         fecha: '',
         monto: ''
-      }
+      },
+      isSubmitting: false  // Nueva propiedad para controlar el estado del botón
     }
   },
   methods: {
@@ -66,6 +67,7 @@ export default {
       this.nuevoIngreso.monto = value
     },
     async addIngreso() {
+      this.isSubmitting = true  // Deshabilitar el botón al hacer clic
       const url = this.nuevoIngreso.fuente === 'Ingresos Extras' ? '/otros_ingresos' : '/ingresos'
       const data = {
         fuente: this.nuevoIngreso.fuente,
@@ -86,6 +88,8 @@ export default {
           text: 'El ingreso ha sido agregado correctamente.',
           showConfirmButton: false,
           timer: 1500
+        }).then(() => {
+          this.isSubmitting = false  // Habilitar el botón después de mostrar el mensaje
         })
       } catch (error) {
         console.error('Error al registrar ingreso:', error)
@@ -94,6 +98,8 @@ export default {
           title: 'Error',
           text: 'Hubo un problema al registrar el ingreso.',
           showConfirmButton: true
+        }).then(() => {
+          this.isSubmitting = false  // Habilitar el botón después de mostrar el mensaje de error
         })
       }
     }

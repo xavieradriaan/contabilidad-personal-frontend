@@ -109,7 +109,7 @@ form button {
 /* Estilo específico para el enlace "¿Olvidó su contraseña?" */
 .forgot-password-link {
   position: absolute;
-  bottom: 1em;
+  bottom: 0.2em;
   left: 1em;
   font-size: 0.85em;
   color: #007bff;

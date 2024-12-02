@@ -28,7 +28,7 @@
         <label for="fecha" class="form-label">Fecha</label>
         <input v-model="nuevoEgreso.fecha" id="fecha" type="date" class="form-control" required>
       </div>
-      <button type="submit" class="btn btn-primary w-100">Agregar Egreso</button>
+      <button type="submit" class="btn btn-primary w-100" :disabled="isSubmitting">Agregar Egreso</button>
     </form>
 
     <!-- Modal para seleccionar pagos recurrentes -->
@@ -74,13 +74,14 @@ export default {
         bancos: ''  // Nueva propiedad para el banco
       },
       categorias: [
-        'Teléfono Móvil', 'GitHub', 'Mami', 'Comida', 'Movilización Trabajo', 'Diners Club', 'Spotify', 'Maestría', 'Ropa', 'Zapatos', 'Tecnología', 'Restaurantes', 'Salud', 'Cursos Online', 'Gastos Hijos', 'Videojuegos', 'Netflix', 'Amazon Prime', 'Alquiler', 'Transporte', 'Entretenimiento', 'Manutención', 'Otros (Gastos Varios)', 'Pacificard', 'Bankard', 'American Express', 'PayPal', 'Luz', 'Agua', 'Teléfono Fijo', 'Préstamos', 'Seguros', 'Automóvil'
+        'Teléfono Móvil', 'GitHub', 'Mami', 'Comida', 'Movilización Trabajo', 'Diners Club', 'Spotify', 'Maestría', 'Ropa', 'Zapatos', 'Tecnología', 'Restaurantes', 'Salud', 'Cursos Online', 'Gastos Hijos', 'Videojuegos', 'Netflix', 'Amazon Prime', 'Alquiler', 'Transporte', 'Entretenimiento', 'Manutención', 'Otros (Gastos Varios)', 'Pacificard', 'Bankard', 'American Express', 'PayPal', 'Luz', 'Agua', 'Teléfono Fijo', 'Préstamos', 'Seguros', 'Automóvil', 'Railway'
       ],
       bancos: [
         'Pacificard', 'Bankard', 'Banco Diners Club', 'American Express', 'Banco Pichincha', 'Produbanco', 'Banco Guayaquil', 'Banco del Pacífico', 'Banco Bolivariano', 'Banco Internacional', 'Banco del Austro', 'Banco G. Rumiñahui', 'Banco de Machala', 'CitiBank', 'Banco ProCredit', 'Banco Amazonas', 'Banco CoopNacional', 'Banco del Litoral', 'Banco DelBank'
       ],
       showModal: false,
-      selectedCategorias: []
+      selectedCategorias: [],
+      isSubmitting: false  // Nueva propiedad para controlar el estado del botón
     }
   },
   async created() {
@@ -145,6 +146,7 @@ export default {
       this.showModal = false
     },
     async addEgreso() {
+      this.isSubmitting = true  // Deshabilitar el botón al hacer clic
       try {
         await axios.post('/egresos', {
           categoria: this.nuevoEgreso.categoria,
@@ -164,6 +166,8 @@ export default {
           text: 'El egreso ha sido agregado correctamente.',
           showConfirmButton: false,
           timer: 1500
+        }).then(() => {
+          this.isSubmitting = false  // Habilitar el botón después de mostrar el mensaje
         })
       } catch (error) {
         console.error('Error al registrar egreso:', error)
@@ -172,6 +176,8 @@ export default {
           title: 'Error',
           text: 'Hubo un problema al registrar el egreso.',
           showConfirmButton: true
+        }).then(() => {
+          this.isSubmitting = false  // Habilitar el botón después de mostrar el mensaje de error
         })
       }
     }

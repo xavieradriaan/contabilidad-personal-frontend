@@ -19,6 +19,11 @@
         <div v-if="emailError" class="text-danger">{{ emailError }}</div>
       </div>
       <div class="mb-3">
+        <label for="confirmEmail" class="form-label">Confirmar Correo</label>
+        <input v-model="confirmEmail" id="confirmEmail" type="email" class="form-control" required @input="validateConfirmEmail">
+        <div v-if="confirmEmailError" class="text-danger">{{ confirmEmailError }}</div>
+      </div>
+      <div class="mb-3">
         <label for="password" class="form-label">Contraseña</label>
         <input v-model="password" id="password" type="password" class="form-control" required autocapitalize="none" @input="validatePassword">
         <div v-if="passwordError" class="text-danger">{{ passwordError }}</div>
@@ -71,11 +76,13 @@ export default {
     return {
       username: '',
       email: '',
+      confirmEmail: '',
       password: '',
       confirmPassword: '',
       otp: '',
       usernameError: '',
       emailError: '',
+      confirmEmailError: '',
       passwordError: '',
       confirmPasswordError: '',
       otpError: '',
@@ -90,7 +97,7 @@ export default {
   },
   computed: {
     isFormInvalid() {
-      return this.usernameError || this.emailError || this.passwordError || this.confirmPasswordError || !this.username || !this.email || !this.password || !this.confirmPassword || !this.passwordValid || !this.usernameAvailable
+      return this.usernameError || this.emailError || this.confirmEmailError || this.passwordError || this.confirmPasswordError || !this.username || !this.email || !this.confirmEmail || !this.password || !this.confirmPassword || !this.passwordValid || !this.usernameAvailable
     },
     formattedTime() {
       const minutes = Math.floor(this.timeLeft / 60)
@@ -136,6 +143,14 @@ export default {
         this.emailError = 'El correo debe terminar en ".com".'
       } else {
         this.emailError = ''
+      }
+      this.validateConfirmEmail() // Validar confirmación de correo cada vez que se valide el correo principal
+    },
+    validateConfirmEmail() {
+      if (this.email !== this.confirmEmail) {
+        this.confirmEmailError = 'Los correos electrónicos no coinciden.'
+      } else {
+        this.confirmEmailError = ''
       }
     },
     validatePassword() {
@@ -279,6 +294,7 @@ export default {
   created() {
     this.username = ''
     this.email = ''
+    this.confirmEmail = ''
     this.password = ''
     this.confirmPassword = ''
     this.otp = ''
