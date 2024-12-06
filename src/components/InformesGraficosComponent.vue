@@ -23,17 +23,9 @@
       <div class="col-12">
         <h2 class="text-center mb-4">Ingreso (SALARIO)</h2>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-12">
         <h3>Gráfico de Barras</h3>
         <apexchart v-if="ingresosBarChartData.series.length" type="bar" :options="ingresosBarChartOptions" :series="ingresosBarChartData.series"></apexchart>
-      </div>
-      <div class="col-md-6">
-        <h3>Gráfico de Líneas</h3>
-        <apexchart v-if="ingresosLineChartData.series.length" type="line" :options="ingresosLineChartOptions" :series="ingresosLineChartData.series"></apexchart>
-      </div>
-      <div class="col-md-6 mt-5">
-        <h3>Gráfico de Pastel</h3>
-        <apexchart v-if="ingresosPieChartData.series.length" type="pie" :options="ingresosPieChartOptions" :series="ingresosPieChartData.series"></apexchart>
       </div>
     </div>
 
@@ -42,17 +34,9 @@
       <div class="col-12">
         <h2 class="text-center mb-4">Ingresos Extras</h2>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-12">
         <h3>Gráfico de Barras</h3>
         <apexchart v-if="ingresosExtrasBarChartData.series.length" type="bar" :options="ingresosExtrasBarChartOptions" :series="ingresosExtrasBarChartData.series"></apexchart>
-      </div>
-      <div class="col-md-6">
-        <h3>Gráfico de Líneas</h3>
-        <apexchart v-if="ingresosExtrasLineChartData.series.length" type="line" :options="ingresosExtrasLineChartOptions" :series="ingresosExtrasLineChartData.series"></apexchart>
-      </div>
-      <div class="col-md-6 mt-5">
-        <h3>Gráfico de Pastel</h3>
-        <apexchart v-if="ingresosExtrasPieChartData.series.length" type="pie" :options="ingresosExtrasPieChartOptions" :series="ingresosExtrasPieChartData.series"></apexchart>
       </div>
     </div>
 
@@ -60,14 +44,6 @@
     <div class="row mt-5">
       <div class="col-12">
         <h2 class="text-center mb-4">Egresos</h2>
-      </div>
-      <div class="col-md-6">
-        <h3>Gráfico de Barras</h3>
-        <apexchart v-if="egresosBarChartData.series.length" type="bar" :options="egresosBarChartOptions" :series="egresosBarChartData.series"></apexchart>
-      </div>
-      <div class="col-md-6">
-        <h3>Gráfico de Líneas</h3>
-        <apexchart v-if="egresosLineChartData.series.length" type="line" :options="egresosLineChartOptions" :series="egresosLineChartData.series"></apexchart>
       </div>
       <div class="col-md-6 mt-5">
         <h3>Gráfico de Pastel</h3>
@@ -83,14 +59,6 @@
       <div class="col-md-6">
         <h3>Gráfico de Barras</h3>
         <apexchart v-if="totalesBarChartData.series.length" type="bar" :options="totalesBarChartOptions" :series="totalesBarChartData.series"></apexchart>
-      </div>
-      <div class="col-md-6">
-        <h3>Gráfico de Líneas</h3>
-        <apexchart v-if="totalesLineChartData.series.length" type="line" :options="totalesLineChartOptions" :series="totalesLineChartData.series"></apexchart>
-      </div>
-      <div class="col-md-6 mt-5">
-        <h3>Gráfico de Pastel</h3>
-        <apexchart v-if="totalesPieChartData.series.length" type="pie" :options="totalesPieChartOptions" :series="totalesPieChartData.series"></apexchart>
       </div>
     </div>
   </div>
@@ -112,29 +80,30 @@ export default {
       year: new Date().getFullYear(),
       month: new Date().getMonth() + 1,
       ingresosBarChartData: { series: [] },
-      ingresosLineChartData: { series: [] },
-      ingresosPieChartData: { series: [] },
       ingresosExtrasBarChartData: { series: [] },
-      ingresosExtrasLineChartData: { series: [] },
-      ingresosExtrasPieChartData: { series: [] },
-      egresosBarChartData: { series: [] },
-      egresosLineChartData: { series: [] },
       egresosPieChartData: { series: [] },
       totalesBarChartData: { series: [] },
-      totalesLineChartData: { series: [] },
-      totalesPieChartData: { series: [] },
-      ingresosBarChartOptions: { chart: { type: 'bar' }, xaxis: { categories: [] } },
-      ingresosLineChartOptions: { chart: { type: 'line' }, xaxis: { categories: [] } },
-      ingresosPieChartOptions: { chart: { type: 'pie' }, labels: [] },
-      ingresosExtrasBarChartOptions: { chart: { type: 'bar' }, xaxis: { categories: [] } },
-      ingresosExtrasLineChartOptions: { chart: { type: 'line' }, xaxis: { categories: [] } },
-      ingresosExtrasPieChartOptions: { chart: { type: 'pie' }, labels: [] },
-      egresosBarChartOptions: { chart: { type: 'bar' }, xaxis: { categories: [] } },
-      egresosLineChartOptions: { chart: { type: 'line' }, xaxis: { categories: [] } },
+      ingresosBarChartOptions: { 
+        chart: { type: 'bar' }, 
+        xaxis: { categories: [] },
+        colors: ['#00E396', '#FEB019'], // Quincena, Fin de Mes
+        plotOptions: {
+          bar: {
+            distributed: true
+          }
+        }
+      },
+      ingresosExtrasBarChartOptions: { 
+        chart: { type: 'bar' }, 
+        xaxis: { categories: [] },
+        plotOptions: {
+          bar: {
+            distributed: true
+          }
+        }
+      },
       egresosPieChartOptions: { chart: { type: 'pie' }, labels: [] },
-      totalesBarChartOptions: { chart: { type: 'bar' }, xaxis: { categories: [] } },
-      totalesLineChartOptions: { chart: { type: 'line' }, xaxis: { categories: [] } },
-      totalesPieChartOptions: { chart: { type: 'pie' }, labels: [] }
+      totalesBarChartOptions: { chart: { type: 'bar' }, xaxis: { categories: [] } }
     }
   },
   methods: {
@@ -155,48 +124,36 @@ export default {
         // Verificar que los datos existen antes de asignarlos
         if (data.detalles_ingresos && data.detalles_egresos && data.detalles_otros_ingresos) {
           // Ingresos
+          const ingresos = data.detalles_ingresos.map(item => ({
+            x: this.formatDate(item.fecha),
+            y: parseFloat(item.monto),
+            fillColor: item.descripcion === 'Quincena' ? '#00E396' : '#FEB019'
+          }))
+
           this.ingresosBarChartData = {
-            series: [{ name: 'Ingresos', data: data.detalles_ingresos.map(item => parseFloat(item.monto)) }]
+            series: [{
+              name: 'Ingresos',
+              data: ingresos
+            }]
           }
           this.ingresosBarChartOptions.xaxis.categories = data.detalles_ingresos.map(item => this.formatDate(item.fecha))
 
-          this.ingresosLineChartData = {
-            series: [{ name: 'Ingresos', data: data.detalles_ingresos.map(item => parseFloat(item.monto)) }]
-          }
-          this.ingresosLineChartOptions.xaxis.categories = data.detalles_ingresos.map(item => this.formatDate(item.fecha))
-
-          this.ingresosPieChartData = {
-            series: data.detalles_ingresos.map(item => parseFloat(item.monto))
-          }
-          this.ingresosPieChartOptions.labels = data.detalles_ingresos.map(item => item.fuente)
-
           // Ingresos Extras
+          const ingresosExtras = data.detalles_otros_ingresos.map((item, index) => ({
+            x: this.formatDate(item.fecha),
+            y: parseFloat(item.monto),
+            fillColor: this.getColor(index)
+          }))
+
           this.ingresosExtrasBarChartData = {
-            series: [{ name: 'Ingresos Extras', data: data.detalles_otros_ingresos.map(item => parseFloat(item.monto)) }]
+            series: [{
+              name: 'Ingresos Extras',
+              data: ingresosExtras
+            }]
           }
           this.ingresosExtrasBarChartOptions.xaxis.categories = data.detalles_otros_ingresos.map(item => this.formatDate(item.fecha))
 
-          this.ingresosExtrasLineChartData = {
-            series: [{ name: 'Ingresos Extras', data: data.detalles_otros_ingresos.map(item => parseFloat(item.monto)) }]
-          }
-          this.ingresosExtrasLineChartOptions.xaxis.categories = data.detalles_otros_ingresos.map(item => this.formatDate(item.fecha))
-
-          this.ingresosExtrasPieChartData = {
-            series: data.detalles_otros_ingresos.map(item => parseFloat(item.monto))
-          }
-          this.ingresosExtrasPieChartOptions.labels = data.detalles_otros_ingresos.map(item => item.fuente)
-
           // Egresos
-          this.egresosBarChartData = {
-            series: [{ name: 'Egresos', data: data.detalles_egresos.map(item => parseFloat(item.monto)) }]
-          }
-          this.egresosBarChartOptions.xaxis.categories = data.detalles_egresos.map(item => this.formatDate(item.fecha))
-
-          this.egresosLineChartData = {
-            series: [{ name: 'Egresos', data: data.detalles_egresos.map(item => parseFloat(item.monto)) }]
-          }
-          this.egresosLineChartOptions.xaxis.categories = data.detalles_egresos.map(item => this.formatDate(item.fecha))
-
           this.egresosPieChartData = {
             series: data.detalles_egresos.map(item => parseFloat(item.monto))
           }
@@ -217,21 +174,6 @@ export default {
             ]
           }
           this.totalesBarChartOptions.xaxis.categories = ['Totales']
-
-          this.totalesLineChartData = {
-            series: [
-              { name: 'Ingresos', data: [totalIngresos] },
-              { name: 'Otros Ingresos', data: [totalOtrosIngresos] },
-              { name: 'Egresos', data: [totalEgresos] },
-              { name: 'Total Neto', data: [totalNeto] }
-            ]
-          }
-          this.totalesLineChartOptions.xaxis.categories = ['Totales']
-
-          this.totalesPieChartData = {
-            series: [totalIngresos, totalOtrosIngresos, totalEgresos, totalNeto]
-          }
-          this.totalesPieChartOptions.labels = ['Ingresos', 'Otros Ingresos', 'Egresos', 'Total Neto']
         } else {
           console.error('Datos incompletos:', data)
         }
@@ -242,6 +184,10 @@ export default {
     formatDate(date) {
       const options = { day: '2-digit', month: '2-digit', year: 'numeric' }
       return new Date(date).toLocaleDateString('es-ES', options)
+    },
+    getColor(index) {
+      const colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#546E7A', '#26A69A', '#D10CE8']
+      return colors[index % colors.length]
     }
   },
   created() {

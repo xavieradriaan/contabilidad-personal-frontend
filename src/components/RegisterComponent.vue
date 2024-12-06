@@ -14,13 +14,13 @@
       <div class="mb-3">
         <label for="email" class="form-label">Correo</label>
         <div class="input-group">
-          <input v-model="email" id="email" type="email" class="form-control" required @input="validateEmail" @keydown="preventSpace">
+          <input v-model="email" id="email" type="email" class="form-control" required @input="validateEmail" @keydown="preventSpace" maxlength="40">
         </div>
         <div v-if="emailError" class="text-danger">{{ emailError }}</div>
       </div>
       <div class="mb-3">
         <label for="confirmEmail" class="form-label">Confirmar Correo</label>
-        <input v-model="confirmEmail" id="confirmEmail" type="email" class="form-control" required @input="validateConfirmEmail">
+        <input v-model="confirmEmail" id="confirmEmail" type="email" class="form-control" required @input="validateConfirmEmail" maxlength="40">
         <div v-if="confirmEmailError" class="text-danger">{{ confirmEmailError }}</div>
       </div>
       <div class="mb-3">
@@ -136,18 +136,26 @@ export default {
       }
     },
     async validateEmail() {
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      if (!emailPattern.test(this.email)) {
-        this.emailError = 'El correo debe contener un "@" y un ".com".'
-      } else if (!this.email.endsWith('.com')) {
-        this.emailError = 'El correo debe terminar en ".com".'
+      const emailPattern = /^[^\s@]+@[^\s@]+\.(com|ec|edu|gov|org|ae|ar|cl|ca|bo|de|es|hn|ar|br|do|mx|ni|pa|py|pe|uy|ve|co)$/i
+      const invalidChars = /[!#$%^&*()=+{}[\]|\\:;"'<>,?/]/g
+      if (this.email.length > 40) {
+        this.emailError = 'El correo no debe exceder los 40 caracteres.'
+      } else if (invalidChars.test(this.email)) {
+        this.emailError = 'El correo contiene caracteres no permitidos.'
+      } else if (!emailPattern.test(this.email)) {
+        this.emailError = 'El correo debe contener un "@" y un dominio válido.'
       } else {
         this.emailError = ''
       }
       this.validateConfirmEmail() // Validar confirmación de correo cada vez que se valide el correo principal
     },
     validateConfirmEmail() {
-      if (this.email !== this.confirmEmail) {
+      const invalidChars = /[!#$%^&*()=+{}[\]|\\:;"'<>,?/]/g
+      if (this.confirmEmail.length > 40) {
+        this.confirmEmailError = 'El correo no debe exceder los 40 caracteres.'
+      } else if (invalidChars.test(this.confirmEmail)) {
+        this.confirmEmailError = 'El correo contiene caracteres no permitidos.'
+      } else if (this.email.toLowerCase() !== this.confirmEmail.toLowerCase()) {
         this.confirmEmailError = 'Los correos electrónicos no coinciden.'
       } else {
         this.confirmEmailError = ''

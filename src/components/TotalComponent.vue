@@ -21,7 +21,10 @@
     <div class="card mb-4">
       <div class="card-body text-center">
         <h5 class="text-muted">Saldo Anterior Disponible + Total Actual Disponible:</h5>
-        <p class="display-4">${{ saldo_disponible.toFixed(2) }}</p>
+        <p class="display-4" style="display: flex; justify-content: center; align-items: center;">
+          {{ showSaldo ? `$${saldo_disponible.toFixed(2)}` : '****' }}
+          <i :class="{'fas fa-eye': showSaldo, 'fas fa-eye-slash': !showSaldo}" @click="toggleSaldoVisibility" style="cursor: pointer; margin-left: 10px; font-size: 0.5em; position: relative; top: 1px;"></i>
+        </p>
       </div>
     </div>
 
@@ -32,8 +35,9 @@
       <div class="card-body">
         <p><strong>Total Ingresos:</strong> ${{ total_ingresos.toFixed(2) }}</p>
         <p><strong>Total Otros Ingresos:</strong> ${{ total_otros_ingresos.toFixed(2) }}</p>
+        <p><strong>Total de Ingresos + Otros Ingresos:</strong> ${{ (total_ingresos + total_otros_ingresos).toFixed(2) }}</p>
         <p><strong>Total Egresos:</strong> ${{ total_egresos.toFixed(2) }}</p>
-        <p><strong>Total ({{ nombre_mes }}):</strong> ${{ total.toFixed(2) }}</p>
+        <p><strong>Saldo mes de ({{ nombre_mes }}):</strong> ${{ total.toFixed(2) }}</p>
       </div>
     </div>
 
@@ -157,7 +161,8 @@ export default {
       nombre_mes: '',  // Nueva propiedad para el nombre del mes
       detalles_ingresos: [],
       detalles_otros_ingresos: [],
-      detalles_egresos: []
+      detalles_egresos: [],
+      showSaldo: true  // Nueva propiedad para controlar la visibilidad del saldo
     }
   },
   methods: {
@@ -194,6 +199,9 @@ export default {
     formatDate(date) {
       const options = { day: '2-digit', month: '2-digit', year: 'numeric' }
       return new Date(date).toLocaleDateString('es-ES', options)
+    },
+    toggleSaldoVisibility() {
+      this.showSaldo = !this.showSaldo
     },
     exportToXML() {
       const xmlData = this.generateXML()
@@ -263,7 +271,6 @@ export default {
       xml += '    <TotalNeto>\n'
       xml += `      <Monto>${this.total.toFixed(2)}</Monto>\n`
       xml += '    </TotalNeto>\n'
-      xml += '  </DetallesTotales>\n'
 
       xml += '</Totales>\n'
       return xml
@@ -274,3 +281,6 @@ export default {
   }
 }
 </script>
+
+<!-- Agregar el enlace a Font Awesome en el archivo HTML principal -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">

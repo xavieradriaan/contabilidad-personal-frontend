@@ -11,7 +11,7 @@
       </div>
       <div class="mb-3">
         <label for="subcategoria" class="form-label">Subcategoría</label>
-        <input v-model="nuevoEgreso.subcategoria" id="subcategoria" class="form-control" placeholder="Descripción (opcional)" style="color: #000;">
+        <input v-model="nuevoEgreso.subcategoria" id="subcategoria" class="form-control" placeholder="Descripción (opcional)" maxlength="60" style="color: #000;">
       </div>
       <div class="mb-3">
         <label for="monto" class="form-label">Valor</label>
@@ -28,7 +28,7 @@
         <label for="fecha" class="form-label">Fecha</label>
         <input v-model="nuevoEgreso.fecha" id="fecha" type="date" class="form-control" required>
       </div>
-      <button type="submit" class="btn btn-primary w-100" :disabled="isSubmitting">Agregar Egreso</button>
+      <button type="submit" :class="['btn', 'w-100', isFormValid ? 'btn-primary' : 'btn-secondary']" :style="!isFormValid ? { backgroundColor: '#d3d3d3', borderColor: '#d3d3d3' } : {}" :disabled="isSubmitting || !isFormValid">Agregar Egreso</button>
     </form>
 
     <!-- Modal para seleccionar pagos recurrentes -->
@@ -74,7 +74,7 @@ export default {
         bancos: ''  // Nueva propiedad para el banco
       },
       categorias: [
-        'Teléfono Móvil', 'GitHub', 'Mami', 'Comida', 'Movilización Trabajo', 'Diners Club', 'Spotify', 'Maestría', 'Ropa', 'Zapatos', 'Tecnología', 'Restaurantes', 'Salud', 'Cursos Online', 'Gastos Hijos', 'Videojuegos', 'Netflix', 'Amazon Prime', 'Alquiler', 'Transporte', 'Entretenimiento', 'Manutención', 'Otros (Gastos Varios)', 'Pacificard', 'Bankard', 'American Express', 'PayPal', 'Luz', 'Agua', 'Teléfono Fijo', 'Préstamos', 'Seguros', 'Automóvil', 'Railway'
+        'Teléfono Móvil', 'GitHub', 'Mami', 'Comida', 'Movilización Trabajo', 'Pago de Tarjetas (Pacificard)', 'Pago de Tarjetas (Bankard)', 'Pago de Tarjetas (American Express)', 'Pago de Tarjetas (Diners Club)', 'Spotify', 'Maestría', 'Ropa', 'Zapatos', 'Tecnología', 'Restaurantes', 'Salud', 'Cursos Online', 'Gastos Hijos', 'Videojuegos', 'Netflix', 'Amazon Prime', 'Alquiler', 'Transporte', 'Entretenimiento', 'Manutención', 'Otros (Gastos Varios)', 'PayPal', 'Luz', 'Agua', 'Teléfono Fijo', 'Préstamos', 'Seguros', 'Automóvil', 'Railway'
       ],
       bancos: [
         'Pacificard', 'Bankard', 'Banco Diners Club', 'American Express', 'Banco Pichincha', 'Produbanco', 'Banco Guayaquil', 'Banco del Pacífico', 'Banco Bolivariano', 'Banco Internacional', 'Banco del Austro', 'Banco G. Rumiñahui', 'Banco de Machala', 'CitiBank', 'Banco ProCredit', 'Banco Amazonas', 'Banco CoopNacional', 'Banco del Litoral', 'Banco DelBank'
@@ -82,6 +82,11 @@ export default {
       showModal: false,
       selectedCategorias: [],
       isSubmitting: false  // Nueva propiedad para controlar el estado del botón
+    }
+  },
+  computed: {
+    isFormValid() {
+      return this.nuevoEgreso.categoria && this.nuevoEgreso.monto && this.nuevoEgreso.fecha;
     }
   },
   async created() {

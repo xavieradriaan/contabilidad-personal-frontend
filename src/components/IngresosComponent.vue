@@ -21,9 +21,9 @@
       </div>
       <div class="mb-3">
         <label for="monto" class="form-label">Valor</label>
-        <input v-model="nuevoIngreso.monto" id="monto" type="text" class="form-control" inputmode="numeric" @input="validateMonto" required placeholder="Ingrese sólo valores enteros" :style="{ color: nuevoIngreso.monto ? '#000' : 'rgba(0, 0, 0, 0.3)' }">
+        <input v-model="nuevoIngreso.monto" id="monto" type="text" class="form-control" inputmode="decimal" @input="validateMonto" required placeholder="Ingrese un valor con decimales, Ejm: '217,50'" :style="{ color: nuevoIngreso.monto ? '#000' : 'rgba(0, 0, 0, 0.3)' }">
       </div>
-      <button type="submit" class="btn btn-primary w-100" :disabled="isSubmitting">Agregar Ingreso</button>
+      <button type="submit" :class="['btn', 'w-100', isFormValid ? 'btn-primary' : 'btn-secondary']" :style="!isFormValid ? { backgroundColor: '#d3d3d3', borderColor: '#d3d3d3' } : {}" :disabled="isSubmitting || !isFormValid">Agregar Ingreso</button>
     </form>
   </div>
 </template>
@@ -49,6 +49,11 @@ export default {
       isSubmitting: false  // Nueva propiedad para controlar el estado del botón
     }
   },
+  computed: {
+    isFormValid() {
+      return this.nuevoIngreso.fuente && this.nuevoIngreso.monto && this.nuevoIngreso.fecha;
+    }
+  },
   methods: {
     updateDescripcion() {
       if (this.nuevoIngreso.fuente === 'Ingresar Salario (Quincena)') {
@@ -60,9 +65,17 @@ export default {
       }
     },
     validateMonto(event) {
-      let value = event.target.value.replace(/[^0-9]/g, '')
-      if (value.length > 5) {
-        value = value.slice(0, 5)
+      let value = event.target.value.replace(/,/g, '.')
+      // Remove non-numeric characters except for the first dot
+      value = value.replace(/[^0-9.]/g, '')
+      // Ensure only one dot is present
+      const parts = value.split('.')
+      if (parts.length > 2) {
+        value = parts[0] + '.' + parts.slice(1).join('')
+      }
+      // Limit to two decimal places
+      if (parts[1] && parts[1].length > 2) {
+        value = parts[0] + '.' + parts[1].slice(0, 2)
       }
       this.nuevoIngreso.monto = value
     },
@@ -72,7 +85,7 @@ export default {
       const data = {
         fuente: this.nuevoIngreso.fuente,
         fecha: this.nuevoIngreso.fecha,
-        monto: parseInt(this.nuevoIngreso.monto, 10),
+        monto: parseFloat(this.nuevoIngreso.monto),
         descripcion: this.nuevoIngreso.descripcion
       }
       try {
