@@ -16,12 +16,24 @@
       <button type="submit" class="btn btn-primary w-100 mb-3">Consultar</button>
       <button @click="exportToXML" class="btn btn-success w-100">Exportar a XML</button>
     </form>
+
+    <!-- Mover este bloque de código para que aparezca primero -->
     <div class="card mb-4">
+      <div class="card-body text-center">
+        <h5 class="text-muted">Saldo Anterior Disponible + Total Actual Disponible:</h5>
+        <p class="display-4">${{ saldo_disponible.toFixed(2) }}</p>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-header text-center">
+        <h2>{{ nombre_mes }}</h2>
+      </div>
       <div class="card-body">
         <p><strong>Total Ingresos:</strong> ${{ total_ingresos.toFixed(2) }}</p>
         <p><strong>Total Otros Ingresos:</strong> ${{ total_otros_ingresos.toFixed(2) }}</p>
         <p><strong>Total Egresos:</strong> ${{ total_egresos.toFixed(2) }}</p>
-        <p><strong>Total:</strong> ${{ total.toFixed(2) }}</p>
+        <p><strong>Total ({{ nombre_mes }}):</strong> ${{ total.toFixed(2) }}</p>
       </div>
     </div>
 
@@ -140,13 +152,13 @@ export default {
       total_otros_ingresos: 0,
       total_egresos: 0,
       total: 0,
+      saldo_anterior: 0,  // Nueva propiedad para el saldo anterior
+      saldo_disponible: 0,  // Nueva propiedad para el saldo disponible
+      nombre_mes: '',  // Nueva propiedad para el nombre del mes
       detalles_ingresos: [],
       detalles_otros_ingresos: [],
       detalles_egresos: []
     }
-  },
-  created() {
-    this.fetchTotals()
   },
   methods: {
     async fetchTotals() {
@@ -163,6 +175,9 @@ export default {
       this.total_otros_ingresos = parseFloat(response.data.total_otros_ingresos)
       this.total_egresos = parseFloat(response.data.total_egresos)
       this.total = parseFloat(response.data.total)
+      this.saldo_anterior = parseFloat(response.data.saldo_anterior)  // Asignar el saldo anterior
+      this.saldo_disponible = parseFloat(response.data.saldo_disponible)  // Asignar el saldo disponible
+      this.nombre_mes = response.data.nombre_mes  // Asignar el nombre del mes
       this.detalles_ingresos = response.data.detalles_ingresos.map(ingreso => ({
         ...ingreso,
         monto: parseFloat(ingreso.monto)
@@ -253,6 +268,9 @@ export default {
       xml += '</Totales>\n'
       return xml
     }
+  },
+  created() {
+    this.fetchTotals()
   }
 }
 </script>

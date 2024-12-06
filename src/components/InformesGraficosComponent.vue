@@ -3,6 +3,21 @@
     <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
     <h1 class="text-center mb-4">Informes Gráficos</h1>
 
+    <!-- Formulario para seleccionar el año y el mes -->
+    <form @submit.prevent="fetchData" class="mb-4">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label for="year" class="form-label">Año:</label>
+          <input v-model="year" type="number" id="year" class="form-control" min="2000" max="2100" required>
+        </div>
+        <div class="col-md-6">
+          <label for="month" class="form-label">Mes:</label>
+          <input v-model="month" type="number" id="month" class="form-control" min="1" max="12" required>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary w-100 mb-3">Consultar</button>
+    </form>
+
     <!-- Sección de Ingresos -->
     <div class="row">
       <div class="col-12">
@@ -94,6 +109,8 @@ export default {
   },
   data() {
     return {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth() + 1,
       ingresosBarChartData: { series: [] },
       ingresosLineChartData: { series: [] },
       ingresosPieChartData: { series: [] },
@@ -126,6 +143,10 @@ export default {
         const response = await axios.get('/total', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          params: {
+            year: this.year,
+            month: this.month
           }
         })
         const data = response.data
