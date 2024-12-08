@@ -181,24 +181,24 @@ export default {
 
         // Verificar que los datos existen antes de asignarlos
         if (data.total_ingresos !== undefined && data.total_otros_ingresos !== undefined && data.total_egresos !== undefined && data.total !== undefined && data.saldo_anterior !== undefined && data.saldo_disponible !== undefined && data.nombre_mes !== undefined) {
-          this.total_ingresos = parseFloat(data.total_ingresos)
-          this.total_otros_ingresos = parseFloat(data.total_otros_ingresos)
-          this.total_egresos = parseFloat(data.total_egresos)
-          this.total = parseFloat(data.total)
-          this.saldo_anterior = parseFloat(data.saldo_anterior)  // Asignar el saldo anterior
-          this.saldo_disponible = parseFloat(data.saldo_disponible)  // Asignar el saldo disponible
-          this.nombre_mes = data.nombre_mes  // Asignar el nombre del mes
+          this.total_ingresos = parseFloat(data.total_ingresos) || 0
+          this.total_otros_ingresos = parseFloat(data.total_otros_ingresos) || 0
+          this.total_egresos = parseFloat(data.total_egresos) || 0
+          this.total = parseFloat(data.total) || 0
+          this.saldo_anterior = parseFloat(data.saldo_anterior) || 0  // Asignar el saldo anterior
+          this.saldo_disponible = parseFloat(data.saldo_disponible) || 0  // Asignar el saldo disponible
+          this.nombre_mes = data.nombre_mes || ''  // Asignar el nombre del mes
           this.detalles_ingresos = data.detalles_ingresos.map(ingreso => ({
             ...ingreso,
-            monto: parseFloat(ingreso.monto)
+            monto: parseFloat(ingreso.monto) || 0
           }))
           this.detalles_otros_ingresos = data.detalles_otros_ingresos.map(otro_ingreso => ({
             ...otro_ingreso,
-            monto: parseFloat(otro_ingreso.monto)
+            monto: parseFloat(otro_ingreso.monto) || 0
           }))
           this.detalles_egresos = data.detalles_egresos.map(egreso => ({
             ...egreso,
-            monto: parseFloat(egreso.monto)
+            monto: parseFloat(egreso.monto) || 0
           }))
         } else {
           console.error('Datos incompletos:', data)
