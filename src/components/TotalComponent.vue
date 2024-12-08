@@ -17,6 +17,7 @@
       <button @click="exportToXML" class="btn btn-success w-100">Exportar a XML</button>
     </form>
 
+    <!-- Mover este bloque de código para que aparezca primero -->
     <div class="card mb-4">
       <div class="card-body text-center">
         <h5 class="text-muted">Saldo Anterior Disponible + Total Actual Disponible:</h5>
@@ -166,49 +167,37 @@ export default {
   },
   methods: {
     async fetchTotals() {
-      try {
-        const response = await axios.get('/total', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          },
-          params: {
-            year: this.year,
-            month: this.month
-          }
-        })
-        const data = response.data
-        console.log('Data fetched:', data) // Añadir log para verificar los datos
-
-        // Verificar que los datos existen antes de asignarlos
-        if (data.total_ingresos !== undefined && data.total_otros_ingresos !== undefined && data.total_egresos !== undefined && data.total !== undefined && data.saldo_anterior !== undefined && data.saldo_disponible !== undefined && data.nombre_mes !== undefined) {
-          this.total_ingresos = parseFloat(data.total_ingresos) || 0
-          this.total_otros_ingresos = parseFloat(data.total_otros_ingresos) || 0
-          this.total_egresos = parseFloat(data.total_egresos) || 0
-          this.total = parseFloat(data.total) || 0
-          this.saldo_anterior = parseFloat(data.saldo_anterior) || 0  // Asignar el saldo anterior
-          this.saldo_disponible = parseFloat(data.saldo_disponible) || 0  // Asignar el saldo disponible
-          this.nombre_mes = data.nombre_mes || ''  // Asignar el nombre del mes
-          this.detalles_ingresos = data.detalles_ingresos.map(ingreso => ({
-            ...ingreso,
-            monto: parseFloat(ingreso.monto) || 0
-          }))
-          this.detalles_otros_ingresos = data.detalles_otros_ingresos.map(otro_ingreso => ({
-            ...otro_ingreso,
-            monto: parseFloat(otro_ingreso.monto) || 0
-          }))
-          this.detalles_egresos = data.detalles_egresos.map(egreso => ({
-            ...egreso,
-            monto: parseFloat(egreso.monto) || 0
-          }))
-        } else {
-          console.error('Datos incompletos:', data)
+      const response = await axios.get('/total', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        },
+        params: {
+          year: this.year,
+          month: this.month
         }
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
+      })
+      this.total_ingresos = parseFloat(response.data.total_ingresos)
+      this.total_otros_ingresos = parseFloat(response.data.total_otros_ingresos)
+      this.total_egresos = parseFloat(response.data.total_egresos)
+      this.total = parseFloat(response.data.total)
+      this.saldo_anterior = parseFloat(response.data.saldo_anterior)  // Asignar el saldo anterior
+      this.saldo_disponible = parseFloat(response.data.saldo_disponible)  // Asignar el saldo disponible
+      this.nombre_mes = response.data.nombre_mes  // Asignar el nombre del mes
+      this.detalles_ingresos = response.data.detalles_ingresos.map(ingreso => ({
+        ...ingreso,
+        monto: parseFloat(ingreso.monto)
+      }))
+      this.detalles_otros_ingresos = response.data.detalles_otros_ingresos.map(otro_ingreso => ({
+        ...otro_ingreso,
+        monto: parseFloat(otro_ingreso.monto)
+      }))
+      this.detalles_egresos = response.data.detalles_egresos.map(egreso => ({
+        ...egreso,
+        monto: parseFloat(egreso.monto)
+      }))
     },
     formatDate(date) {
-      const options = { day: '2-digit', month: 'long', year: 'numeric' }
+      const options = { day: '2-digit', month: '2-digit', year: 'numeric' }
       return new Date(date).toLocaleDateString('es-ES', options)
     },
     toggleSaldoVisibility() {
