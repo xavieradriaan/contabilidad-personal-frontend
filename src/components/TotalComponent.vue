@@ -208,7 +208,7 @@ export default {
       }
     },
     formatDate(date) {
-      const options = { day: '2-digit', month: '2-digit', year: 'numeric' }
+      const options = { day: '2-digit', month: 'long', year: 'numeric' }
       return new Date(date).toLocaleDateString('es-ES', options)
     },
     toggleSaldoVisibility() {
