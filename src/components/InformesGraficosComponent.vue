@@ -25,7 +25,7 @@
       </div>
       <div class="col-md-12">
         <h3>Gráfico de Barras</h3>
-        <apexchart v-if="ingresosBarChartData.series.length" type="bar" :options="ingresosBarChartOptions" :series="ingresosBarChartData.series"></apexchart>
+        <apexchart v-if="ingresosBarChartData.series.length" type="bar" :options="ingresosBarChartOptions" :series="ingresosBarChartData.series" width="100%" height="250"></apexchart>
       </div>
     </div>
 
@@ -36,29 +36,29 @@
       </div>
       <div class="col-md-12">
         <h3>Gráfico de Barras</h3>
-        <apexchart v-if="ingresosExtrasBarChartData.series.length" type="bar" :options="ingresosExtrasBarChartOptions" :series="ingresosExtrasBarChartData.series"></apexchart>
+        <apexchart v-if="ingresosExtrasBarChartData.series.length" type="bar" :options="ingresosExtrasBarChartOptions" :series="ingresosExtrasBarChartData.series" width="100%" height="250"></apexchart>
       </div>
     </div>
 
     <!-- Sección de Egresos -->
-    <div class="row mt-5">
+    <div class="row mt-5 justify-content-center">
       <div class="col-12">
         <h2 class="text-center mb-4">Egresos</h2>
       </div>
-      <div class="col-md-6 mt-5">
-        <h3>Gráfico de Pastel</h3>
-        <apexchart v-if="egresosPieChartData.series.length" type="pie" :options="egresosPieChartOptions" :series="egresosPieChartData.series"></apexchart>
+      <div class="col-md-10 mt-5">
+        <h3 class="text-center">Gráfico de Pastel</h3>
+        <apexchart v-if="egresosPieChartData.series.length" type="pie" :options="egresosPieChartOptions" :series="egresosPieChartData.series" width="100%" height="430"></apexchart>
       </div>
     </div>
 
     <!-- Sección de Totales -->
-    <div class="row mt-5">
+    <div class="row mt-5 justify-content-center">
       <div class="col-12">
         <h2 class="text-center mb-4">Totales</h2>
       </div>
-      <div class="col-md-6">
-        <h3>Gráfico de Barras</h3>
-        <apexchart v-if="totalesBarChartData.series.length" type="bar" :options="totalesBarChartOptions" :series="totalesBarChartData.series"></apexchart>
+      <div class="col-md-10">
+        <h3 class="text-center">Gráfico de Barras</h3>
+        <apexchart v-if="totalesBarChartData.series.length" type="bar" :options="totalesBarChartOptions" :series="totalesBarChartData.series" width="100%" height="420"></apexchart>
       </div>
     </div>
   </div>
@@ -103,7 +103,17 @@ export default {
         }
       },
       egresosPieChartOptions: { chart: { type: 'pie' }, labels: [] },
-      totalesBarChartOptions: { chart: { type: 'bar' }, xaxis: { categories: [] } }
+      totalesBarChartOptions: { 
+        chart: { type: 'bar' }, 
+        xaxis: { categories: [] },
+        yaxis: {
+          labels: {
+            formatter: function (value) {
+              return value.toFixed(2);
+            }
+          }
+        }
+      }
     }
   },
   methods: {
@@ -136,7 +146,13 @@ export default {
               data: ingresos
             }]
           }
-          this.ingresosBarChartOptions.xaxis.categories = data.detalles_ingresos.map(item => this.formatDate(item.fecha))
+          this.ingresosBarChartOptions = {
+            ...this.ingresosBarChartOptions,
+            xaxis: {
+              ...this.ingresosBarChartOptions.xaxis,
+              categories: data.detalles_ingresos.map(item => this.formatDate(item.fecha))
+            }
+          }
 
           // Ingresos Extras
           const ingresosExtras = data.detalles_otros_ingresos.map((item, index) => ({
@@ -151,7 +167,13 @@ export default {
               data: ingresosExtras
             }]
           }
-          this.ingresosExtrasBarChartOptions.xaxis.categories = data.detalles_otros_ingresos.map(item => this.formatDate(item.fecha))
+          this.ingresosExtrasBarChartOptions = {
+            ...this.ingresosExtrasBarChartOptions,
+            xaxis: {
+              ...this.ingresosExtrasBarChartOptions.xaxis,
+              categories: data.detalles_otros_ingresos.map(item => this.formatDate(item.fecha))
+            }
+          }
 
           // Egresos
           this.egresosPieChartData = {
@@ -163,14 +185,14 @@ export default {
           const totalIngresos = data.detalles_ingresos.reduce((sum, item) => sum + parseFloat(item.monto), 0)
           const totalOtrosIngresos = data.detalles_otros_ingresos.reduce((sum, item) => sum + parseFloat(item.monto), 0)
           const totalEgresos = data.detalles_egresos.reduce((sum, item) => sum + parseFloat(item.monto), 0)
-          const totalNeto = totalIngresos + totalOtrosIngresos - totalEgresos
+          const totalNeto = (totalIngresos + totalOtrosIngresos - totalEgresos).toFixed(2)
 
           this.totalesBarChartData = {
             series: [
               { name: 'Ingresos', data: [totalIngresos] },
               { name: 'Otros Ingresos', data: [totalOtrosIngresos] },
               { name: 'Egresos', data: [totalEgresos] },
-              { name: 'Total Neto', data: [totalNeto] }
+              { name: 'Total Neto', data: [parseFloat(totalNeto)] }
             ]
           }
           this.totalesBarChartOptions.xaxis.categories = ['Totales']
