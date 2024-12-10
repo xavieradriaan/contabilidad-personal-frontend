@@ -45,7 +45,7 @@
       <div class="col-12">
         <h2 class="text-center mb-4">Egresos</h2>
       </div>
-      <div class="col-md-10 mt-5">
+      <div class="col-md-10">
         <h3 class="text-center">Gráfico de Pastel</h3>
         <apexchart v-if="egresosPieChartData.series.length" type="pie" :options="egresosPieChartOptions" :series="egresosPieChartData.series" width="100%" height="430"></apexchart>
       </div>
