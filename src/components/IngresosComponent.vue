@@ -6,8 +6,9 @@
       <div class="mb-3">
         <label for="fuente" class="form-label">Fuente</label>
         <select v-model="nuevoIngreso.fuente" id="fuente" class="form-select" required @change="updateDescripcion">
-          <option value="Ingresar Salario (Quincena)">Ingresar Salario (Quincena)</option>
-          <option value="Ingresar Salario (Fin de Mes)">Ingresar Salario (Fin de Mes)</option>
+          <option value="" disabled>Seleccione una fuente</option>
+          <option value="Ingresar Salario (Quincena)" :disabled="quincenaExists" :title="quincenaExists ? 'Ya se ha registrado un ingreso de Quincena para este mes' : ''">Ingresar Salario (Quincena)</option>
+          <option value="Ingresar Salario (Fin de Mes)" :disabled="finMesExists" :title="finMesExists ? 'Ya se ha registrado un ingreso de Fin de Mes para este mes' : ''">Ingresar Salario (Fin de Mes)</option>
           <option value="Ingresos Extras">Ingresos Extras</option>
         </select>
       </div>
@@ -41,11 +42,13 @@ export default {
   data() {
     return {
       nuevoIngreso: {
-        fuente: 'Ingresar Salario (Quincena)',
+        fuente: '',
         descripcion: '',
         fecha: '',
         monto: ''
       },
+      quincenaExists: false,
+      finMesExists: false,
       isSubmitting: false  // Nueva propiedad para controlar el estado del botón
     }
   },
@@ -53,6 +56,10 @@ export default {
     isFormValid() {
       return this.nuevoIngreso.fuente && this.nuevoIngreso.monto && this.nuevoIngreso.fecha;
     }
+  },
+  async created() {
+    await this.checkIngresos()
+    this.setDefaultFuente()
   },
   methods: {
     updateDescripcion() {
@@ -79,6 +86,32 @@ export default {
       }
       this.nuevoIngreso.monto = value
     },
+    async checkIngresos() {
+      try {
+        const response = await axios.get('/check_ingresos', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          params: {
+            year: new Date().getFullYear(),
+            month: new Date().getMonth() + 1
+          }
+        })
+        this.quincenaExists = response.data.quincena_exists
+        this.finMesExists = response.data.fin_mes_exists
+      } catch (error) {
+        console.error('Error al verificar ingresos:', error)
+      }
+    },
+    setDefaultFuente() {
+      if (!this.quincenaExists) {
+        this.nuevoIngreso.fuente = 'Ingresar Salario (Quincena)'
+      } else if (!this.finMesExists) {
+        this.nuevoIngreso.fuente = 'Ingresar Salario (Fin de Mes)'
+      } else {
+        this.nuevoIngreso.fuente = 'Ingresos Extras'
+      }
+    },
     async addIngreso() {
       this.isSubmitting = true  // Deshabilitar el botón al hacer clic
       const url = this.nuevoIngreso.fuente === 'Ingresos Extras' ? '/otros_ingresos' : '/ingresos'
@@ -94,7 +127,9 @@ export default {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         })
-        this.nuevoIngreso = { fuente: 'Ingresar Salario (Quincena)', descripcion: '', fecha: '', monto: '' }
+        this.nuevoIngreso = { fuente: '', descripcion: '', fecha: '', monto: '' }
+        await this.checkIngresos()  // Verificar nuevamente los ingresos después de agregar uno nuevo
+        this.setDefaultFuente()  // Establecer la fuente por defecto nuevamente
         Swal.fire({
           icon: 'success',
           title: 'Ingreso Exitoso!',
@@ -119,3 +154,10 @@ export default {
   }
 }
 </script>
+
+<style>
+/* Estilo para cambiar el cursor cuando se pasa el mouse sobre las opciones deshabilitadas */
+option[disabled] {
+  cursor: not-allowed;
+}
+</style>
