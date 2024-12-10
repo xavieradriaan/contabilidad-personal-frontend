@@ -33,7 +33,7 @@
         <h2>{{ nombre_mes }}</h2>
       </div>
       <div class="card-body">
-        <p><strong>Total Ingresos:</strong> ${{ total_ingresos.toFixed(2) }}</p>
+        <p><strong>Total Ingresos (Quincena + Fin de Mes):</strong> ${{ total_ingresos.toFixed(2) }}</p>
         <p><strong>Total Otros Ingresos:</strong> ${{ total_otros_ingresos.toFixed(2) }}</p>
         <p><strong>Total de Ingresos + Otros Ingresos:</strong> ${{ (total_ingresos + total_otros_ingresos).toFixed(2) }}</p>
         <p><strong>Total Egresos:</strong> ${{ total_egresos.toFixed(2) }}</p>
