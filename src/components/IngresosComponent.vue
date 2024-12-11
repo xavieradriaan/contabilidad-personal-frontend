@@ -4,8 +4,12 @@
     <h1 class="text-center mb-4">Registrar Ingresos</h1>
     <form @submit.prevent="addIngreso" class="card p-4 shadow-sm">
       <div class="mb-3">
+        <label for="fecha" class="form-label">Fecha</label>
+        <input v-model="nuevoIngreso.fecha" id="fecha" type="date" class="form-control" required @change="checkIngresos">
+      </div>
+      <div class="mb-3">
         <label for="fuente" class="form-label">Fuente</label>
-        <select v-model="nuevoIngreso.fuente" id="fuente" class="form-select" required @change="updateDescripcion">
+        <select v-model="nuevoIngreso.fuente" id="fuente" class="form-select" required>
           <option value="" disabled>Seleccione una fuente</option>
           <option value="Ingresar Salario (Quincena)" :disabled="quincenaExists" :title="quincenaExists ? 'Ya se ha registrado un ingreso de Quincena para este mes' : ''">Ingresar Salario (Quincena)</option>
           <option value="Ingresar Salario (Fin de Mes)" :disabled="finMesExists" :title="finMesExists ? 'Ya se ha registrado un ingreso de Fin de Mes para este mes' : ''">Ingresar Salario (Fin de Mes)</option>
@@ -15,10 +19,6 @@
       <div v-if="nuevoIngreso.fuente === 'Ingresos Extras'" class="mb-3">
         <label for="descripcion" class="form-label">Descripción</label>
         <input v-model="nuevoIngreso.descripcion" id="descripcion" type="text" class="form-control" maxlength="70" placeholder="Descripción (máximo 70 caracteres)" required style="color: #000;">
-      </div>
-      <div class="mb-3">
-        <label for="fecha" class="form-label">Fecha</label>
-        <input v-model="nuevoIngreso.fecha" id="fecha" type="date" class="form-control" required>
       </div>
       <div class="mb-3">
         <label for="monto" class="form-label">Valor</label>
@@ -57,10 +57,6 @@ export default {
       return this.nuevoIngreso.fuente && this.nuevoIngreso.monto && this.nuevoIngreso.fecha;
     }
   },
-  async created() {
-    await this.checkIngresos()
-    this.setDefaultFuente()
-  },
   methods: {
     updateDescripcion() {
       if (this.nuevoIngreso.fuente === 'Ingresar Salario (Quincena)') {
@@ -87,18 +83,21 @@ export default {
       this.nuevoIngreso.monto = value
     },
     async checkIngresos() {
+      if (!this.nuevoIngreso.fecha) return;
+      const [year, month] = this.nuevoIngreso.fecha.split('-');
       try {
         const response = await axios.get('/check_ingresos', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           },
           params: {
-            year: new Date().getFullYear(),
-            month: new Date().getMonth() + 1
+            year: year,
+            month: month
           }
         })
         this.quincenaExists = response.data.quincena_exists
         this.finMesExists = response.data.fin_mes_exists
+        this.setDefaultFuente()  // Establecer la fuente por defecto nuevamente
       } catch (error) {
         console.error('Error al verificar ingresos:', error)
       }
@@ -114,14 +113,35 @@ export default {
     },
     async addIngreso() {
       this.isSubmitting = true  // Deshabilitar el botón al hacer clic
-      const url = this.nuevoIngreso.fuente === 'Ingresos Extras' ? '/otros_ingresos' : '/ingresos'
-      const data = {
-        fuente: this.nuevoIngreso.fuente,
-        fecha: this.nuevoIngreso.fecha,
-        monto: parseFloat(this.nuevoIngreso.monto),
-        descripcion: this.nuevoIngreso.descripcion
-      }
+      const [year, month] = this.nuevoIngreso.fecha.split('-');
       try {
+        const response = await axios.get('/check_ingresos', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          params: {
+            year: year,
+            month: month
+          }
+        })
+        if ((this.nuevoIngreso.fuente === 'Ingresar Salario (Quincena)' && response.data.quincena_exists) ||
+            (this.nuevoIngreso.fuente === 'Ingresar Salario (Fin de Mes)' && response.data.fin_mes_exists)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: `Ya se ha registrado un ingreso de ${this.nuevoIngreso.fuente} para este mes.`,
+            showConfirmButton: true
+          })
+          this.isSubmitting = false
+          return
+        }
+        const url = this.nuevoIngreso.fuente === 'Ingresos Extras' ? '/otros_ingresos' : '/ingresos'
+        const data = {
+          fuente: this.nuevoIngreso.fuente,
+          fecha: this.nuevoIngreso.fecha,
+          monto: parseFloat(this.nuevoIngreso.monto),
+          descripcion: this.nuevoIngreso.descripcion
+        }
         await axios.post(url, data, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`

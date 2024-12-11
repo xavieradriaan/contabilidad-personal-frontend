@@ -4,6 +4,10 @@
     <h1 class="text-center mb-4">Registrar Egresos</h1>
     <form @submit.prevent="addEgreso" class="card p-4 shadow-sm">
       <div class="mb-3">
+        <label for="fecha" class="form-label">Fecha</label>
+        <input v-model="nuevoEgreso.fecha" id="fecha" type="date" class="form-control" required>
+      </div>
+      <div class="mb-3">
         <label for="categoria" class="form-label">Categoría</label>
         <select v-model="nuevoEgreso.categoria" id="categoria" class="form-select" required>
           <option v-for="categoria in categorias" :key="categoria" :value="categoria">{{ categoria }}</option>
@@ -23,10 +27,6 @@
           <option value="">Seleccione un banco</option>
           <option v-for="banco in bancos" :key="banco" :value="banco">{{ banco }}</option>
         </select>
-      </div>
-      <div class="mb-3">
-        <label for="fecha" class="form-label">Fecha</label>
-        <input v-model="nuevoEgreso.fecha" id="fecha" type="date" class="form-control" required>
       </div>
       <button type="submit" :class="['btn', 'w-100', isFormValid ? 'btn-primary' : 'btn-secondary']" :style="!isFormValid ? { backgroundColor: '#d3d3d3', borderColor: '#d3d3d3' } : {}" :disabled="isSubmitting || !isFormValid">Agregar Egreso</button>
     </form>
