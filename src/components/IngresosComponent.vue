@@ -113,14 +113,35 @@ export default {
     },
     async addIngreso() {
       this.isSubmitting = true  // Deshabilitar el botón al hacer clic
-      const url = this.nuevoIngreso.fuente === 'Ingresos Extras' ? '/otros_ingresos' : '/ingresos'
-      const data = {
-        fuente: this.nuevoIngreso.fuente,
-        fecha: this.nuevoIngreso.fecha,
-        monto: parseFloat(this.nuevoIngreso.monto),
-        descripcion: this.nuevoIngreso.descripcion
-      }
+      const [year, month] = this.nuevoIngreso.fecha.split('-');
       try {
+        const response = await axios.get('/check_ingresos', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          params: {
+            year: year,
+            month: month
+          }
+        })
+        if ((this.nuevoIngreso.fuente === 'Ingresar Salario (Quincena)' && response.data.quincena_exists) ||
+            (this.nuevoIngreso.fuente === 'Ingresar Salario (Fin de Mes)' && response.data.fin_mes_exists)) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: `Ya se ha registrado un ingreso de ${this.nuevoIngreso.fuente} para este mes.`,
+            showConfirmButton: true
+          })
+          this.isSubmitting = false
+          return
+        }
+        const url = this.nuevoIngreso.fuente === 'Ingresos Extras' ? '/otros_ingresos' : '/ingresos'
+        const data = {
+          fuente: this.nuevoIngreso.fuente,
+          fecha: this.nuevoIngreso.fecha,
+          monto: parseFloat(this.nuevoIngreso.monto),
+          descripcion: this.nuevoIngreso.descripcion
+        }
         await axios.post(url, data, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -128,6 +149,7 @@ export default {
         })
         this.nuevoIngreso = { fuente: '', descripcion: '', fecha: '', monto: '' }
         await this.checkIngresos()  // Verificar nuevamente los ingresos después de agregar uno nuevo
+        this.setDefaultFuente()  // Establecer la fuente por defecto nuevamente
         Swal.fire({
           icon: 'success',
           title: 'Ingreso Exitoso!',
