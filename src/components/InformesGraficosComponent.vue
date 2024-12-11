@@ -23,8 +23,8 @@
       <div class="col-12">
         <h2 class="text-center mb-4">Ingreso (SALARIO)</h2>
       </div>
-      <div class="col-md-12">
-        <h3>Gráfico de Barras</h3>
+      <div class="col-md-12 chart-container">
+        <h3 class="chart-title">Gráfico de Barras</h3>
         <apexchart v-if="ingresosBarChartData.series.length" type="bar" :options="ingresosBarChartOptions" :series="ingresosBarChartData.series" width="100%" height="250"></apexchart>
       </div>
     </div>
@@ -34,8 +34,8 @@
       <div class="col-12">
         <h2 class="text-center mb-4">Ingresos Extras</h2>
       </div>
-      <div class="col-md-12">
-        <h3>Gráfico de Barras</h3>
+      <div class="col-md-12 chart-container">
+        <h3 class="chart-title">Gráfico de Barras</h3>
         <apexchart v-if="ingresosExtrasBarChartData.series.length" type="bar" :options="ingresosExtrasBarChartOptions" :series="ingresosExtrasBarChartData.series" width="100%" height="250"></apexchart>
       </div>
     </div>
