@@ -113,6 +113,10 @@ export default {
         const response = await axios.get('/pagos_recurrentes', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          params: {
+            year: new Date().getFullYear(),
+            month: new Date().getMonth() + 1
           }
         })
         if (response.data.length === 0) {
