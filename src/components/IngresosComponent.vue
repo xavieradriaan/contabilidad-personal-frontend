@@ -4,6 +4,10 @@
     <h1 class="text-center mb-4">Registrar Ingresos</h1>
     <form @submit.prevent="addIngreso" class="card p-4 shadow-sm">
       <div class="mb-3">
+        <label for="fecha" class="form-label">Fecha</label>
+        <input v-model="nuevoIngreso.fecha" id="fecha" type="date" class="form-control" required @change="checkIngresos">
+      </div>
+      <div class="mb-3">
         <label for="fuente" class="form-label">Fuente</label>
         <select v-model="nuevoIngreso.fuente" id="fuente" class="form-select" required>
           <option value="" disabled>Seleccione una fuente</option>
@@ -15,10 +19,6 @@
       <div v-if="nuevoIngreso.fuente === 'Ingresos Extras'" class="mb-3">
         <label for="descripcion" class="form-label">Descripción</label>
         <input v-model="nuevoIngreso.descripcion" id="descripcion" type="text" class="form-control" maxlength="70" placeholder="Descripción (máximo 70 caracteres)" required style="color: #000;">
-      </div>
-      <div class="mb-3">
-        <label for="fecha" class="form-label">Fecha</label>
-        <input v-model="nuevoIngreso.fecha" id="fecha" type="date" class="form-control" required @change="checkIngresos">
       </div>
       <div class="mb-3">
         <label for="monto" class="form-label">Valor</label>
