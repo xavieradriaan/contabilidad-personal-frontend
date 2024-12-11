@@ -16,7 +16,7 @@
           <tr v-for="pago in pagosRecurrentes" :key="pago.categoria">
             <td>{{ pago.categoria }}</td>
             <td>{{ formatDate(pago.fecha) }}</td>
-            <td>{{ parseFloat(pago.monto).toFixed(2) }}</td>
+            <td>{{ parseFloat(pago.monto || 0).toFixed(2) }}</td>
             <td>
               <input type="checkbox" v-model="pago.pagado" disabled>
             </td>
@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     totalPagosRecurrentes() {
-      return this.pagosRecurrentes.reduce((total, pago) => total + parseFloat(pago.monto), 0).toFixed(2)
+      return this.pagosRecurrentes.reduce((total, pago) => total + parseFloat(pago.monto || 0), 0).toFixed(2)
     }
   },
   async created() {
@@ -68,7 +68,8 @@ export default {
         })
         this.pagosRecurrentes = response.data.map(pago => ({
           ...pago,
-          fecha: pago.fecha ? new Date(pago.fecha) : new Date()
+          fecha: pago.fecha ? new Date(pago.fecha) : new Date(),
+          monto: pago.monto || 0  // Asegurarse de que el monto sea 0 si no está definido
         }))
       } catch (error) {
         console.error('Error al obtener pagos recurrentes:', error)
