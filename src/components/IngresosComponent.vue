@@ -5,7 +5,7 @@
     <form @submit.prevent="addIngreso" class="card p-4 shadow-sm">
       <div class="mb-3">
         <label for="fuente" class="form-label">Fuente</label>
-        <select v-model="nuevoIngreso.fuente" id="fuente" class="form-select" required @change="updateDescripcion">
+        <select v-model="nuevoIngreso.fuente" id="fuente" class="form-select" required>
           <option value="" disabled>Seleccione una fuente</option>
           <option value="Ingresar Salario (Quincena)" :disabled="quincenaExists" :title="quincenaExists ? 'Ya se ha registrado un ingreso de Quincena para este mes' : ''">Ingresar Salario (Quincena)</option>
           <option value="Ingresar Salario (Fin de Mes)" :disabled="finMesExists" :title="finMesExists ? 'Ya se ha registrado un ingreso de Fin de Mes para este mes' : ''">Ingresar Salario (Fin de Mes)</option>
@@ -56,10 +56,6 @@ export default {
     isFormValid() {
       return this.nuevoIngreso.fuente && this.nuevoIngreso.monto && this.nuevoIngreso.fecha;
     }
-  },
-  async created() {
-    await this.checkIngresos()
-    this.setDefaultFuente()
   },
   methods: {
     updateDescripcion() {
