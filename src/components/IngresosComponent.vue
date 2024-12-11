@@ -18,7 +18,7 @@
       </div>
       <div class="mb-3">
         <label for="fecha" class="form-label">Fecha</label>
-        <input v-model="nuevoIngreso.fecha" id="fecha" type="date" class="form-control" required>
+        <input v-model="nuevoIngreso.fecha" id="fecha" type="date" class="form-control" required @change="checkIngresos">
       </div>
       <div class="mb-3">
         <label for="monto" class="form-label">Valor</label>
@@ -87,18 +87,21 @@ export default {
       this.nuevoIngreso.monto = value
     },
     async checkIngresos() {
+      if (!this.nuevoIngreso.fecha) return;
+      const [year, month] = this.nuevoIngreso.fecha.split('-');
       try {
         const response = await axios.get('/check_ingresos', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           },
           params: {
-            year: new Date().getFullYear(),
-            month: new Date().getMonth() + 1
+            year: year,
+            month: month
           }
         })
         this.quincenaExists = response.data.quincena_exists
         this.finMesExists = response.data.fin_mes_exists
+        this.setDefaultFuente()  // Establecer la fuente por defecto nuevamente
       } catch (error) {
         console.error('Error al verificar ingresos:', error)
       }
@@ -129,7 +132,6 @@ export default {
         })
         this.nuevoIngreso = { fuente: '', descripcion: '', fecha: '', monto: '' }
         await this.checkIngresos()  // Verificar nuevamente los ingresos después de agregar uno nuevo
-        this.setDefaultFuente()  // Establecer la fuente por defecto nuevamente
         Swal.fire({
           icon: 'success',
           title: 'Ingreso Exitoso!',
