@@ -25,7 +25,7 @@
       </div>
       <div class="col-md-12 chart-container">
         <h3 class="chart-title">Gráfico de Barras</h3>
-        <apexchart v-if="ingresosBarChartData.series.length" type="bar" :options="ingresosBarChartOptions" :series="ingresosBarChartData.series" width="100%" height="250"></apexchart>
+        <apexchart v-if="ingresosBarChartData.series.length" type="bar" :options="ingresosBarChartOptions" :series="ingresosBarChartData.series" width="134%" height="326"></apexchart>
       </div>
     </div>
 
@@ -36,7 +36,7 @@
       </div>
       <div class="col-md-12 chart-container">
         <h3 class="chart-title">Gráfico de Barras</h3>
-        <apexchart v-if="ingresosExtrasBarChartData.series.length" type="bar" :options="ingresosExtrasBarChartOptions" :series="ingresosExtrasBarChartData.series" width="100%" height="250"></apexchart>
+        <apexchart v-if="ingresosExtrasBarChartData.series.length" type="bar" :options="ingresosExtrasBarChartOptions" :series="ingresosExtrasBarChartData.series" width="134%" height="326"></apexchart>
       </div>
     </div>
 
@@ -47,7 +47,7 @@
       </div>
       <div class="col-md-10">
         <h3 class="text-center">Gráfico de Pastel</h3>
-        <apexchart v-if="egresosPieChartData.series.length" type="pie" :options="egresosPieChartOptions" :series="egresosPieChartData.series" width="100%" height="430"></apexchart>
+        <apexchart v-if="egresosPieChartData.series.length" type="pie" :options="egresosPieChartOptions" :series="egresosPieChartData.series" width="100%" height="380"></apexchart>
       </div>
     </div>
 
@@ -58,7 +58,7 @@
       </div>
       <div class="col-md-10">
         <h3 class="text-center">Gráfico de Barras</h3>
-        <apexchart v-if="totalesBarChartData.series.length" type="bar" :options="totalesBarChartOptions" :series="totalesBarChartData.series" width="100%" height="420"></apexchart>
+        <apexchart v-if="totalesBarChartData.series.length" type="bar" :options="totalesBarChartOptions" :series="totalesBarChartData.series" width="100%" height="360"></apexchart>
       </div>
     </div>
   </div>
