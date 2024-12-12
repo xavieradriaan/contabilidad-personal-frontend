@@ -15,7 +15,7 @@
         <tbody>
           <tr v-for="pago in pagosRecurrentes" :key="pago.categoria">
             <td>{{ pago.categoria }}</td>
-            <td>{{ formatDate(pago.fecha) }}</td>
+            <td>{{ pago.fecha ? formatDate(pago.fecha) : '' }}</td>
             <td>{{ parseFloat(pago.monto || 0).toFixed(2) }}</td>
             <td>
               <input type="checkbox" v-model="pago.pagado" disabled>
@@ -43,7 +43,8 @@ export default {
     return {
       pagosRecurrentes: [],
       year: new Date().getFullYear(),
-      month: new Date().getMonth() + 1
+      month: new Date().getMonth() + 1,
+      egresosRegistrados: false
     }
   },
   computed: {
@@ -52,9 +53,24 @@ export default {
     }
   },
   async created() {
-    await this.fetchPagosRecurrentes()
+    await this.checkEgresos()
+    if (this.egresosRegistrados) {
+      await this.fetchPagosRecurrentes()
+    }
   },
   methods: {
+    async checkEgresos() {
+      try {
+        const response = await axios.get('/egresos', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        this.egresosRegistrados = response.data.length > 0
+      } catch (error) {
+        console.error('Error al verificar egresos:', error)
+      }
+    },
     async fetchPagosRecurrentes() {
       try {
         const response = await axios.get('/pagos_recurrentes', {
@@ -66,11 +82,17 @@ export default {
             month: this.month
           }
         })
-        this.pagosRecurrentes = response.data.map(pago => ({
-          ...pago,
-          fecha: pago.fecha ? new Date(pago.fecha) : new Date(),
-          monto: pago.monto || 0  // Asegurarse de que el monto sea 0 si no está definido
-        }))
+        const currentDate = new Date()
+        this.pagosRecurrentes = response.data.map(pago => {
+          const pagoFecha = pago.fecha ? new Date(pago.fecha) : null
+          const isCurrentMonth = pagoFecha && pagoFecha.getFullYear() === currentDate.getFullYear() && pagoFecha.getMonth() === currentDate.getMonth()
+          return {
+            ...pago,
+            fecha: isCurrentMonth ? pagoFecha : null,
+            monto: isCurrentMonth ? pago.monto : 0,
+            pagado: isCurrentMonth ? pago.pagado : false
+          }
+        })
       } catch (error) {
         console.error('Error al obtener pagos recurrentes:', error)
       }

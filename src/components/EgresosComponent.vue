@@ -86,7 +86,7 @@ export default {
   },
   computed: {
     isFormValid() {
-      return this.nuevoEgreso.categoria && this.nuevoEgreso.monto && this.nuevoEgreso.fecha;
+      return this.nuevoEgreso.categoria && this.nuevoEgreso.monto && this.nuevoEgreso.fecha && parseFloat(this.nuevoEgreso.monto) > 0;
     }
   },
   async created() {
@@ -105,6 +105,20 @@ export default {
       // Limit to two decimal places
       if (parts[1] && parts[1].length > 2) {
         value = parts[0] + '.' + parts[1].slice(0, 2)
+      }
+      // Limit to 7 digits before the decimal point
+      if (parts[0].length > 7) {
+        value = parts[0].slice(0, 7) + (parts[1] ? '.' + parts[1] : '')
+      }
+      // Check for leading zeros or negative values
+      if (value.startsWith('0') || parseFloat(value) <= 0) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se puede ingresar 0 ni valores negativos.',
+          showConfirmButton: true
+        })
+        value = ''
       }
       this.nuevoEgreso.monto = value
     },
