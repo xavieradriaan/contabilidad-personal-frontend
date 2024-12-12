@@ -179,7 +179,7 @@ export default {
           this.isSubmitting = false  // Habilitar el botón después de mostrar el mensaje
         })
       } catch (error) {
-        console.error('Error al registrar egreso:', error)
+        console.error('Error al registrar egreso: ', error)
         Swal.fire({
           icon: 'error',
           title: 'Error',
