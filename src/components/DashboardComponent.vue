@@ -1,3 +1,4 @@
+
 <template>
   <div class="container mt-5" style="position: relative;">
     <navigation-bar :showHome="false" :showLogout="true" @logout-clicked="logout"></navigation-bar>
@@ -9,6 +10,7 @@
       <router-link class="nav-link" to="/informes_graficos">Informes Gráficos</router-link>
       <router-link class="nav-link" to="/pagos_recurrentes">Pagos Recurrentes</router-link>
       <router-link class="nav-link" to="/depositos_bancos">Depósitos en Bancos</router-link>
+      <router-link class="nav-link" to="/credenciales">Credenciales</router-link> <!-- Nueva sección -->
     </nav>
   </div>
 </template>
