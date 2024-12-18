@@ -1,7 +1,8 @@
 <template>
   <div class="container mt-5">
     <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
-    <h1 class="text-center mb-4">Pagos Recurrentes</h1>
+    <h1 class="text-center mb-1">Pagos Recurrentes</h1>
+    <h3 class="text-center mb-4" style="font-size: 1.6rem;">({{ nombreMesActual }})</h3>
     <div class="card p-4 shadow-sm">
       <table class="table table-striped">
         <thead>
@@ -50,6 +51,13 @@ export default {
   computed: {
     totalPagosRecurrentes() {
       return this.pagosRecurrentes.reduce((total, pago) => total + parseFloat(pago.monto || 0), 0).toFixed(2)
+    },
+    nombreMesActual() {
+      const meses = [
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+      ]
+      return meses[this.month - 1]
     }
   },
   async created() {

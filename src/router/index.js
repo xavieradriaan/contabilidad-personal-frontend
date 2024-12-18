@@ -10,7 +10,8 @@ import OtroIngresoComponent from '../components/OtroIngresoComponent.vue'
 import InformesGraficosComponent from '../components/InformesGraficosComponent.vue'
 import PagosRecurrentesComponent from '../components/PagosRecurrentesComponent.vue'
 import DepositosBancosComponent from '../components/DepositosBancosComponent.vue'
-import PasswordResetComponent from '../components/PasswordResetComponent.vue' // Importar el componente de recuperación de contraseña
+import PasswordResetComponent from '../components/PasswordResetComponent.vue'
+import CredencialesComponent from '../components/CredencialesComponent.vue' // Importar el componente de credenciales
 
 const routes = [
   { path: '/', component: HomeComponent },
@@ -24,7 +25,8 @@ const routes = [
   { path: '/informes_graficos', component: InformesGraficosComponent, meta: { requiresAuth: true } },
   { path: '/pagos_recurrentes', component: PagosRecurrentesComponent, meta: { requiresAuth: true } },
   { path: '/depositos_bancos', component: DepositosBancosComponent, meta: { requiresAuth: true } },
-  { path: '/password_reset', component: PasswordResetComponent } // Nueva ruta
+  { path: '/password_reset', component: PasswordResetComponent },
+  { path: '/credenciales', component: CredencialesComponent, meta: { requiresAuth: true } } // Nueva ruta
 ]
 
 const router = createRouter({
