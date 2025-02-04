@@ -162,7 +162,7 @@ export default {
       detalles_ingresos: [],
       detalles_otros_ingresos: [],
       detalles_egresos: [],
-      showSaldo: true  // Nueva propiedad para controlar la visibilidad del saldo
+      showSaldo: false  // Inicializar como false para que el saldo esté oculto al cargar la página
     }
   },
   methods: {
