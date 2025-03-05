@@ -156,13 +156,13 @@ export default {
       total_otros_ingresos: 0,
       total_egresos: 0,
       total: 0,
-      saldo_anterior: 0,  // Nueva propiedad para el saldo anterior
-      saldo_disponible: 0,  // Nueva propiedad para el saldo disponible
-      nombre_mes: '',  // Nueva propiedad para el nombre del mes
+      saldo_anterior: 0,
+      saldo_disponible: 0,
+      nombre_mes: '',
       detalles_ingresos: [],
       detalles_otros_ingresos: [],
       detalles_egresos: [],
-      showSaldo: false  // Inicializar como false para que el saldo esté oculto al cargar la página
+      showSaldo: false
     }
   },
   methods: {
@@ -180,9 +180,9 @@ export default {
       this.total_otros_ingresos = parseFloat(response.data.total_otros_ingresos)
       this.total_egresos = parseFloat(response.data.total_egresos)
       this.total = parseFloat(response.data.total)
-      this.saldo_anterior = parseFloat(response.data.saldo_anterior)  // Asignar el saldo anterior
-      this.saldo_disponible = parseFloat(response.data.saldo_disponible)  // Asignar el saldo disponible
-      this.nombre_mes = response.data.nombre_mes  // Asignar el nombre del mes
+      this.saldo_anterior = parseFloat(response.data.saldo_anterior)
+      this.saldo_disponible = parseFloat(response.data.saldo_disponible)
+      this.nombre_mes = response.data.nombre_mes
       this.detalles_ingresos = response.data.detalles_ingresos.map(ingreso => ({
         ...ingreso,
         monto: parseFloat(ingreso.monto)
@@ -197,7 +197,7 @@ export default {
       }))
     },
     formatDate(date) {
-      const options = { day: '2-digit', month: '2-digit', year: 'numeric' }
+      const options = { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' }
       return new Date(date).toLocaleDateString('es-ES', options)
     },
     toggleSaldoVisibility() {
