@@ -1,34 +1,90 @@
 <template>
-  <div class="container mt-5" style="position: relative;">
-    <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
-    <h1 class="text-center mb-4">Iniciar Sesión</h1>
-    <form @submit.prevent="login" class="card p-4 shadow-sm">
-      <div class="mb-3">
-        <label for="username" class="form-label">Nombre de usuario</label>
-        <input v-model="username" id="username" type="text" class="form-control" required>
+  <div class="login-container">
+    <div class="login-animated-coins">
+      <div v-for="index in 25" :key="index" class="login-coin" :class="`login-coin-${index}`">
+        <img src="/monedas.png" alt="Moneda animada" class="login-coin-img">
       </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Contraseña</label>
-        <input v-model="password" id="password" type="password" class="form-control" required>
+    </div>
+
+    <!-- Botón de regreso minimalista -->
+    <button class="login-back-btn" @click="$router.go(-1)">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <main class="login-auth-content">
+      <h1 class="login-auth-title">
+        <span class="login-brand-text">CONTABILÍZATE</span>
+        <p class="login-auth-subtitle">Inicio de Sesión Seguro</p>
+      </h1>
+
+      <div class="login-auth-card">
+        <form @submit.prevent="login" class="login-auth-form">
+          <div class="login-input-group">
+            <label for="username" class="login-input-label">
+              <i class="fas fa-user login-icon"></i>
+              <span>Nombre de usuario</span>
+            </label>
+            <input
+              v-model="username"
+              id="username"
+              type="text"
+              class="login-auth-input"
+              :class="{'login-input-error': errorMessage}"
+              required
+            >
+          </div>
+
+          <div class="login-input-group">
+            <label for="password" class="login-input-label">
+              <i class="fas fa-lock login-icon"></i>
+              <span>Contraseña</span>
+            </label>
+            <input
+              v-model="password"
+              id="password"
+              type="password"
+              class="login-auth-input"
+              :class="{'login-input-error': errorMessage}"
+              required
+            >
+          </div>
+
+          <div v-if="errorMessage" class="login-error-message">
+            <i class="fas fa-exclamation-circle login-error-icon"></i>
+            <span>{{ errorMessage }}</span>
+          </div>
+
+          <button
+            type="submit"
+            class="login-auth-btn login-login-btn"
+            :disabled="isFormInvalid"
+            :class="{'login-loading': isLoading}"
+          >
+            <span v-if="!isLoading">Acceder al Sistema</span>
+            <i v-else class="fas fa-spinner fa-spin"></i>
+          </button>
+        </form>
+
+        <div class="login-auth-footer">
+          <router-link to="/password_reset" class="login-password-reset-link">
+            ¿Olvidaste tu contraseña?
+          </router-link>
+          <span class="login-footer-separator">|</span>
+          <router-link to="/register" class="login-password-reset-link">
+            Crear nueva cuenta
+          </router-link>
+        </div>
       </div>
-      <div v-if="errorMessage" class="mb-3 text-danger error-message">
-        <strong>{{ errorMessage }}</strong>
-      </div>
-      <button type="submit" class="btn btn-primary w-100" :disabled="isFormInvalid">Iniciar Sesión</button>
-    </form>
+    </main>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
-import NavigationBar from './NavigationBar.vue'
 
 export default {
   name: 'LoginComponent',
-  components: {
-    NavigationBar
-  },
   data() {
     return {
       username: '',
@@ -45,49 +101,53 @@ export default {
   },
   methods: {
     async login() {
-      if (this.isFormInvalid) {
-        return
-      }
+      if (this.isFormInvalid) return
+      
       this.isLoading = true
       try {
         const response = await axios.post('/login', {
           username: this.username,
           password: this.password
         })
+        
         localStorage.setItem('token', response.data.access_token)
         localStorage.setItem('username', this.username)
-        Swal.fire({
+        
+        await Swal.fire({
           icon: 'success',
           title: 'Inicio de Sesión Exitoso',
           text: 'Bienvenido de nuevo',
           showConfirmButton: false,
           timer: 1500
-        }).then(() => {
-          this.$router.push('/dashboard')
         })
+        
+        this.$router.push('/dashboard')
       } catch (error) {
-        console.error('Error al iniciar sesión:', error)
-        this.password = '' // Limpiar el campo de la contraseña
-        if (error.response) {
-          if (error.response.data.remaining_attempts !== undefined) {
-            this.remainingAttempts = error.response.data.remaining_attempts
-            this.errorMessage = `Credenciales Incorrectas. Intentos restantes: ${this.remainingAttempts}`
-          } else {
-            this.errorMessage = 'Credenciales Incorrectas.'
-          }
-        } else {
-          this.errorMessage = 'Error al conectar con el servidor.'
-        }
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: this.errorMessage,
-          showConfirmButton: true
-        })
+        this.handleLoginError(error)
       } finally {
         this.isLoading = false
       }
+    },
+    handleLoginError(error) {
+      console.error('Error al iniciar sesión:', error)
+      this.password = ''
+      
+      const errorMessage = error.response?.data?.remaining_attempts !== undefined 
+        ? `Credenciales Incorrectas. Intentos restantes: ${error.response.data.remaining_attempts}`
+        : error.response ? 'Credenciales Incorrectas.' : 'Error al conectar con el servidor.'
+      
+      this.errorMessage = errorMessage
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: errorMessage,
+        showConfirmButton: true
+      })
     }
   }
 }
 </script>
+
+<style scoped>
+@import './LoginComponent.css';
+</style>

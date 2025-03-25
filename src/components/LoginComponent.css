@@ -1,0 +1,375 @@
+:root {
+    --text-white: #FFFFFF;
+    --primary-blue: #1A2B3C;
+    --secondary-blue: #2D4A5E;
+    --light-gray: #F5F7FA;
+    --accent-gold: #FFD700;
+}
+
+/* Botón de regreso mejorado */
+.login-back-btn {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    background: transparent;
+    border: none;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    z-index: 100;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.login-back-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent-gold);
+    transform: scale(1.1);
+    box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.2);
+}
+
+.login-back-btn i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.login-back-btn:hover i {
+    transform: translateX(-2px);
+}
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow: auto;
+    padding: 4rem 1rem 1rem;
+}
+
+.login-container .login-animated-coins {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.login-container .login-coin {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    animation: 
+        login-coinFloat 8s ease-in-out infinite,
+        login-coinSpin 6s linear infinite,
+        login-coinPulse 4s ease-in-out infinite;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+    z-index: 1;
+}
+
+.login-container .login-coin-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(0.9);
+    opacity: 0.8;
+}
+
+@keyframes login-coinFloat {
+    0%, 100% { transform: translateY(0) rotateX(0); }
+    50% { transform: translateY(-40px) rotateX(360deg); }
+}
+
+@keyframes login-coinSpin {
+    0% { transform: rotateZ(0deg) scale(1); }
+    100% { transform: rotateZ(360deg) scale(1); }
+}
+
+@keyframes login-coinPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.9; }
+}
+
+@keyframes login-coinFocus {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* Posicionamiento de monedas */
+.login-container .login-coin-1 { left: 5%; top: 10%; animation-delay: 0s; }
+.login-container .login-coin-2 { left: 15%; top: 30%; animation-delay: 1.2s; }
+.login-container .login-coin-3 { left: 25%; top: 15%; animation-delay: 2.5s; }
+.login-container .login-coin-4 { left: 35%; top: 25%; animation-delay: 3.7s; }
+.login-container .login-coin-5 { left: 45%; top: 10%; animation-delay: 4.9s; }
+.login-container .login-coin-6 { left: 55%; top: 30%; animation-delay: 1.8s; }
+.login-container .login-coin-7 { left: 65%; top: 15%; animation-delay: 3.1s; }
+.login-container .login-coin-8 { left: 75%; top: 25%; animation-delay: 5.3s; }
+.login-container .login-coin-9 { left: 85%; top: 10%; animation-delay: 2.4s; }
+.login-container .login-coin-10 { left: 95%; top: 30%; animation-delay: 4.6s; }
+.login-container .login-coin-11 { left: 10%; top: 70%; animation-delay: 6s; }
+.login-container .login-coin-12 { left: 30%; top: 80%; animation-delay: 1.5s; }
+.login-container .login-coin-13 { left: 50%; top: 70%; animation-delay: 3.8s; }
+.login-container .login-coin-14 { left: 70%; top: 80%; animation-delay: 5.2s; }
+.login-container .login-coin-15 { left: 90%; top: 70%; animation-delay: 2.9s; }
+.login-container .login-coin-16 { left: 48%; top: 50%; animation-delay: 0.5s; transform: translate(-50%, -50%); width: 35px; height: 35px; z-index: 2; }
+.login-container .login-coin-17 { left: 52%; top: 50%; animation-delay: 1.5s; transform: translate(-50%, -50%); width: 40px; height: 40px; }
+.login-container .login-coin-18 { left: 50%; top: 46%; animation-delay: 2.5s; transform: translate(-50%, -50%); width: 30px; height: 30px; }
+.login-container .login-coin-19 { left: 50%; top: 54%; animation-delay: 3.5s; transform: translate(-50%, -50%); width: 38px; height: 38px; }
+.login-container .login-coin-20 { left: 50%; top: 50%; animation-delay: 4.5s; transform: translate(-50%, -50%) scale(1.2); width: 45px; height: 45px; z-index: 3; }
+.login-container .login-coin-21 { left: 50%; top: 45%; animation-delay: 0.8s; transform: translate(-50%, -50%); width: 42px; height: 42px; z-index: 2; }
+.login-container .login-coin-22 { left: 50%; top: 55%; animation-delay: 1.8s; transform: translate(-50%, -50%); width: 38px; height: 38px; }
+.login-container .login-coin-23 { left: 50%; top: 50%; animation-delay: 2.8s; transform: translate(-50%, -50%) rotate(15deg); width: 45px; height: 45px; z-index: 3; }
+.login-container .login-coin-24 { left: 50%; top: 48%; animation-delay: 3.2s; transform: translate(-50%, -50%); width: 33px; height: 33px; }
+.login-container .login-coin-25 { left: 50%; top: 52%; animation-delay: 4.2s; transform: translate(-50%, -50%); width: 37px; height: 37px; }
+
+.login-container [class*="login-coin-"]:not(:nth-child(-n+15)) {
+    animation: 
+        login-coinFloat 7s ease-in-out infinite,
+        login-coinSpin 5s linear infinite,
+        login-coinFocus 2.5s ease-in-out infinite;
+}
+
+.login-auth-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    margin-top: 2rem;
+}
+
+.login-auth-title {
+    text-align: center;
+    margin-bottom: 1.8rem;
+    z-index: 15;
+}
+
+.login-brand-text {
+    font-size: clamp(2rem, 6.5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-white);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: -0.03em;
+}
+
+.login-auth-subtitle {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    margin-top: 0.5rem;
+}
+
+.login-auth-card {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.login-auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.login-input-group {
+    margin-bottom: 0.5rem;
+}
+
+.login-input-label {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.login-icon {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+    color: var(--primary-blue);
+}
+
+.login-auth-input {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--light-gray);
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.login-auth-input:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(26, 43, 60, 0.1);
+}
+
+.login-error-message {
+    color: #dc3545;
+    background: rgba(220, 53, 69, 0.1);
+    padding: 0.8rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.login-auth-btn.login-login-btn {
+    background: var(--primary-blue);
+    color: var(--text-white);
+    width: 100%;
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-weight: 500;
+    margin: 2rem auto 1.5rem;
+    transition: all 0.3s ease;
+    display: block;
+    text-align: center;
+    max-width: 300px;
+    position: relative;
+    overflow: hidden;
+    border: none;
+}
+
+.login-auth-btn.login-login-btn:not([disabled])::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, 
+        rgba(255, 255, 255, 0) 20%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0) 80%
+    );
+    animation: login-btn-shine 3s infinite;
+    pointer-events: none;
+}
+
+@keyframes login-btn-shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.login-auth-btn[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: var(--primary-blue);
+}
+
+.login-auth-btn:not([disabled]):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.login-auth-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.login-password-reset-link {
+    color: var(--secondary-blue);
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+    opacity: 0.9;
+    position: relative;
+    padding-bottom: 2px;
+}
+
+.login-password-reset-link:hover {
+    opacity: 1;
+    text-decoration: none;
+}
+
+.login-password-reset-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: currentColor;
+    transition: width 0.3s ease;
+}
+
+.login-password-reset-link:hover::after {
+    width: 100%;
+}
+
+.login-footer-separator {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .login-back-btn {
+        top: 1.2rem;
+        left: 1.2rem;
+        width: 32px;
+        height: 32px;
+    }
+    
+    .login-back-btn i {
+        font-size: 1.1rem;
+    }
+    
+    .login-auth-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 3rem 1rem 1rem;
+    }
+    
+    .login-brand-text {
+        font-size: 2rem;
+    }
+    
+    .login-auth-subtitle {
+        font-size: 1rem;
+    }
+    
+    .login-auth-card {
+        padding: 1.2rem;
+    }
+    
+    .login-auth-btn.login-login-btn {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 360px) {
+    .login-brand-text {
+        font-size: 1.8rem;
+    }
+    
+    .login-auth-subtitle {
+        font-size: 0.9rem;
+    }
+}

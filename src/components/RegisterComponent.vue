@@ -1,77 +1,198 @@
 <template>
-  <div class="container mt-5" style="position: relative;">
-    <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
-    <h1 class="text-center mb-4">Registrar</h1>
-    <form @submit.prevent="register" class="card p-4 shadow-sm" v-if="!otpSent">
-      <div class="mb-3">
-        <label for="username" class="form-label">Nombre de usuario</label>
-        <input v-model="username" id="username" type="text" class="form-control" required autocapitalize="none" @input="validateUsername">
-        <div v-if="usernameError" class="text-danger">{{ usernameError }}</div>
-        <div v-if="usernameAvailable !== null" :class="{'text-success': usernameAvailable, 'text-danger': !usernameAvailable}">
-          {{ usernameMessage }}
-        </div>
+  <div class="register-container">
+    <div class="register-animated-coins">
+      <div v-for="index in 25" :key="index" class="register-coin" :class="`register-coin-${index}`">
+        <img src="/monedas.png" alt="Moneda animada" class="register-coin-img">
       </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">Correo</label>
-        <div class="input-group">
-          <input v-model="email" id="email" type="email" class="form-control" required @input="validateEmail" @keydown="preventSpace" maxlength="40">
-        </div>
-        <div v-if="emailError" class="text-danger">{{ emailError }}</div>
+    </div>
+
+    <button class="register-back-btn" @click="$router.go(-1)">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <main class="register-auth-content">
+      <h1 class="register-auth-title">
+        <span class="register-brand-text">CONTABILÍZATE</span>
+        <p class="register-auth-subtitle">Registro de Usuario</p>
+      </h1>
+
+      <div class="register-auth-card">
+        <form @submit.prevent="register" class="register-auth-form" v-if="!otpSent">
+          <div class="register-input-group">
+            <label for="username" class="register-input-label">
+              <i class="fas fa-user register-icon"></i>
+              <span>Nombre de usuario</span>
+            </label>
+            <input
+              v-model="username"
+              id="username"
+              type="text"
+              class="register-auth-input"
+              :class="{'register-input-error': usernameError}"
+              required
+              @input="validateUsername"
+            >
+            <div v-if="usernameError" class="register-error-message">
+              <i class="fas fa-exclamation-circle register-error-icon"></i>
+              <span>{{ usernameError }}</span>
+            </div>
+            <div v-if="usernameAvailable !== null" class="register-success-message">
+              <i class="fas fa-check-circle"></i>
+              <span>{{ usernameMessage }}</span>
+            </div>
+          </div>
+
+          <div class="register-input-group">
+            <label for="email" class="register-input-label">
+              <i class="fas fa-envelope register-icon"></i>
+              <span>Correo electrónico</span>
+            </label>
+            <input
+              v-model="email"
+              id="email"
+              type="email"
+              class="register-auth-input"
+              :class="{'register-input-error': emailError}"
+              required
+              @input="validateEmail"
+              @keydown="preventSpace"
+              maxlength="40"
+            >
+            <div v-if="emailError" class="register-error-message">
+              <i class="fas fa-exclamation-circle register-error-icon"></i>
+              <span>{{ emailError }}</span>
+            </div>
+          </div>
+
+          <div class="register-input-group">
+            <label for="confirmEmail" class="register-input-label">
+              <i class="fas fa-envelope register-icon"></i>
+              <span>Confirmar correo</span>
+            </label>
+            <input
+              v-model="confirmEmail"
+              id="confirmEmail"
+              type="email"
+              class="register-auth-input"
+              :class="{'register-input-error': confirmEmailError}"
+              required
+              @input="validateConfirmEmail"
+              maxlength="40"
+            >
+            <div v-if="confirmEmailError" class="register-error-message">
+              <i class="fas fa-exclamation-circle register-error-icon"></i>
+              <span>{{ confirmEmailError }}</span>
+            </div>
+          </div>
+
+          <div class="register-input-group">
+            <label for="password" class="register-input-label">
+              <i class="fas fa-lock register-icon"></i>
+              <span>Contraseña</span>
+            </label>
+            <input
+              v-model="password"
+              id="password"
+              type="password"
+              class="register-auth-input"
+              :class="{'register-input-error': passwordError}"
+              required
+              @input="validatePassword"
+            >
+            <div v-if="passwordError" class="register-error-message">
+              <i class="fas fa-exclamation-circle register-error-icon"></i>
+              <span>{{ passwordError }}</span>
+            </div>
+            <small v-if="password && !passwordValid" class="register-hint-text">
+              La contraseña debe tener al menos 5 caracteres y contener al menos 1 dígito.
+            </small>
+          </div>
+
+          <div class="register-input-group">
+            <label for="confirmPassword" class="register-input-label">
+              <i class="fas fa-lock register-icon"></i>
+              <span>Confirmar contraseña</span>
+            </label>
+            <input
+              v-model="confirmPassword"
+              id="confirmPassword"
+              type="password"
+              class="register-auth-input"
+              :class="{'register-input-error': confirmPasswordError}"
+              required
+              @input="validateConfirmPassword"
+              @focus="confirmPasswordTouched = true"
+            >
+            <div v-if="confirmPasswordTouched && confirmPasswordError" class="register-error-message">
+              <i class="fas fa-exclamation-circle register-error-icon"></i>
+              <span>{{ confirmPasswordError }}</span>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="register-auth-btn register-primary-btn"
+            :disabled="isFormInvalid"
+          >
+            <span>Registrarse</span>
+          </button>
+        </form>
+
+        <form @submit.prevent="confirmOTP" class="register-auth-form" v-else>
+          <div class="register-input-group">
+            <label for="otp" class="register-input-label">
+              <i class="fas fa-shield-alt register-icon"></i>
+              <span>Código de verificación</span>
+            </label>
+            <input
+              v-model="otp"
+              id="otp"
+              type="text"
+              class="register-auth-input"
+              :class="{'register-input-error': otpError}"
+              required
+              @input="validateOTP"
+            >
+            <div v-if="otpError" class="register-error-message">
+              <i class="fas fa-exclamation-circle register-error-icon"></i>
+              <span>{{ otpError }}</span>
+            </div>
+          </div>
+
+          <div class="register-otp-footer">
+            <div v-if="timeLeft > 0" class="register-timer">
+              <i class="fas fa-clock"></i>
+              <span>Tiempo restante: {{ formattedTime }}</span>
+            </div>
+            <button
+              v-else
+              type="button"
+              class="register-resend-btn"
+              @click="resendOTP"
+            >
+              Reenviar código
+            </button>
+          </div>
+
+          <button
+            v-if="timeLeft > 0"
+            type="submit"
+            class="register-auth-btn register-primary-btn"
+          >
+            <span>Verificar código</span>
+          </button>
+        </form>
       </div>
-      <div class="mb-3">
-        <label for="confirmEmail" class="form-label">Confirmar Correo</label>
-        <input v-model="confirmEmail" id="confirmEmail" type="email" class="form-control" required @input="validateConfirmEmail" maxlength="40">
-        <div v-if="confirmEmailError" class="text-danger">{{ confirmEmailError }}</div>
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Contraseña</label>
-        <input v-model="password" id="password" type="password" class="form-control" required autocapitalize="none" @input="validatePassword">
-        <div v-if="passwordError" class="text-danger">{{ passwordError }}</div>
-        <small v-if="password && !passwordValid" class="text-muted">
-          La contraseña debe tener al menos 5 caracteres y contener al menos 1 dígito.
-        </small>
-        <small v-if="passwordValid" class="text-success">
-          Contraseña segura
-        </small>
-      </div>
-      <div class="mb-3">
-        <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
-        <input v-model="confirmPassword" id="confirmPassword" type="password" class="form-control" required autocapitalize="none" @input="validateConfirmPassword" @focus="confirmPasswordTouched = true">
-        <div v-if="confirmPasswordTouched && confirmPasswordError" class="text-danger">{{ confirmPasswordError }}</div>
-        <small v-if="confirmPasswordTouched && !confirmPasswordError && confirmPassword" class="text-success">
-          Contraseñas coinciden
-        </small>
-      </div>
-      <button type="submit" class="btn btn-primary w-100" :disabled="isFormInvalid">Registrar</button>
-    </form>
-    <form @submit.prevent="confirmOTP" class="card p-4 shadow-sm" v-else>
-      <div class="mb-3">
-        <label for="otp" class="form-label">Código de Confirmación</label>
-        <input v-model="otp" id="otp" type="text" class="form-control" required @input="validateOTP">
-        <div v-if="otpError" class="text-danger">{{ otpError }}</div>
-      </div>
-      <div class="mb-3 text-center">
-        <div v-if="timeLeft > 0" class="countdown-timer">
-          <span class="countdown-text">Tiempo restante:</span>
-          <span class="countdown-time">{{ formattedTime }}</span>
-        </div>
-        <button v-else type="button" class="btn w-100" @click="resendOTP">Enviar código nuevamente</button>
-      </div>
-      <button v-if="timeLeft > 0" type="submit" class="btn btn-primary w-100">Confirmar Código</button>
-    </form>
+    </main>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
-import NavigationBar from './NavigationBar.vue'
 
 export default {
   name: 'RegisterComponent',
-  components: {
-    NavigationBar
-  },
   data() {
     return {
       username: '',
@@ -91,13 +212,17 @@ export default {
       usernameAvailable: null,
       usernameMessage: '',
       otpSent: false,
-      timeLeft: 300, // 5 minutos en segundos
+      timeLeft: 300,
       timer: null
     }
   },
   computed: {
     isFormInvalid() {
-      return this.usernameError || this.emailError || this.confirmEmailError || this.passwordError || this.confirmPasswordError || !this.username || !this.email || !this.confirmEmail || !this.password || !this.confirmPassword || !this.passwordValid || !this.usernameAvailable
+      return this.usernameError || this.emailError || this.confirmEmailError || 
+             this.passwordError || this.confirmPasswordError || 
+             !this.username || !this.email || !this.confirmEmail || 
+             !this.password || !this.confirmPassword || 
+             !this.passwordValid || !this.usernameAvailable
     },
     formattedTime() {
       const minutes = Math.floor(this.timeLeft / 60)
@@ -131,9 +256,7 @@ export default {
       }
     },
     preventSpace(event) {
-      if (event.key === ' ') {
-        event.preventDefault()
-      }
+      if (event.key === ' ') event.preventDefault()
     },
     async validateEmail() {
       const emailPattern = /^[^\s@]+@[^\s@]+\.(com|ec|edu|gov|org|ae|ar|cl|ca|bo|de|es|hn|ar|br|do|mx|ni|pa|py|pe|uy|ve|co)$/i
@@ -147,7 +270,7 @@ export default {
       } else {
         this.emailError = ''
       }
-      this.validateConfirmEmail() // Validar confirmación de correo cada vez que se valide el correo principal
+      this.validateConfirmEmail()
     },
     validateConfirmEmail() {
       const invalidChars = /[!#$%^&*()=+{}[\]|\\:;"'<>,?/]/g
@@ -162,95 +285,72 @@ export default {
       }
     },
     validatePassword() {
-      // Eliminar espacios en blanco
       this.password = this.password.replace(/\s/g, '')
-
       const hasDigit = /\d/.test(this.password)
       const hasMinLength = this.password.length >= 5
       this.passwordValid = hasDigit && hasMinLength
-      if (!this.passwordValid) {
-        this.passwordError = 'La contraseña no cumple con los requisitos.'
-      } else {
-        this.passwordError = ''
-      }
+      this.passwordError = !this.passwordValid ? 'La contraseña no cumple con los requisitos.' : ''
       this.validateConfirmPassword()
     },
     validateConfirmPassword() {
-      // Eliminar espacios en blanco
       this.confirmPassword = this.confirmPassword.replace(/\s/g, '')
-
-      if (this.confirmPasswordTouched && this.password !== this.confirmPassword) {
-        this.confirmPasswordError = 'Las contraseñas no coinciden.'
-      } else {
-        this.confirmPasswordError = ''
-      }
+      this.confirmPasswordError = this.confirmPasswordTouched && 
+                                  this.password !== this.confirmPassword 
+                                  ? 'Las contraseñas no coinciden.' : ''
     },
     validateOTP() {
-      this.otp = this.otp.replace(/\D/g, '') // Eliminar cualquier carácter no numérico
-      if (this.otp.length !== 6) {
-        this.otpError = 'El código de confirmación debe tener 6 dígitos.'
-      } else {
-        this.otpError = ''
-      }
+      this.otp = this.otp.replace(/\D/g, '')
+      this.otpError = this.otp.length !== 6 ? 'El código de confirmación debe tener 6 dígitos.' : ''
     },
     async register() {
-      if (this.isFormInvalid) {
-        return
-      }
+      if (this.isFormInvalid) return
+      
       try {
         const response = await axios.post('/register', {
           username: this.username,
           email: this.email,
           password: this.password
         })
+        
         Swal.fire({
           icon: 'success',
           title: 'Código Enviado',
           text: response.data.message,
           showConfirmButton: false,
-          timer: 15000 // Mostrar el mensaje durante 15 segundos
+          timer: 15000
         })
+        
         this.otpSent = true
         this.startTimer()
       } catch (error) {
-        if (error.response && error.response.status === 400) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: error.response.data.message,
-            showConfirmButton: true
-          })
-        } else {
-          console.error('Error al registrar usuario:', error)
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Hubo un problema al registrar el usuario.',
-            showConfirmButton: true
-          })
-        }
+        const errorMessage = error.response?.data?.message || 'Hubo un problema al registrar el usuario.'
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: errorMessage,
+          showConfirmButton: true
+        })
       }
     },
     async confirmOTP() {
-      if (this.otpError) {
-        return
-      }
+      if (this.otpError) return
+      
       try {
         const response = await axios.post('/confirm_otp', {
           email: this.email,
           otp: this.otp
         })
-        Swal.fire({
+        
+        await Swal.fire({
           icon: 'success',
           title: 'Registro Exitoso',
           text: response.data.message,
           showConfirmButton: false,
           timer: 1500
-        }).then(() => {
-          this.$router.push('/login')
         })
+        
+        this.$router.push('/login')
       } catch (error) {
-        console.error('Error al confirmar OTP:', error)
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -260,13 +360,10 @@ export default {
       }
     },
     startTimer() {
-      this.timeLeft = 300 // 5 minutos en segundos
+      this.timeLeft = 300
       this.timer = setInterval(() => {
-        if (this.timeLeft > 0) {
-          this.timeLeft--
-        } else {
-          clearInterval(this.timer)
-        }
+        if (this.timeLeft > 0) this.timeLeft--
+        else clearInterval(this.timer)
       }, 1000)
     },
     async resendOTP() {
@@ -274,6 +371,7 @@ export default {
         const response = await axios.post('/send_recovery_otp', {
           email: this.email
         })
+        
         Swal.fire({
           icon: 'success',
           title: 'Código Enviado',
@@ -281,9 +379,9 @@ export default {
           showConfirmButton: false,
           timer: 1500
         })
+        
         this.startTimer()
       } catch (error) {
-        console.error('Error al enviar el código nuevamente:', error)
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -291,12 +389,6 @@ export default {
           showConfirmButton: true
         })
       }
-    },
-    goBack() {
-      this.$router.go(-1)
-    },
-    goHome() {
-      this.$router.push('/')
     }
   },
   created() {
@@ -309,3 +401,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+@import './RegisterComponent.css';
+</style>
