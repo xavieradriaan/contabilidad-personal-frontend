@@ -18,6 +18,7 @@
 
       <div class="register-auth-card">
         <form @submit.prevent="register" class="register-auth-form" v-if="!otpSent">
+          <!-- Usuario -->
           <div class="register-input-group">
             <label for="username" class="register-input-label">
               <i class="fas fa-user register-icon"></i>
@@ -33,15 +34,19 @@
               @input="validateUsername"
             >
             <div v-if="usernameError" class="register-error-message">
-              <i class="fas fa-exclamation-circle register-error-icon"></i>
+              <i class="fas fa-exclamation-circle"></i>
               <span>{{ usernameError }}</span>
             </div>
-            <div v-if="usernameAvailable !== null" class="register-success-message">
-              <i class="fas fa-check-circle"></i>
+            <div 
+              v-if="usernameAvailable !== null && !usernameError" 
+              :class="usernameAvailable ? 'register-success-message' : 'register-error-message'"
+            >
+              <i :class="usernameAvailable ? 'fas fa-check-circle' : 'fas fa-exclamation-circle'"></i>
               <span>{{ usernameMessage }}</span>
             </div>
           </div>
 
+          <!-- Email -->
           <div class="register-input-group">
             <label for="email" class="register-input-label">
               <i class="fas fa-envelope register-icon"></i>
@@ -59,11 +64,16 @@
               maxlength="40"
             >
             <div v-if="emailError" class="register-error-message">
-              <i class="fas fa-exclamation-circle register-error-icon"></i>
+              <i class="fas fa-exclamation-circle"></i>
               <span>{{ emailError }}</span>
+            </div>
+            <div v-if="emailAvailable !== null && !emailError" :class="emailAvailable ? 'register-success-message' : 'register-error-message'">
+              <i :class="emailAvailable ? 'fas fa-check-circle' : 'fas fa-exclamation-circle'"></i>
+              <span>{{ emailMessage }}</span>
             </div>
           </div>
 
+          <!-- Confirmar Email -->
           <div class="register-input-group">
             <label for="confirmEmail" class="register-input-label">
               <i class="fas fa-envelope register-icon"></i>
@@ -77,14 +87,21 @@
               :class="{'register-input-error': confirmEmailError}"
               required
               @input="validateConfirmEmail"
+              @keydown="preventSpace"
+              @focus="confirmEmailTouched = true"
               maxlength="40"
             >
-            <div v-if="confirmEmailError" class="register-error-message">
-              <i class="fas fa-exclamation-circle register-error-icon"></i>
+            <div v-if="confirmEmailTouched && confirmEmailError" class="register-error-message">
+              <i class="fas fa-exclamation-circle"></i>
               <span>{{ confirmEmailError }}</span>
+            </div>
+            <div v-if="confirmEmailTouched && !confirmEmailError && email && confirmEmail" class="register-success-message">
+              <i class="fas fa-check-circle"></i>
+              <span>Los correos coinciden</span>
             </div>
           </div>
 
+          <!-- Contraseña -->
           <div class="register-input-group">
             <label for="password" class="register-input-label">
               <i class="fas fa-lock register-icon"></i>
@@ -100,14 +117,16 @@
               @input="validatePassword"
             >
             <div v-if="passwordError" class="register-error-message">
-              <i class="fas fa-exclamation-circle register-error-icon"></i>
+              <i class="fas fa-exclamation-circle"></i>
               <span>{{ passwordError }}</span>
             </div>
-            <small v-if="password && !passwordValid" class="register-hint-text">
-              La contraseña debe tener al menos 5 caracteres y contener al menos 1 dígito.
-            </small>
+            <div v-if="passwordValid" class="register-success-message">
+              <i class="fas fa-check-circle"></i>
+              <span>Contraseña segura</span>
+            </div>
           </div>
 
+          <!-- Confirmar Contraseña -->
           <div class="register-input-group">
             <label for="confirmPassword" class="register-input-label">
               <i class="fas fa-lock register-icon"></i>
@@ -124,8 +143,12 @@
               @focus="confirmPasswordTouched = true"
             >
             <div v-if="confirmPasswordTouched && confirmPasswordError" class="register-error-message">
-              <i class="fas fa-exclamation-circle register-error-icon"></i>
+              <i class="fas fa-exclamation-circle"></i>
               <span>{{ confirmPasswordError }}</span>
+            </div>
+            <div v-if="!confirmPasswordError && confirmPasswordTouched && confirmPassword" class="register-success-message">
+              <i class="fas fa-check-circle"></i>
+              <span>Las contraseñas coinciden</span>
             </div>
           </div>
 
@@ -154,7 +177,7 @@
               @input="validateOTP"
             >
             <div v-if="otpError" class="register-error-message">
-              <i class="fas fa-exclamation-circle register-error-icon"></i>
+              <i class="fas fa-exclamation-circle"></i>
               <span>{{ otpError }}</span>
             </div>
           </div>
@@ -208,9 +231,12 @@ export default {
       confirmPasswordError: '',
       otpError: '',
       confirmPasswordTouched: false,
+      confirmEmailTouched: false,
       passwordValid: false,
       usernameAvailable: null,
       usernameMessage: '',
+      emailAvailable: null,
+      emailMessage: '',
       otpSent: false,
       timeLeft: 300,
       timer: null
@@ -218,11 +244,19 @@ export default {
   },
   computed: {
     isFormInvalid() {
-      return this.usernameError || this.emailError || this.confirmEmailError || 
-             this.passwordError || this.confirmPasswordError || 
-             !this.username || !this.email || !this.confirmEmail || 
-             !this.password || !this.confirmPassword || 
-             !this.passwordValid || !this.usernameAvailable
+      return this.usernameError || 
+             this.emailError || 
+             this.confirmEmailError || 
+             this.passwordError || 
+             this.confirmPasswordError || 
+             !this.username || 
+             !this.email || 
+             !this.confirmEmail || 
+             !this.password || 
+             !this.confirmPassword || 
+             !this.passwordValid || 
+             !this.usernameAvailable || 
+             !this.emailAvailable
     },
     formattedTime() {
       const minutes = Math.floor(this.timeLeft / 60)
@@ -231,14 +265,19 @@ export default {
     }
   },
   methods: {
+    preventSpace(event) {
+      if (event.key === ' ') {
+        event.preventDefault()
+      }
+    },
     async validateUsername() {
       if (this.username.includes(' ')) {
         this.usernameError = 'No se permiten espacios en este campo.'
-        this.usernameAvailable = false
+        this.usernameAvailable = null
         this.usernameMessage = ''
       } else if (this.username.length < 5) {
         this.usernameError = 'El nombre de usuario debe tener al menos 5 caracteres.'
-        this.usernameAvailable = false
+        this.usernameAvailable = null
         this.usernameMessage = ''
       } else {
         this.usernameError = ''
@@ -255,12 +294,16 @@ export default {
         }
       }
     },
-    preventSpace(event) {
-      if (event.key === ' ') event.preventDefault()
-    },
     async validateEmail() {
       const emailPattern = /^[^\s@]+@[^\s@]+\.(com|ec|edu|gov|org|ae|ar|cl|ca|bo|de|es|hn|ar|br|do|mx|ni|pa|py|pe|uy|ve|co)$/i
       const invalidChars = /[!#$%^&*()=+{}[\]|\\:;"'<>,?/]/g
+      
+      this.email = this.email.replace(/\s/g, '')
+      
+      this.emailError = ''
+      this.emailAvailable = null
+      this.emailMessage = ''
+
       if (this.email.length > 40) {
         this.emailError = 'El correo no debe exceder los 40 caracteres.'
       } else if (invalidChars.test(this.email)) {
@@ -268,20 +311,37 @@ export default {
       } else if (!emailPattern.test(this.email)) {
         this.emailError = 'El correo debe contener un "@" y un dominio válido.'
       } else {
-        this.emailError = ''
+        try {
+          const response = await axios.get('/check_email', {
+            params: { email: this.email }
+          })
+          
+          this.emailAvailable = !response.data.exists
+          this.emailMessage = response.data.message
+          
+          if (!this.emailAvailable) {
+            this.emailError = this.emailMessage
+          }
+        } catch (error) {
+          console.error('Error al verificar el correo:', error)
+          this.emailError = 'Error al verificar la disponibilidad del correo'
+        }
       }
       this.validateConfirmEmail()
     },
     validateConfirmEmail() {
+      this.confirmEmail = this.confirmEmail.replace(/\s/g, '')
+      this.confirmEmailError = ''
       const invalidChars = /[!#$%^&*()=+{}[\]|\\:;"'<>,?/]/g
+      
       if (this.confirmEmail.length > 40) {
         this.confirmEmailError = 'El correo no debe exceder los 40 caracteres.'
       } else if (invalidChars.test(this.confirmEmail)) {
         this.confirmEmailError = 'El correo contiene caracteres no permitidos.'
-      } else if (this.email.toLowerCase() !== this.confirmEmail.toLowerCase()) {
-        this.confirmEmailError = 'Los correos electrónicos no coinciden.'
-      } else {
-        this.confirmEmailError = ''
+      } else if (this.email || this.confirmEmail) {
+        if (this.email.toLowerCase() !== this.confirmEmail.toLowerCase()) {
+          this.confirmEmailError = 'Los correos electrónicos no coinciden.'
+        }
       }
     },
     validatePassword() {
@@ -368,14 +428,14 @@ export default {
     },
     async resendOTP() {
       try {
-        const response = await axios.post('/send_recovery_otp', {
+        await axios.post('/password_reset_request', {
           email: this.email
         })
         
         Swal.fire({
           icon: 'success',
           title: 'Código Enviado',
-          text: response.data.message,
+          text: 'Se ha reenviado el código de verificación',
           showConfirmButton: false,
           timer: 1500
         })
