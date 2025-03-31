@@ -1,0 +1,301 @@
+:root {
+    --text-white: #FFFFFF;
+    --primary-blue: #1A2B3C;
+    --secondary-blue: #2D4A5E;
+    --light-gray: #F5F7FA;
+    --accent-gold: #FFD700;
+}
+
+.ingresos-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow: auto;
+    padding: 4rem 1rem 1rem;
+}
+
+.ingresos-animated-coins {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.ingresos-coin {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    animation: 
+        ingresos-coinFloat 8s ease-in-out infinite,
+        ingresos-coinSpin 6s linear infinite,
+        ingresos-coinPulse 4s ease-in-out infinite;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+    z-index: 1;
+}
+
+.ingresos-coin-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(0.9);
+    opacity: 0.8;
+}
+
+/* Posiciones de las monedas */
+.ingresos-coin-1 { left: 5%; top: 10%; animation-delay: 0s; }
+.ingresos-coin-2 { left: 15%; top: 30%; animation-delay: 1.2s; }
+.ingresos-coin-3 { left: 25%; top: 15%; animation-delay: 2.5s; }
+.ingresos-coin-4 { left: 35%; top: 25%; animation-delay: 3.7s; }
+.ingresos-coin-5 { left: 45%; top: 10%; animation-delay: 4.9s; }
+.ingresos-coin-6 { left: 55%; top: 30%; animation-delay: 1.8s; }
+.ingresos-coin-7 { left: 65%; top: 15%; animation-delay: 3.1s; }
+.ingresos-coin-8 { left: 75%; top: 25%; animation-delay: 5.3s; }
+.ingresos-coin-9 { left: 85%; top: 10%; animation-delay: 2.4s; }
+.ingresos-coin-10 { left: 95%; top: 30%; animation-delay: 4.6s; }
+.ingresos-coin-11 { left: 10%; top: 70%; animation-delay: 6s; }
+.ingresos-coin-12 { left: 30%; top: 80%; animation-delay: 1.5s; }
+.ingresos-coin-13 { left: 50%; top: 70%; animation-delay: 3.8s; }
+.ingresos-coin-14 { left: 70%; top: 80%; animation-delay: 5.2s; }
+.ingresos-coin-15 { left: 90%; top: 70%; animation-delay: 2.9s; }
+.ingresos-coin-16 { left: 48%; top: 50%; animation-delay: 0.5s; transform: translate(-50%, -50%); width: 35px; height: 35px; z-index: 2; }
+.ingresos-coin-17 { left: 52%; top: 50%; animation-delay: 1.5s; transform: translate(-50%, -50%); width: 40px; height: 40px; }
+.ingresos-coin-18 { left: 50%; top: 46%; animation-delay: 2.5s; transform: translate(-50%, -50%); width: 30px; height: 30px; }
+.ingresos-coin-19 { left: 50%; top: 54%; animation-delay: 3.5s; transform: translate(-50%, -50%); width: 38px; height: 38px; }
+.ingresos-coin-20 { left: 50%; top: 50%; animation-delay: 4.5s; transform: translate(-50%, -50%) scale(1.2); width: 45px; height: 45px; z-index: 3; }
+.ingresos-coin-21 { left: 50%; top: 45%; animation-delay: 0.8s; transform: translate(-50%, -50%); width: 42px; height: 42px; z-index: 2; }
+.ingresos-coin-22 { left: 50%; top: 55%; animation-delay: 1.8s; transform: translate(-50%, -50%); width: 38px; height: 38px; }
+.ingresos-coin-23 { left: 50%; top: 50%; animation-delay: 2.8s; transform: translate(-50%, -50%) rotate(15deg); width: 45px; height: 45px; z-index: 3; }
+.ingresos-coin-24 { left: 50%; top: 48%; animation-delay: 3.2s; transform: translate(-50%, -50%); width: 33px; height: 33px; }
+.ingresos-coin-25 { left: 50%; top: 52%; animation-delay: 4.2s; transform: translate(-50%, -50%); width: 37px; height: 37px; }
+
+@keyframes ingresos-coinFloat {
+    0%, 100% { transform: translateY(0) rotateX(0); }
+    50% { transform: translateY(-40px) rotateX(360deg); }
+}
+
+@keyframes ingresos-coinSpin {
+    0% { transform: rotateZ(0deg) scale(1); }
+    100% { transform: rotateZ(360deg) scale(1); }
+}
+
+@keyframes ingresos-coinPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.9; }
+}
+
+.ingresos-back-btn {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    background: transparent;
+    border: none;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    z-index: 100;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.ingresos-back-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent-gold);
+    transform: scale(1.1);
+    box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.2);
+}
+
+.ingresos-main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 20;
+    margin-top: 2rem;
+}
+
+.ingresos-title {
+    text-align: center;
+    margin-bottom: 1.8rem;
+    z-index: 25;
+}
+
+.ingresos-brand-text {
+    font-size: clamp(2rem, 6.5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-white);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: -0.03em;
+}
+
+.ingresos-subtitle {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    margin-top: 0.5rem;
+}
+
+.ingresos-auth-card {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    z-index: 20;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ingresos-auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.ingresos-input-group {
+    margin-bottom: 1rem;
+}
+
+.ingresos-input-label {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.ingresos-icon {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+    color: var(--primary-blue);
+}
+
+.ingresos-auth-input {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--light-gray);
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.ingresos-auth-input:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(26, 43, 60, 0.1);
+}
+
+select.ingresos-auth-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
+
+.ingresos-input-disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.ingresos-auth-btn.ingresos-submit-btn {
+    background: var(--primary-blue);
+    color: var(--text-white);
+    width: 100%;
+    max-width: 300px;
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-weight: 500;
+    margin: 2rem auto 1.5rem;
+    display: block;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.ingresos-auth-btn.ingresos-submit-btn:not([disabled])::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, 
+        rgba(255, 255, 255, 0) 20%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0) 80%
+    );
+    animation: ingresos-btn-shine 3s infinite;
+    pointer-events: none;
+}
+
+@keyframes ingresos-btn-shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.ingresos-auth-btn[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: var(--primary-blue);
+}
+
+.ingresos-auth-btn:not([disabled]):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+    .ingresos-back-btn {
+        top: 1.2rem;
+        left: 1.2rem;
+        width: 32px;
+        height: 32px;
+    }
+    
+    .ingresos-auth-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .ingresos-container {
+        padding: 3rem 1rem 1rem;
+    }
+    
+    .ingresos-brand-text {
+        font-size: 2rem;
+    }
+    
+    .ingresos-subtitle {
+        font-size: 1rem;
+    }
+    
+    .ingresos-auth-card {
+        padding: 1.2rem;
+    }
+}
+
+/* Asegurar contexto de apilamiento */
+.ingresos-auth-card {
+    transform: translateZ(30px);
+}
