@@ -1,0 +1,226 @@
+:root {
+    --text-white: #FFFFFF;
+    --primary-blue: #1A2B3C;
+    --secondary-blue: #2D4A5E;
+    --light-gray: #F5F7FA;
+    --accent-gold: #FFD700;
+    --glass-background: rgba(255, 255, 255, 0.95);
+    --glass-border: rgba(255, 215, 0, 0.2);
+}
+
+.dashboard-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow: auto;
+    padding: 4rem 1rem 1rem;
+}
+
+.dashboard-animated-coins {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.dashboard-coin {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    animation: 
+        coin-float 8s ease-in-out infinite,
+        coin-spin 12s linear infinite,
+        coin-pulse 4s ease-in-out infinite;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+    z-index: 1;
+}
+
+.dashboard-coin-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0.8) sepia(1) saturate(5) hue-rotate(5deg);
+    opacity: 0.6;
+}
+
+.dashboard-auth-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    margin-top: 2rem;
+}
+
+.dashboard-auth-title {
+    text-align: center;
+    margin-bottom: 1.8rem;
+    z-index: 15;
+}
+
+.dashboard-brand-text {
+    font-size: clamp(2rem, 6.5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-white);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: -0.03em;
+}
+
+.dashboard-auth-subtitle {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    margin-top: 0.5rem;
+}
+
+/* Contenedor principal actualizado */
+.dashboard-auth-card {
+    background: var(--glass-background);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 0 12px rgba(255, 215, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+    border: 2px solid var(--glass-border);
+    background-image: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.85),
+        rgba(255, 255, 255, 0.95)
+    );
+}
+
+/* Grid de botones actualizado */
+.dashboard-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard-auth-btn {
+    background: var(--primary-blue);
+    color: var(--text-white);
+    padding: 1.2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 8px rgba(26, 43, 60, 0.1);
+}
+
+.dashboard-auth-btn i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-white);
+}
+
+.dashboard-auth-btn:not([disabled])::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, 
+        rgba(255, 255, 255, 0) 20%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0) 80%
+    );
+    animation: btn-shine 3s infinite;
+    pointer-events: none;
+}
+
+.dashboard-active-link {
+    background: var(--secondary-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-auth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes btn-shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Posicionamiento de monedas */
+.dashboard-coin-1 { left: 5%; top: 10%; animation-delay: 0s; }
+.dashboard-coin-2 { left: 15%; top: 30%; animation-delay: 1.2s; }
+.dashboard-coin-3 { left: 25%; top: 15%; animation-delay: 2.5s; }
+.dashboard-coin-4 { left: 35%; top: 25%; animation-delay: 3.7s; }
+.dashboard-coin-5 { left: 45%; top: 10%; animation-delay: 4.9s; }
+.dashboard-coin-6 { left: 55%; top: 30%; animation-delay: 1.8s; }
+.dashboard-coin-7 { left: 65%; top: 15%; animation-delay: 3.1s; }
+.dashboard-coin-8 { left: 75%; top: 25%; animation-delay: 5.3s; }
+.dashboard-coin-9 { left: 85%; top: 10%; animation-delay: 2.4s; }
+.dashboard-coin-10 { left: 95%; top: 30%; animation-delay: 4.6s; }
+.dashboard-coin-11 { left: 10%; top: 70%; animation-delay: 6s; }
+.dashboard-coin-12 { left: 30%; top: 80%; animation-delay: 1.5s; }
+.dashboard-coin-13 { left: 50%; top: 70%; animation-delay: 3.8s; }
+.dashboard-coin-14 { left: 70%; top: 80%; animation-delay: 5.2s; }
+.dashboard-coin-15 { left: 90%; top: 70%; animation-delay: 2.9s; }
+.dashboard-coin-16 { left: 20%; top: 45%; animation-delay: 0.5s; width: 35px; height: 35px; }
+.dashboard-coin-17 { left: 80%; top: 55%; animation-delay: 1.5s; width: 40px; height: 40px; }
+.dashboard-coin-18 { left: 10%; top: 85%; animation-delay: 2.5s; width: 30px; height: 30px; }
+.dashboard-coin-19 { left: 40%; top: 65%; animation-delay: 3.5s; width: 38px; height: 38px; }
+.dashboard-coin-20 { left: 60%; top: 40%; animation-delay: 4.5s; width: 45px; height: 45px; }
+.dashboard-coin-21 { left: 25%; top: 20%; animation-delay: 0.8s; width: 42px; height: 42px; }
+.dashboard-coin-22 { left: 85%; top: 75%; animation-delay: 1.8s; width: 38px; height: 38px; }
+.dashboard-coin-23 { left: 5%; top: 50%; animation-delay: 2.8s; width: 45px; height: 45px; }
+.dashboard-coin-24 { left: 70%; top: 15%; animation-delay: 3.2s; width: 33px; height: 33px; }
+.dashboard-coin-25 { left: 45%; top: 90%; animation-delay: 4.2s; width: 37px; height: 37px; }
+
+@media (max-width: 768px) {
+    .dashboard-auth-card {
+        padding: 1.5rem;
+    }
+    
+    .dashboard-nav {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-container {
+        padding: 3rem 1rem 1rem;
+    }
+    
+    .dashboard-brand-text {
+        font-size: 2rem;
+    }
+    
+    .dashboard-auth-subtitle {
+        font-size: 1rem;
+    }
+    
+    .dashboard-auth-card {
+        padding: 1.2rem;
+    }
+}
