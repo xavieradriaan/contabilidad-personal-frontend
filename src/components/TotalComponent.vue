@@ -1,141 +1,199 @@
 <template>
-  <div class="container mt-5">
-    <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
-    <h1 class="text-center mb-4">Balance Detalles</h1>
-    <form @submit.prevent="fetchTotals" class="mb-4">
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="year" class="form-label">Año:</label>
-          <input v-model="year" type="number" id="year" class="form-control" min="2000" max="2100" required>
+  <div class="total-container">
+    <div class="total-animated-coins">
+      <div
+        v-for="index in 60" 
+        :key="index" 
+        class="total-coin" 
+        :style="{ 
+          top: `${Math.random() * 100}vh`, 
+          left: `${Math.random() * 100}vw`, 
+          animationDelay: `${Math.random() * 5}s` 
+        }"
+      >
+        <img src="/monedas.png" alt="Moneda animada" class="total-coin-img">
+      </div>
+    </div>
+
+    <navigation-bar :showBack="true" :showHome="false" :showLogout="false" @back-clicked="$router.go(-1)" />
+
+    <main class="total-main-content">
+      <h1 class="total-main-title">
+        <span class="total-brand-text">CONTABILÍZATE</span>
+        <p class="total-main-subtitle">Balance Detallado</p>
+      </h1>
+
+      <div class="total-main-card">
+        <form @submit.prevent="fetchTotals" class="total-main-form">
+          <div class="total-input-group">
+            <label for="year" class="total-input-label">
+              <i class="fas fa-calendar-alt total-icon"></i>
+              <span>Año</span>
+            </label>
+            <input
+              v-model="year"
+              type="number"
+              id="year"
+              class="total-main-input"
+              min="2000"
+              max="2100"
+              required
+            >
+          </div>
+
+          <div class="total-input-group">
+            <label for="month" class="total-input-label">
+              <i class="fas fa-calendar total-icon"></i>
+              <span>Mes</span>
+            </label>
+            <input
+              v-model="month"
+              type="number"
+              id="month"
+              class="total-main-input"
+              min="1"
+              max="12"
+              required
+            >
+          </div>
+
+          <div class="total-buttons-group">
+            <button type="submit" class="total-main-btn total-consult-btn">
+              Consultar
+            </button>
+            <button @click="exportToXML" class="total-main-btn total-export-btn">
+              Exportar a XML
+            </button>
+          </div>
+        </form>
+
+        <div class="total-balance-card">
+          <h3 class="total-balance-title">Saldo Anterior Disponible + Total Actual Disponible:</h3>
+          <p class="total-balance-amount">
+            {{ showSaldo ? `$${saldo_disponible.toFixed(2)}` : '****' }}
+            <i :class="{'fas fa-eye': showSaldo, 'fas fa-eye-slash': !showSaldo}" 
+               @click="toggleSaldoVisibility"
+               class="total-eye-icon"></i>
+          </p>
         </div>
-        <div class="col-md-6">
-          <label for="month" class="form-label">Mes:</label>
-          <input v-model="month" type="number" id="month" class="form-control" min="1" max="12" required>
+
+        <div class="total-month-summary">
+          <h3 class="total-month-title">{{ nombre_mes }}</h3>
+          <ul class="total-month-list">
+            <li class="total-month-list-item">
+              Total Ingresos (Quincena + Fin de Mes): ${{ total_ingresos.toFixed(2) }}
+            </li>
+            <li class="total-month-list-item">
+              Total Otros Ingresos: ${{ total_otros_ingresos.toFixed(2) }}
+            </li>
+            <li class="total-month-list-item">
+              Total de Ingresos + Otros Ingresos: ${{ (total_ingresos + total_otros_ingresos).toFixed(2) }}
+            </li>
+            <li class="total-month-list-item">
+              Total Egresos: ${{ total_egresos.toFixed(2) }}
+            </li>
+            <li class="total-month-list-item">
+              Saldo mes de ({{ nombre_mes }}): ${{ total.toFixed(2) }}
+            </li>
+          </ul>
         </div>
+
+        <div v-if="detalles_ingresos.length" class="total-table-section">
+          <h3 class="total-table-title">Detalles de Ingresos</h3>
+          <div class="total-table-container">
+            <table class="total-data-table">
+              <thead>
+                <tr>
+                  <th>Fuente</th>
+                  <th>Fecha</th>
+                  <th>Monto</th>
+                  <th>Descripción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="ingreso in detalles_ingresos" :key="ingreso.id">
+                  <td>{{ ingreso.fuente }}</td>
+                  <td>{{ formatDate(ingreso.fecha) }}</td>
+                  <td>${{ ingreso.monto.toFixed(2) }}</td>
+                  <td>{{ ingreso.descripcion }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div v-if="detalles_otros_ingresos.length" class="total-table-section">
+          <h3 class="total-table-title">Detalles de Otros Ingresos</h3>
+          <div class="total-table-container">
+            <table class="total-data-table">
+              <thead>
+                <tr>
+                  <th>Fuente</th>
+                  <th>Fecha</th>
+                  <th>Monto</th>
+                  <th>Descripción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="otro_ingreso in detalles_otros_ingresos" :key="otro_ingreso.id">
+                  <td>{{ otro_ingreso.fuente }}</td>
+                  <td>{{ formatDate(otro_ingreso.fecha) }}</td>
+                  <td>${{ otro_ingreso.monto.toFixed(2) }}</td>
+                  <td>{{ otro_ingreso.descripcion }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div v-if="detalles_egresos.length" class="total-table-section">
+          <h3 class="total-table-title">Detalles de Egresos</h3>
+          <div class="total-table-container">
+            <table class="total-data-table">
+              <thead>
+                <tr>
+                  <th>Categoría</th>
+                  <th>Descripción</th>
+                  <th>Fecha</th>
+                  <th>Monto</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="egreso in detalles_egresos" :key="egreso.id">
+                  <td>{{ egreso.categoria }}</td>
+                  <td>{{ egreso.subcategoria }}</td>
+                  <td>{{ formatDate(egreso.fecha) }}</td>
+                  <td>${{ egreso.monto.toFixed(2) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="total-table-section">
+          <h3 class="total-table-title">Detalles Totales</h3>
+          <div class="total-table-container">
+            <table class="total-data-table">
+              <thead>
+                <tr>
+                  <th>Total Ingresos + Otros Ingresos</th>
+                  <th>Total Egresos</th>
+                  <th>Total Neto</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>${{ (total_ingresos + total_otros_ingresos).toFixed(2) }}</td>
+                  <td>${{ total_egresos.toFixed(2) }}</td>
+                  <td>${{ ((total_ingresos + total_otros_ingresos) - total_egresos).toFixed(2) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
       </div>
-      <button type="submit" class="btn btn-primary w-100 mb-3">Consultar</button>
-      <button @click="exportToXML" class="btn btn-success w-100">Exportar a XML</button>
-    </form>
-
-    <!-- Mover este bloque de código para que aparezca primero -->
-    <div class="card mb-4">
-      <div class="card-body text-center">
-        <h5 class="text-muted">Saldo Anterior Disponible + Total Actual Disponible:</h5>
-        <p class="display-4" style="display: flex; justify-content: center; align-items: center;">
-          {{ showSaldo ? `$${saldo_disponible.toFixed(2)}` : '****' }}
-          <i :class="{'fas fa-eye': showSaldo, 'fas fa-eye-slash': !showSaldo}" @click="toggleSaldoVisibility" style="cursor: pointer; margin-left: 10px; font-size: 0.5em; position: relative; top: 1px;"></i>
-        </p>
-      </div>
-    </div>
-
-    <div class="card mb-4">
-      <div class="card-header text-center">
-        <h2>{{ nombre_mes }}</h2>
-      </div>
-      <div class="card-body">
-        <p><strong>Total Ingresos (Quincena + Fin de Mes):</strong> ${{ total_ingresos.toFixed(2) }}</p>
-        <p><strong>Total Otros Ingresos:</strong> ${{ total_otros_ingresos.toFixed(2) }}</p>
-        <p><strong>Total de Ingresos + Otros Ingresos:</strong> ${{ (total_ingresos + total_otros_ingresos).toFixed(2) }}</p>
-        <p><strong>Total Egresos:</strong> ${{ total_egresos.toFixed(2) }}</p>
-        <p><strong>Saldo mes de ({{ nombre_mes }}):</strong> ${{ total.toFixed(2) }}</p>
-      </div>
-    </div>
-
-    <div v-if="detalles_ingresos.length || detalles_otros_ingresos.length || detalles_egresos.length" class="detalles">
-      <h2 class="text-center mb-4">Ingreso Salario</h2>
-      <table v-if="detalles_ingresos.length" class="table table-striped table-hover">
-        <thead class="table-dark">
-          <tr>
-            <th>Fuente</th>
-            <th>Fecha</th>
-            <th>Monto</th>
-            <th>Descripción</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="ingreso in detalles_ingresos" :key="ingreso.id">
-            <td>{{ ingreso.fuente }}</td>
-            <td>{{ formatDate(ingreso.fecha) }}</td>
-            <td>${{ ingreso.monto.toFixed(2) }}</td>
-            <td>{{ ingreso.descripcion }}</td>
-          </tr>
-          <tr>
-            <td colspan="3"><strong>Total Ingresos:</strong></td>
-            <td><strong>${{ total_ingresos.toFixed(2) }}</strong></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2 class="text-center mb-4">Detalles de Otros Ingresos</h2>
-      <table v-if="detalles_otros_ingresos.length" class="table table-striped table-hover">
-        <thead class="table-dark">
-          <tr>
-            <th>Fuente</th>
-            <th>Fecha</th>
-            <th>Monto</th>
-            <th>Descripción</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="otro_ingreso in detalles_otros_ingresos" :key="otro_ingreso.id">
-            <td>{{ otro_ingreso.fuente }}</td>
-            <td>{{ formatDate(otro_ingreso.fecha) }}</td>
-            <td>${{ otro_ingreso.monto.toFixed(2) }}</td>
-            <td>{{ otro_ingreso.descripcion }}</td>
-          </tr>
-          <tr>
-            <td colspan="3"><strong>Total Otros Ingresos:</strong></td>
-            <td><strong>${{ total_otros_ingresos.toFixed(2) }}</strong></td>
-          </tr>
-          <tr>
-            <td colspan="3"><strong>Total Ingresos + Otros Ingresos:</strong></td>
-            <td><strong>${{ (total_ingresos + total_otros_ingresos).toFixed(2) }}</strong></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2 class="text-center mb-4">Detalles de Egresos</h2>
-      <table v-if="detalles_egresos.length" class="table table-striped table-hover">
-        <thead class="table-dark">
-          <tr>
-            <th>Categoría</th>
-            <th>Descripción</th>
-            <th>Fecha</th>
-            <th>Monto</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="egreso in detalles_egresos" :key="egreso.id">
-            <td>{{ egreso.categoria }}</td>
-            <td>{{ egreso.subcategoria }}</td>
-            <td>{{ formatDate(egreso.fecha) }}</td>
-            <td>${{ egreso.monto.toFixed(2) }}</td>
-          </tr>
-          <tr>
-            <td colspan="3"><strong>Total Egresos:</strong></td>
-            <td><strong>${{ total_egresos.toFixed(2) }}</strong></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2 class="text-center mb-4">Detalles Totales</h2>
-      <table class="table table-striped table-hover">
-        <thead class="table-dark">
-          <tr>
-            <th>Total Ingresos + Otros Ingresos</th>
-            <th>Total Egresos</th>
-            <th>Total Neto</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>${{ (total_ingresos + total_otros_ingresos).toFixed(2) }}</td>
-            <td>${{ total_egresos.toFixed(2) }}</td>
-            <td>${{ ((total_ingresos + total_otros_ingresos) - total_egresos).toFixed(2) }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    </main>
   </div>
 </template>
 
@@ -282,5 +340,6 @@ export default {
 }
 </script>
 
-<!-- Agregar el enlace a Font Awesome en el archivo HTML principal -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style scoped>
+@import './TotalComponent.css';
+</style>
