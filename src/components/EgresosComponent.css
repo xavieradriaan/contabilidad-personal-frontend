@@ -1,0 +1,389 @@
+:root {
+    --text-white: #FFFFFF;
+    --primary-blue: #1A2B3C;
+    --secondary-blue: #2D4A5E;
+    --light-gray: #F5F7FA;
+    --accent-gold: #FFD700;
+}
+
+.egresos-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow: auto;
+    padding: 4rem 1rem 1rem;
+}
+
+.egresos-animated-coins {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.egresos-coin {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    animation: 
+        egresos-coinFloat 8s ease-in-out infinite,
+        egresos-coinSpin 6s linear infinite,
+        egresos-coinPulse 4s ease-in-out infinite;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+    z-index: 1;
+}
+
+.egresos-coin-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(0.9);
+    opacity: 0.8;
+}
+
+@keyframes egresos-coinFloat {
+    0%, 100% { transform: translateY(0) rotateX(0); }
+    50% { transform: translateY(-40px) rotateX(360deg); }
+}
+
+@keyframes egresos-coinSpin {
+    0% { transform: rotateZ(0deg) scale(1); }
+    100% { transform: rotateZ(360deg) scale(1); }
+}
+
+@keyframes egresos-coinPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.9; }
+}
+
+/* Positioning coins across the screen */
+.egresos-coin-1 { left: 5%; top: 10%; animation-delay: 0s; }
+.egresos-coin-2 { left: 15%; top: 30%; animation-delay: 1.2s; }
+.egresos-coin-3 { left: 25%; top: 15%; animation-delay: 2.5s; }
+.egresos-coin-4 { left: 35%; top: 25%; animation-delay: 3.7s; }
+.egresos-coin-5 { left: 45%; top: 10%; animation-delay: 4.9s; }
+.egresos-coin-6 { left: 55%; top: 30%; animation-delay: 1.8s; }
+.egresos-coin-7 { left: 65%; top: 15%; animation-delay: 3.1s; }
+.egresos-coin-8 { left: 75%; top: 25%; animation-delay: 5.3s; }
+.egresos-coin-9 { left: 85%; top: 10%; animation-delay: 2.4s; }
+.egresos-coin-10 { left: 95%; top: 30%; animation-delay: 4.6s; }
+.egresos-coin-11 { left: 10%; top: 70%; animation-delay: 6s; }
+.egresos-coin-12 { left: 30%; top: 80%; animation-delay: 1.5s; }
+.egresos-coin-13 { left: 50%; top: 70%; animation-delay: 3.8s; }
+.egresos-coin-14 { left: 70%; top: 80%; animation-delay: 5.2s; }
+.egresos-coin-15 { left: 90%; top: 70%; animation-delay: 2.9s; }
+.egresos-coin-16 { left: 48%; top: 50%; animation-delay: 0.5s; transform: translate(-50%, -50%); width: 35px; height: 35px; z-index: 2; }
+.egresos-coin-17 { left: 52%; top: 50%; animation-delay: 1.5s; transform: translate(-50%, -50%); width: 40px; height: 40px; }
+.egresos-coin-18 { left: 50%; top: 46%; animation-delay: 2.5s; transform: translate(-50%, -50%); width: 30px; height: 30px; }
+.egresos-coin-19 { left: 50%; top: 54%; animation-delay: 3.5s; transform: translate(-50%, -50%); width: 38px; height: 38px; }
+.egresos-coin-20 { left: 50%; top: 50%; animation-delay: 4.5s; transform: translate(-50%, -50%) scale(1.2); width: 45px; height: 45px; z-index: 3; }
+.egresos-coin-21 { left: 50%; top: 45%; animation-delay: 0.8s; transform: translate(-50%, -50%); width: 42px; height: 42px; z-index: 2; }
+.egresos-coin-22 { left: 50%; top: 55%; animation-delay: 1.8s; transform: translate(-50%, -50%); width: 38px; height: 38px; }
+.egresos-coin-23 { left: 50%; top: 50%; animation-delay: 2.8s; transform: translate(-50%, -50%) rotate(15deg); width: 45px; height: 45px; z-index: 3; }
+.egresos-coin-24 { left: 50%; top: 48%; animation-delay: 3.2s; transform: translate(-50%, -50%); width: 33px; height: 33px; }
+.egresos-coin-25 { left: 50%; top: 52%; animation-delay: 4.2s; transform: translate(-50%, -50%); width: 37px; height: 37px; }
+
+/* Additional coins for central and bottom areas */
+.egresos-coin-26 { left: 40%; top: 60%; animation-delay: 0.5s; }
+.egresos-coin-27 { left: 50%; top: 65%; animation-delay: 1.2s; }
+.egresos-coin-28 { left: 60%; top: 70%; animation-delay: 2.0s; }
+.egresos-coin-29 { left: 45%; top: 75%; animation-delay: 2.8s; }
+.egresos-coin-30 { left: 55%; top: 80%; animation-delay: 3.5s; }
+.egresos-coin-31 { left: 35%; top: 85%; animation-delay: 4.0s; }
+.egresos-coin-32 { left: 65%; top: 90%; animation-delay: 4.8s; }
+.egresos-coin-33 { left: 50%; top: 95%; animation-delay: 5.5s; }
+
+/* Additional coins for the bottom area */
+.egresos-coin-34 { left: 20%; top: 85%; animation-delay: 0.6s; }
+.egresos-coin-35 { left: 30%; top: 90%; animation-delay: 1.3s; }
+.egresos-coin-36 { left: 40%; top: 95%; animation-delay: 2.1s; }
+.egresos-coin-37 { left: 50%; top: 90%; animation-delay: 2.9s; }
+.egresos-coin-38 { left: 60%; top: 85%; animation-delay: 3.6s; }
+.egresos-coin-39 { left: 70%; top: 95%; animation-delay: 4.4s; }
+.egresos-coin-40 { left: 80%; top: 90%; animation-delay: 5.2s; }
+
+.egresos-back-btn {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    background: transparent;
+    border: none;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    z-index: 100;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.egresos-back-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent-gold);
+    transform: scale(1.1);
+    box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.2);
+}
+
+.egresos-main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 20;
+    margin-top: 2rem;
+}
+
+.egresos-title {
+    text-align: center;
+    margin-bottom: 1.8rem;
+    z-index: 25;
+}
+
+.egresos-brand-text {
+    font-size: clamp(2rem, 6.5vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-white);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    letter-spacing: -0.03em;
+}
+
+.egresos-subtitle {
+    font-size: clamp(1rem, 3vw, 1.2rem);
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+    margin-top: 0.5rem;
+}
+
+.egresos-auth-card {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    z-index: 20;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.egresos-auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.egresos-input-group {
+    margin-bottom: 1rem;
+}
+
+.egresos-input-label {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--primary-blue);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.egresos-icon {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+    color: var(--primary-blue);
+}
+
+.egresos-auth-input {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--light-gray);
+    border: 2px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+select.egresos-auth-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
+
+.egresos-auth-input:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(26, 43, 60, 0.1);
+}
+
+.egresos-auth-btn.egresos-submit-btn {
+    background: var(--primary-blue);
+    color: var(--text-white);
+    width: 100%;
+    max-width: 300px;
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-weight: 500;
+    margin: 2rem auto 1.5rem;
+    display: block;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.egresos-auth-btn.egresos-submit-btn:not([disabled])::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, 
+        rgba(255, 255, 255, 0) 20%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0) 80%
+    );
+    animation: egresos-btn-shine 3s infinite;
+    pointer-events: none;
+}
+
+@keyframes egresos-btn-shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.egresos-auth-btn[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+    background: var(--primary-blue);
+}
+
+.egresos-auth-btn:not([disabled]):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos del Modal */
+.egresos-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.egresos-modal-card {
+    background: rgba(255, 255, 255, 0.98);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.egresos-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.egresos-modal-title {
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.egresos-modal-close {
+    background: none;
+    border: none;
+    color: var(--primary-blue);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.egresos-modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+    margin-bottom: 1.5rem;
+}
+
+.egresos-check-group {
+    margin-bottom: 1rem;
+}
+
+.egresos-check-input {
+    margin-right: 0.8rem;
+    accent-color: var(--primary-blue);
+}
+
+.egresos-check-label {
+    color: var(--primary-blue);
+    font-size: 0.95rem;
+}
+
+.egresos-modal-btn {
+    width: 100%;
+    padding: 0.9rem;
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .egresos-back-btn {
+        top: 1.2rem;
+        left: 1.2rem;
+        width: 32px;
+        height: 32px;
+    }
+    
+    .egresos-auth-card {
+        padding: 1.5rem;
+    }
+    
+    .egresos-modal-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .egresos-container {
+        padding: 3rem 1rem 1rem;
+    }
+    
+    .egresos-brand-text {
+        font-size: 2rem;
+    }
+    
+    .egresos-subtitle {
+        font-size: 1rem;
+    }
+    
+    .egresos-auth-card {
+        padding: 1.2rem;
+    }
+    
+    .egresos-modal-title {
+        font-size: 1.2rem;
+    }
+}
