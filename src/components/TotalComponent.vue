@@ -15,6 +15,11 @@
       </div>
     </div>
 
+    <!-- Botón de regreso agregado aquí -->
+    <button class="total-back-btn" @click="$router.go(-1)">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
     <navigation-bar :showBack="true" :showHome="false" :showLogout="false" @back-clicked="$router.go(-1)" />
 
     <main class="total-main-content">
@@ -342,4 +347,11 @@ export default {
 
 <style scoped>
 @import './TotalComponent.css';
+
+/* Add this CSS rule to center the buttons */
+.total-buttons-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* Optional: Adds spacing between buttons */
+}
 </style>

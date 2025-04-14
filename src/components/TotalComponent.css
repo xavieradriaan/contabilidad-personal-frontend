@@ -265,6 +265,61 @@
     }
 }
 
+.total-back-btn {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    background: transparent;
+    border: none;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    z-index: 100;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.total-back-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent-gold);
+    transform: scale(1.1);
+    box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.2);
+}
+
+.total-back-btn i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.total-back-btn:hover i {
+    transform: translateX(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .total-back-btn {
+        top: 1.2rem;
+        left: 1.2rem;
+        width: 32px;
+        height: 32px;
+    }
+    
+    .total-back-btn i {
+        font-size: 1.1rem;
+    }
+}
+
+/* Asegurar que la barra de navegación no interfiera */
+.navigation-bar {
+    top: 4rem !important; /* Ajustar posición para no solapar con el botón */
+    left: 1.5rem !important;
+}
+
 .navigation-bar {
     position: fixed;
     top: 1.5rem;
