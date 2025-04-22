@@ -3,9 +3,6 @@
     --primary-blue: #1A2B3C;
     --secondary-blue: #2D4A5E;
     --light-gray: #F5F7FA;
-    --dark-bg: #121A24;
-    --dark-card: #1D2833;
-    --dark-text: #E2E8F0;
     --divider-color: rgba(0, 0, 0, 0.1);
     --home-bg: var(--primary-blue);
 }
@@ -199,16 +196,6 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.home-container.dark-mode {
-    background: var(--dark-bg);
-}
-
-.home-container.dark-mode .home-auth-card {
-    background: var(--dark-card);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
 .home-container .home-divider {
     display: flex;
     align-items: center;
@@ -256,16 +243,6 @@
     padding: 0;
 }
 
-.home-container.dark-mode .home-divider-line {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.home-container.dark-mode .home-divider-text {
-    background: var(--dark-card);
-    color: var(--dark-text);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
-
 .home-container .home-divider-circle:hover .home-divider-text {
     transform: scale(1.1);
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
@@ -283,14 +260,6 @@
 
 .home-container .home-password-reset-link:hover {
     color: var(--primary-blue);
-}
-
-.home-container.dark-mode .home-password-reset-link {
-    color: var(--dark-text);
-}
-
-.home-container.dark-mode .home-password-reset-link:hover {
-    color: var(--text-white);
 }
 
 .home-container .home-additional-links {

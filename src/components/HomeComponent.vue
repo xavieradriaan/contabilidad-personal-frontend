@@ -1,5 +1,5 @@
 <template>
-  <div class="home-container" :class="{'dark-mode': isDarkMode}">
+  <div class="home-container">
     <div class="home-animated-coins">
       <div v-for="index in 15" :key="index" class="home-coin" :class="`home-coin-${index}`">
         <img 
@@ -76,13 +76,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
-  name: 'HomeComponent',
-  computed: {
-    ...mapGetters(['isDarkMode'])
-  }
+  name: 'HomeComponent'
 }
 </script>
 
