@@ -51,7 +51,13 @@
 
           <div v-if="errorMessage" class="login-error-message">
             <i class="fas fa-exclamation-circle login-error-icon"></i>
-            <span>{{ errorMessage }}</span>
+            <span v-if="errorMessage.includes('bloqueada')">
+              {{ errorMessage }} 
+              <router-link to="/password_reset" class="login-password-reset-link">
+                Restablecer contraseña
+              </router-link>
+            </span>
+            <span v-else>{{ errorMessage }}</span>
           </div>
 
           <button
@@ -131,18 +137,28 @@ export default {
     handleLoginError(error) {
       console.error('Error al iniciar sesión:', error)
       this.password = ''
-      
-      const errorMessage = error.response?.data?.remaining_attempts !== undefined 
-        ? `Credenciales Incorrectas. Intentos restantes: ${error.response.data.remaining_attempts}`
-        : error.response ? 'Credenciales Incorrectas.' : 'Error al conectar con el servidor.'
-      
-      this.errorMessage = errorMessage
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: errorMessage,
-        showConfirmButton: true
-      })
+
+      if (error.response?.status === 403 && error.response.data?.reset_url) {
+        this.errorMessage = 'La cuenta se encuentra bloqueada. Se necesita restablecer la contraseña'
+        Swal.fire({
+          icon: 'error',
+          title: 'Cuenta Bloqueada',
+          html: `La cuenta se encuentra bloqueada. <a href="${error.response.data.reset_url}">Restablecer contraseña</a>`,
+          showConfirmButton: true
+        })
+      } else {
+        const errorMessage = error.response?.data?.remaining_attempts !== undefined 
+          ? `Credenciales Incorrectas. Intentos restantes: ${error.response.data.remaining_attempts}`
+          : error.response ? 'Credenciales Incorrectas.' : 'Error al conectar con el servidor.'
+        
+        this.errorMessage = errorMessage
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: errorMessage,
+          showConfirmButton: true
+        })
+      }
     }
   }
 }

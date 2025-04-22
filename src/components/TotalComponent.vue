@@ -75,7 +75,7 @@
         <div class="total-balance-card">
           <h3 class="total-balance-title">Saldo Anterior Disponible + Total Actual Disponible:</h3>
           <p class="total-balance-amount">
-            {{ showSaldo ? `$${saldo_disponible.toFixed(2)}` : '****' }}
+            {{ showSaldo ? `$${formatCurrency(saldo_disponible)}` : '****' }}
             <i :class="{'fas fa-eye': showSaldo, 'fas fa-eye-slash': !showSaldo}" 
                @click="toggleSaldoVisibility"
                class="total-eye-icon"></i>
@@ -86,19 +86,19 @@
           <h3 class="total-month-title">{{ nombre_mes }}</h3>
           <ul class="total-month-list">
             <li class="total-month-list-item">
-              Total Ingresos (Quincena + Fin de Mes): ${{ total_ingresos.toFixed(2) }}
+              Total Ingresos (Quincena + Fin de Mes): ${{ formatCurrency(total_ingresos) }}
             </li>
             <li class="total-month-list-item">
-              Total Otros Ingresos: ${{ total_otros_ingresos.toFixed(2) }}
+              Total Otros Ingresos: ${{ formatCurrency(total_otros_ingresos) }}
             </li>
             <li class="total-month-list-item">
-              Total de Ingresos + Otros Ingresos: ${{ (total_ingresos + total_otros_ingresos).toFixed(2) }}
+              Total de Ingresos + Otros Ingresos: ${{ formatCurrency(total_ingresos + total_otros_ingresos) }}
             </li>
             <li class="total-month-list-item">
-              Total Egresos: ${{ total_egresos.toFixed(2) }}
+              Total Egresos: ${{ formatCurrency(total_egresos) }}
             </li>
             <li class="total-month-list-item">
-              Saldo mes de ({{ nombre_mes }}): ${{ total.toFixed(2) }}
+              Saldo mes de ({{ nombre_mes }}): ${{ formatCurrency(total) }}
             </li>
           </ul>
         </div>
@@ -119,7 +119,7 @@
                 <tr v-for="ingreso in detalles_ingresos" :key="ingreso.id">
                   <td>{{ ingreso.fuente }}</td>
                   <td>{{ formatDate(ingreso.fecha) }}</td>
-                  <td>${{ ingreso.monto.toFixed(2) }}</td>
+                  <td>${{ formatCurrency(ingreso.monto) }}</td>
                   <td>{{ ingreso.descripcion }}</td>
                 </tr>
               </tbody>
@@ -143,7 +143,7 @@
                 <tr v-for="otro_ingreso in detalles_otros_ingresos" :key="otro_ingreso.id">
                   <td>{{ otro_ingreso.fuente }}</td>
                   <td>{{ formatDate(otro_ingreso.fecha) }}</td>
-                  <td>${{ otro_ingreso.monto.toFixed(2) }}</td>
+                  <td>${{ formatCurrency(otro_ingreso.monto) }}</td>
                   <td>{{ otro_ingreso.descripcion }}</td>
                 </tr>
               </tbody>
@@ -168,7 +168,7 @@
                   <td>{{ egreso.categoria }}</td>
                   <td>{{ egreso.subcategoria }}</td>
                   <td>{{ formatDate(egreso.fecha) }}</td>
-                  <td>${{ egreso.monto.toFixed(2) }}</td>
+                  <td>${{ formatCurrency(egreso.monto) }}</td>
                 </tr>
               </tbody>
             </table>
@@ -188,9 +188,9 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>${{ (total_ingresos + total_otros_ingresos).toFixed(2) }}</td>
-                  <td>${{ total_egresos.toFixed(2) }}</td>
-                  <td>${{ ((total_ingresos + total_otros_ingresos) - total_egresos).toFixed(2) }}</td>
+                  <td>${{ formatCurrency(total_ingresos + total_otros_ingresos) }}</td>
+                  <td>${{ formatCurrency(total_egresos) }}</td>
+                  <td>${{ formatCurrency((total_ingresos + total_otros_ingresos) - total_egresos) }}</td>
                 </tr>
               </tbody>
             </table>
@@ -287,12 +287,12 @@ export default {
         xml += '    <Ingreso>\n'
         xml += `      <Fuente>${ingreso.fuente}</Fuente>\n`
         xml += `      <Fecha>${this.formatDate(ingreso.fecha)}</Fecha>\n`
-        xml += `      <Monto>${ingreso.monto.toFixed(2)}</Monto>\n`
+        xml += `      <Monto>${this.formatCurrency(ingreso.monto)}</Monto>\n`
         xml += `      <Descripcion>${ingreso.descripcion}</Descripcion>\n`
         xml += '    </Ingreso>\n'
       })
       xml += '    <TotalIngresos>\n'
-      xml += `      <Monto>${this.total_ingresos.toFixed(2)}</Monto>\n`
+      xml += `      <Monto>${this.formatCurrency(this.total_ingresos)}</Monto>\n`
       xml += '    </TotalIngresos>\n'
       xml += '  </DetallesIngresos>\n'
 
@@ -301,12 +301,12 @@ export default {
         xml += '    <OtroIngreso>\n'
         xml += `      <Fuente>${otro_ingreso.fuente}</Fuente>\n`
         xml += `      <Fecha>${this.formatDate(otro_ingreso.fecha)}</Fecha>\n`
-        xml += `      <Monto>${otro_ingreso.monto.toFixed(2)}</Monto>\n`
+        xml += `      <Monto>${this.formatCurrency(otro_ingreso.monto)}</Monto>\n`
         xml += `      <Descripcion>${otro_ingreso.descripcion}</Descripcion>\n`
         xml += '    </OtroIngreso>\n'
       })
       xml += '    <TotalOtrosIngresos>\n'
-      xml += `      <Monto>${this.total_otros_ingresos.toFixed(2)}</Monto>\n`
+      xml += `      <Monto>${this.formatCurrency(this.total_otros_ingresos)}</Monto>\n`
       xml += '    </TotalOtrosIngresos>\n'
       xml += '  </DetallesOtrosIngresos>\n'
 
@@ -316,27 +316,33 @@ export default {
         xml += `      <Categoria>${egreso.categoria}</Categoria>\n`
         xml += `      <Descripcion>${egreso.subcategoria}</Descripcion>\n`
         xml += `      <Fecha>${this.formatDate(egreso.fecha)}</Fecha>\n`
-        xml += `      <Monto>${egreso.monto.toFixed(2)}</Monto>\n`
+        xml += `      <Monto>${this.formatCurrency(egreso.monto)}</Monto>\n`
         xml += '    </Egreso>\n'
       })
       xml += '    <TotalEgresos>\n'
-      xml += `      <Monto>${this.total_egresos.toFixed(2)}</Monto>\n`
+      xml += `      <Monto>${this.formatCurrency(this.total_egresos)}</Monto>\n`
       xml += '    </TotalEgresos>\n'
       xml += '  </DetallesEgresos>\n'
 
       xml += '  <DetallesTotales>\n'
       xml += '    <TotalIngresosOtrosIngresos>\n'
-      xml += `      <Monto>${(this.total_ingresos + this.total_otros_ingresos).toFixed(2)}</Monto>\n`
+      xml += `      <Monto>${this.formatCurrency(this.total_ingresos + this.total_otros_ingresos)}</Monto>\n`
       xml += '    </TotalIngresosOtrosIngresos>\n'
       xml += '    <TotalEgresos>\n'
-      xml += `      <Monto>${this.total_egresos.toFixed(2)}</Monto>\n`
+      xml += `      <Monto>${this.formatCurrency(this.total_egresos)}</Monto>\n`
       xml += '    </TotalEgresos>\n'
       xml += '    <TotalNeto>\n'
-      xml += `      <Monto>${this.total.toFixed(2)}</Monto>\n`
+      xml += `      <Monto>${this.formatCurrency(this.total)}</Monto>\n`
       xml += '    </TotalNeto>\n'
 
       xml += '</Totales>\n'
       return xml
+    },
+    formatCurrency(value) {
+      return Number(value).toLocaleString('es-ES', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
     }
   },
   created() {
