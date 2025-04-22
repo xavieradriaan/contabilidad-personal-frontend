@@ -237,6 +237,12 @@
 .informes-coin-23 { left: 50%; top: 50%; animation-delay: 2.8s; transform: translate(-50%, -50%) rotate(15deg); width: 45px; height: 45px; z-index: 3; }
 .informes-coin-24 { left: 50%; top: 48%; animation-delay: 3.2s; transform: translate(-50%, -50%); width: 33px; height: 33px; }
 .informes-coin-25 { left: 50%; top: 52%; animation-delay: 4.2s; transform: translate(-50%, -50%); width: 37px; height: 37px; }
+/* Zona central adicional */
+.informes-coin-26 { left: 40%; top: 50%; animation-delay: 3.2s; }
+.informes-coin-27 { left: 60%; top: 50%; animation-delay: 4.1s; }
+.informes-coin-28 { left: 45%; top: 55%; animation-delay: 2.7s; }
+.informes-coin-29 { left: 55%; top: 45%; animation-delay: 3.5s; }
+.informes-coin-30 { left: 50%; top: 60%; animation-delay: 5s; }
 
 .informes-container [class*="informes-coin-"]:not(:nth-child(-n+15)) {
   animation: 
