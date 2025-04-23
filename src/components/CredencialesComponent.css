@@ -11,12 +11,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-start; /* Changed from center to flex-start */
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
     font-family: 'Inter', sans-serif;
     position: relative;
-    overflow: auto;
-    padding: 4rem 1rem 1rem;
+    overflow: hidden;
+    padding-top: 0; /* Removed unnecessary padding */
+    margin-top: -2rem; /* Adjusted margin to remove extra space */
 }
 
 .credenciales-animated-coins {
@@ -86,11 +87,13 @@
     border-radius: 12px; /* Slightly smaller border radius */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Adjust shadow */
     width: 100%;
-    max-width: 600px; /* Increase max width */
+    max-width: 800px; /* Increase max width */
     position: relative;
     z-index: 10;
     backdrop-filter: blur(3px); /* Slightly reduce blur */
     border: 1px solid rgba(0, 0, 0, 0.05);
+    overflow-y: auto;
+    max-height: 80vh;
 }
 
 .credenciales-form {
