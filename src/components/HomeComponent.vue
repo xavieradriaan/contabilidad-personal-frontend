@@ -1,11 +1,77 @@
 <template>
-  <div class="container text-center">
-    <h1 class="my-4 welcome-message">Bienvenido a Contabilízate, tu aplicación de Contabilidad Personal</h1>
-    <div class="link-buttons mt-5">
-      <router-link class="btn btn-primary mb-2" to="/login">Login</router-link>
-      <router-link class="btn btn-secondary mb-2" to="/register">Register</router-link>
+  <div class="home-container">
+    <div class="home-animated-coins">
+      <div v-for="index in 15" :key="index" class="home-coin" :class="`home-coin-${index}`">
+        <img 
+          src="/monedas.png" 
+          alt="Moneda animada"
+          class="home-coin-img"
+        >
+      </div>
     </div>
-    <router-link class="forgot-password-link" to="/password_reset">¿Olvidó su Contraseña/Usuario?</router-link>
+    
+    <main class="home-main-content">
+      <div class="home-hero-section">
+        <div class="home-header-container">
+          <div class="home-logo-wrapper">
+            <div class="home-coin-single">
+              <img 
+                src="/monedas.png" 
+                class="home-main-coin" 
+                alt="Moneda principal"
+              >
+            </div>
+          </div>
+          <h1 class="home-hero-title">
+            <span class="home-brand-text">CONTABILÍZATE</span>
+            <p class="home-hero-subtitle">Gestión Financiera Inteligente</p>
+          </h1>
+        </div>
+      </div>
+
+      <div class="home-auth-section">
+        <div class="home-auth-card">
+          <div class="home-auth-buttons">
+            <router-link 
+              to="/login" 
+              class="home-auth-btn home-login-btn"
+              aria-label="Iniciar sesión"
+            >
+              <i class="fas fa-sign-in-alt home-auth-icon"></i>
+              <span>Iniciar Sesión</span>
+            </router-link>
+            
+            <router-link 
+              to="/register" 
+              class="home-auth-btn home-register-btn"
+              aria-label="Registrarse"
+            >
+              <i class="fas fa-user-plus home-auth-icon"></i>
+              <span>Registrarse</span>
+            </router-link>
+          </div>
+
+          <div class="home-divider">
+            <div class="home-divider-line"></div>
+            <div class="home-divider-circle">
+              <span class="home-divider-text">o</span>
+            </div>
+            <div class="home-divider-line"></div>
+          </div>
+
+          <div class="home-additional-links">
+            <router-link 
+              to="/password_reset" 
+              class="home-password-reset-link"
+              aria-label="Recuperar acceso"
+            >
+              <i class="fas fa-question-circle"></i>
+              Recuperar Contraseña
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </main>
   </div>
 </template>
 
@@ -14,3 +80,7 @@ export default {
   name: 'HomeComponent'
 }
 </script>
+
+<style scoped>
+@import './HomeComponent.css';
+</style>

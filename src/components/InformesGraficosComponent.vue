@@ -1,78 +1,127 @@
 <template>
-  <div class="container mt-5">
-    <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
-    <h1 class="text-center mb-4">Informes Gráficos</h1>
+  <div class="informes-container">
+    <!-- Animación de monedas -->
+    <div class="informes-animated-coins">
+      <div v-for="index in 25" :key="index" class="informes-coin" :class="`informes-coin-${index}`">
+        <img src="/monedas.png" alt="Moneda animada" class="informes-coin-img">
+      </div>
+    </div>
 
-    <!-- Formulario para seleccionar el año y el mes -->
-    <form @submit.prevent="fetchData" class="mb-4">
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label for="year" class="form-label">Año:</label>
-          <input v-model="year" type="number" id="year" class="form-control" min="2000" max="2100" required>
+    <!-- Botón de regreso -->
+    <button class="informes-back-btn" @click="$router.go(-1)">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <main class="informes-main-content">
+      <h1 class="informes-main-title">
+        <span class="informes-brand-text">CONTABILÍZATE</span>
+        <p class="informes-main-subtitle">Informes Gráficos</p>
+      </h1>
+
+      <div class="informes-content-card">
+        <!-- Formulario -->
+        <form @submit.prevent="fetchData" class="informes-form">
+          <div class="informes-input-group-row">
+            <div class="informes-input-group">
+              <label for="year" class="informes-input-label">
+                <i class="fas fa-calendar-alt informes-icon"></i>
+                <span>Año</span>
+              </label>
+              <input
+                v-model="year"
+                id="year"
+                type="number"
+                class="informes-auth-input"
+                min="2000"
+                max="2100"
+                required
+              >
+            </div>
+            
+            <div class="informes-input-group">
+              <label for="month" class="informes-input-label">
+                <i class="fas fa-calendar informes-icon"></i>
+                <span>Mes</span>
+              </label>
+              <input
+                v-model="month"
+                id="month"
+                type="number"
+                class="informes-auth-input"
+                min="1"
+                max="12"
+                required
+              >
+            </div>
+          </div>
+
+          <button type="submit" class="informes-auth-btn">
+            Consultar Datos
+          </button>
+        </form>
+
+        <!-- Secciones de gráficos -->
+        <div class="informes-graficos-section">
+          <div class="informes-chart-group">
+            <h2 class="informes-chart-title">Ingreso (SALARIO)</h2>
+            <div class="informes-chart-container">
+              <apexchart v-if="ingresosBarChartData.series.length" 
+                type="bar" 
+                :options="ingresosBarChartOptions" 
+                :series="ingresosBarChartData.series"
+                class="informes-chart">
+              </apexchart>
+            </div>
+          </div>
+
+          <div class="informes-chart-group">
+            <h2 class="informes-chart-title">Ingresos Extras</h2>
+            <div class="informes-chart-container">
+              <apexchart v-if="ingresosExtrasBarChartData.series.length" 
+                type="bar" 
+                :options="ingresosExtrasBarChartOptions" 
+                :series="ingresosExtrasBarChartData.series"
+                class="informes-chart">
+              </apexchart>
+            </div>
+          </div>
+
+          <div class="informes-chart-group">
+            <h2 class="informes-chart-title">Egresos</h2>
+            <div class="informes-chart-container">
+              <apexchart v-if="egresosPieChartData.series.length" 
+                type="pie" 
+                :options="egresosPieChartOptions" 
+                :series="egresosPieChartData.series"
+                class="informes-chart">
+              </apexchart>
+            </div>
+          </div>
+
+          <div class="informes-chart-group">
+            <h2 class="informes-chart-title">Totales</h2>
+            <div class="informes-chart-container">
+              <apexchart v-if="totalesBarChartData.series.length" 
+                type="bar" 
+                :options="totalesBarChartOptions" 
+                :series="totalesBarChartData.series"
+                class="informes-chart">
+              </apexchart>
+            </div>
+          </div>
         </div>
-        <div class="col-md-6">
-          <label for="month" class="form-label">Mes:</label>
-          <input v-model="month" type="number" id="month" class="form-control" min="1" max="12" required>
-        </div>
       </div>
-      <button type="submit" class="btn btn-primary w-100 mb-3">Consultar</button>
-    </form>
-
-    <!-- Sección de Ingresos -->
-    <div class="row">
-      <div class="col-12">
-        <h2 class="text-center mb-4">Ingreso (SALARIO)</h2>
-      </div>
-      <div class="col-md-12 chart-container">
-        <h3 class="chart-title">Gráfico de Barras</h3>
-        <apexchart v-if="ingresosBarChartData.series.length" type="bar" :options="ingresosBarChartOptions" :series="ingresosBarChartData.series" width="134%" height="326"></apexchart>
-      </div>
-    </div>
-
-    <!-- Sección de Ingresos Extras -->
-    <div class="row mt-5">
-      <div class="col-12">
-        <h2 class="text-center mb-4">Ingresos Extras</h2>
-      </div>
-      <div class="col-md-12 chart-container">
-        <h3 class="chart-title">Gráfico de Barras</h3>
-        <apexchart v-if="ingresosExtrasBarChartData.series.length" type="bar" :options="ingresosExtrasBarChartOptions" :series="ingresosExtrasBarChartData.series" width="134%" height="326"></apexchart>
-      </div>
-    </div>
-
-    <!-- Sección de Egresos -->
-    <div class="row mt-5 justify-content-center">
-      <div class="col-12">
-        <h2 class="text-center mb-4">Egresos</h2>
-      </div>
-      <div class="col-md-10">
-        <h3 class="text-center">Gráfico de Pastel</h3>
-        <apexchart v-if="egresosPieChartData.series.length" type="pie" :options="egresosPieChartOptions" :series="egresosPieChartData.series" width="100%" height="380"></apexchart>
-      </div>
-    </div>
-
-    <!-- Sección de Totales -->
-    <div class="row mt-5 justify-content-center">
-      <div class="col-12">
-        <h2 class="text-center mb-4">Totales</h2>
-      </div>
-      <div class="col-md-10">
-        <h3 class="text-center">Gráfico de Barras</h3>
-        <apexchart v-if="totalesBarChartData.series.length" type="bar" :options="totalesBarChartOptions" :series="totalesBarChartData.series" width="100%" height="360"></apexchart>
-      </div>
-    </div>
+    </main>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import NavigationBar from './NavigationBar.vue'
 import VueApexCharts from 'vue3-apexcharts'
 
 export default {
   name: 'InformesGraficosComponent',
   components: {
-    NavigationBar,
     apexchart: VueApexCharts
   },
   data() {
@@ -217,3 +266,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+@import './InformesGraficosComponent.css';
+</style>

@@ -11,7 +11,8 @@ import InformesGraficosComponent from '../components/InformesGraficosComponent.v
 import PagosRecurrentesComponent from '../components/PagosRecurrentesComponent.vue'
 import DepositosBancosComponent from '../components/DepositosBancosComponent.vue'
 import PasswordResetComponent from '../components/PasswordResetComponent.vue'
-import CredencialesComponent from '../components/CredencialesComponent.vue' // Importar el componente de credenciales
+import CredencialesComponent from '../components/CredencialesComponent.vue'
+import SeleccionTipoEgreso from '../components/SeleccionTipoEgreso.vue' // Nuevo componente
 
 const routes = [
   { path: '/', component: HomeComponent },
@@ -19,14 +20,28 @@ const routes = [
   { path: '/register', component: RegisterComponent },
   { path: '/dashboard', component: DashboardComponent, meta: { requiresAuth: true } },
   { path: '/ingresos', component: IngresosComponent, meta: { requiresAuth: true } },
-  { path: '/egresos', component: EgresosComponent, meta: { requiresAuth: true } },
+  { 
+    path: '/egresos',
+    redirect: '/egresos-tipo' // Redirección a la selección de tipo
+  },
+  { 
+    path: '/egresos-tipo',
+    component: SeleccionTipoEgreso,
+    meta: { requiresAuth: true }
+  },
+  { 
+    path: '/egresos/:tipo',
+    component: EgresosComponent,
+    meta: { requiresAuth: true },
+    props: true
+  },
   { path: '/total', component: TotalComponent, meta: { requiresAuth: true } },
   { path: '/otros_ingresos', component: OtroIngresoComponent, meta: { requiresAuth: true } },
   { path: '/informes_graficos', component: InformesGraficosComponent, meta: { requiresAuth: true } },
   { path: '/pagos_recurrentes', component: PagosRecurrentesComponent, meta: { requiresAuth: true } },
   { path: '/depositos_bancos', component: DepositosBancosComponent, meta: { requiresAuth: true } },
   { path: '/password_reset', component: PasswordResetComponent },
-  { path: '/credenciales', component: CredencialesComponent, meta: { requiresAuth: true } } // Nueva ruta
+  { path: '/credenciales', component: CredencialesComponent, meta: { requiresAuth: true } }
 ]
 
 const router = createRouter({

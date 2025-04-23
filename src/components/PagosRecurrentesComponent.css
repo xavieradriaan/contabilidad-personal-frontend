@@ -1,0 +1,253 @@
+:root {
+    --text-white: #FFFFFF;
+    --primary-blue: #1A2B3C;
+    --secondary-blue: #2D4A5E;
+    --light-gray: #F5F7FA;
+    --accent-gold: #FFD700;
+}
+
+/* Estilos base heredados del Login */
+.pagos-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  overflow: auto;
+  padding: 4rem 1rem 1rem;
+}
+
+.pagos-back-btn {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  background: transparent;
+  border: none;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  z-index: 100;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 0;
+}
+
+.pagos-back-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--accent-gold);
+  transform: scale(1.1);
+  box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.2);
+}
+
+.pagos-main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  margin-top: 2rem;
+}
+
+.pagos-main-title {
+  text-align: center;
+  margin-bottom: 1.8rem;
+  z-index: 15;
+}
+
+.pagos-brand-text {
+  font-size: clamp(2rem, 6.5vw, 2.5rem);
+  font-weight: 700;
+  color: var(--text-white);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  letter-spacing: -0.03em;
+}
+
+.pagos-main-subtitle {
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+  margin: 0.5rem 0 0.2rem;
+}
+
+.pagos-mes-subtitle {
+  font-size: clamp(1.2rem, 4vw, 1.6rem);
+  color: var(--accent-gold);
+  font-weight: 400;
+  margin: 0;
+}
+
+/* Estilos específicos de la tabla */
+.pagos-content-card {
+  background: rgba(255, 255, 255, 0.98);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+  z-index: 10;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.pagos-tabla-container {
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.pagos-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  min-width: 600px;
+}
+
+.pagos-table th,
+.pagos-table td {
+  padding: 0.8rem;
+  text-align: left;
+}
+
+.pagos-table thead {
+  background-color: var(--primary-blue);
+  color: white;
+}
+
+.pagos-table tbody tr:nth-child(even) {
+  background-color: var(--light-gray);
+}
+
+.pagos-table tbody td {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.pagos-checkbox {
+  transform: scale(1.2);
+  accent-color: var(--primary-blue);
+}
+
+/* Estilos total */
+.pagos-total-card {
+  background: var(--light-gray);
+  padding: 1.2rem;
+  border-radius: 8px;
+  margin: 1.5rem 0 0;
+  text-align: center;
+}
+
+.pagos-total-text {
+  font-size: 1.2rem;
+  color: var(--primary-blue);
+  margin: 0;
+}
+
+.pagos-total-text span {
+  color: var(--secondary-blue);
+  font-weight: 700;
+}
+
+/* Animación de monedas (igual al Login) */
+.pagos-animated-coins {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pagos-coin {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  animation: 
+    login-coinFloat 8s ease-in-out infinite,
+    login-coinSpin 6s linear infinite,
+    login-coinPulse 4s ease-in-out infinite;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+  z-index: 1;
+}
+
+.pagos-coin-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(0.9);
+  opacity: 0.8;
+}
+
+/* Posicionamiento de monedas (copiar mismo que DepositosBancosComponent) */
+/* Posicionamiento completo en toda la pantalla */
+.pagos-coin-1 { left: 5%; top: 10%; animation-delay: 0s; }
+.pagos-coin-2 { left: 15%; top: 30%; animation-delay: 1.2s; }
+.pagos-coin-3 { left: 25%; top: 15%; animation-delay: 2.5s; }
+.pagos-coin-4 { left: 35%; top: 25%; animation-delay: 3.7s; }
+.pagos-coin-5 { left: 45%; top: 10%; animation-delay: 4.9s; }
+.pagos-coin-6 { left: 55%; top: 30%; animation-delay: 1.8s; }
+.pagos-coin-7 { left: 65%; top: 15%; animation-delay: 3.1s; }
+.pagos-coin-8 { left: 75%; top: 25%; animation-delay: 5.3s; }
+.pagos-coin-9 { left: 85%; top: 10%; animation-delay: 2.4s; }
+.pagos-coin-10 { left: 95%; top: 30%; animation-delay: 4.6s; }
+.pagos-coin-11 { left: 10%; top: 50%; animation-delay: 6s; }
+.pagos-coin-12 { left: 30%; top: 65%; animation-delay: 1.5s; }
+.pagos-coin-13 { left: 50%; top: 55%; animation-delay: 3.8s; }
+.pagos-coin-14 { left: 70%; top: 60%; animation-delay: 5.2s; }
+.pagos-coin-15 { left: 90%; top: 45%; animation-delay: 2.9s; }
+.pagos-coin-16 { left: 5%; top: 80%; animation-delay: 0.5s; }
+.pagos-coin-17 { left: 20%; top: 75%; animation-delay: 1.5s; }
+.pagos-coin-18 { left: 35%; top: 85%; animation-delay: 2.5s; }
+.pagos-coin-19 { left: 50%; top: 90%; animation-delay: 3.5s; }
+.pagos-coin-20 { left: 65%; top: 80%; animation-delay: 4.5s; }
+.pagos-coin-21 { left: 80%; top: 70%; animation-delay: 0.8s; }
+.pagos-coin-22 { left: 95%; top: 85%; animation-delay: 1.8s; }
+.pagos-coin-23 { left: 50%; top: 50%; animation-delay: 2.8s; transform: translate(-50%, -50%) rotate(15deg); width: 45px; height: 45px; z-index: 3; }
+.pagos-coin-24 { left: 50%; top: 48%; animation-delay: 3.2s; transform: translate(-50%, -50%); width: 33px; height: 33px; }
+.pagos-coin-25 { left: 50%; top: 52%; animation-delay: 4.2s; transform: translate(-50%, -50%); width: 37px; height: 37px; }
+
+.pagos-container [class*="pagos-coin-"]:not(:nth-child(-n+15)) {
+  animation: 
+    login-coinFloat 7s ease-in-out infinite,
+    login-coinSpin 5s linear infinite,
+    login-coinFocus 2.5s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pagos-content-card {
+    padding: 1.5rem;
+  }
+  
+  .pagos-table {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagos-container {
+    padding: 3rem 1rem 1rem;
+  }
+  
+  .pagos-brand-text {
+    font-size: 2rem;
+  }
+  
+  .pagos-main-subtitle {
+    font-size: 1rem;
+  }
+  
+  .pagos-table th,
+  .pagos-table td {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+}

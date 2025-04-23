@@ -1,44 +1,119 @@
 <template>
-  <div class="container mt-5" style="position: relative;">
-    <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
-    <h1 class="text-center mb-4">Registrar Ingresos</h1>
-    <form @submit.prevent="addIngreso" class="card p-4 shadow-sm">
-      <div class="mb-3">
-        <label for="fecha" class="form-label">Fecha</label>
-        <input v-model="nuevoIngreso.fecha" id="fecha" type="date" class="form-control" required @change="checkIngresos">
+  <div class="ingresos-container">
+    <div class="ingresos-animated-coins">
+      <div v-for="index in 25" :key="index" class="ingresos-coin" :class="`ingresos-coin-${index}`">
+        <img src="/monedas.png" alt="Moneda animada" class="ingresos-coin-img">
       </div>
-      <div class="mb-3">
-        <label for="fuente" class="form-label">Fuente</label>
-        <select v-model="nuevoIngreso.fuente" id="fuente" class="form-select" required>
-          <option value="" disabled>Seleccione una fuente</option>
-          <option value="Ingresar Salario (Quincena)" :disabled="quincenaExists" :title="quincenaExists ? 'Ya se ha registrado un ingreso de Quincena para este mes' : ''">Ingresar Salario (Quincena)</option>
-          <option value="Ingresar Salario (Fin de Mes)" :disabled="finMesExists" :title="finMesExists ? 'Ya se ha registrado un ingreso de Fin de Mes para este mes' : ''">Ingresar Salario (Fin de Mes)</option>
-          <option value="Ingresos Extras">Ingresos Extras</option>
-        </select>
+    </div>
+
+    <button class="ingresos-back-btn" @click="$router.go(-1)">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <main class="ingresos-main-content">
+      <h1 class="ingresos-title">
+        <span class="ingresos-brand-text">CONTABILÍZATE</span>
+        <p class="ingresos-subtitle">Registro de Ingresos</p>
+      </h1>
+
+      <div class="ingresos-auth-card">
+        <form @submit.prevent="addIngreso" class="ingresos-auth-form">
+          <div class="ingresos-input-group">
+            <label for="fecha" class="ingresos-input-label">
+              <i class="fas fa-calendar-alt ingresos-icon"></i>
+              <span>Fecha</span>
+            </label>
+            <input
+              v-model="nuevoIngreso.fecha"
+              id="fecha"
+              type="date"
+              class="ingresos-auth-input"
+              required
+              @change="checkIngresos"
+            >
+          </div>
+
+          <div class="ingresos-input-group">
+            <label for="fuente" class="ingresos-input-label">
+              <i class="fas fa-wallet ingresos-icon"></i>
+              <span>Fuente de Ingreso</span>
+            </label>
+            <select
+              v-model="nuevoIngreso.fuente"
+              id="fuente"
+              class="ingresos-auth-input"
+              required
+              :class="{'ingresos-input-disabled': (quincenaExists || finMesExists)}"
+            >
+              <option value="" disabled>Seleccione una fuente</option>
+              <option 
+                value="Ingresar Salario (Quincena)" 
+                :disabled="quincenaExists" 
+                :title="quincenaExists ? 'Ya se ha registrado un ingreso de Quincena para este mes' : ''"
+              >Ingresar Salario (Quincena)</option>
+              <option 
+                value="Ingresar Salario (Fin de Mes)" 
+                :disabled="finMesExists" 
+                :title="finMesExists ? 'Ya se ha registrado un ingreso de Fin de Mes para este mes' : ''"
+              >Ingresar Salario (Fin de Mes)</option>
+              <option value="Ingresos Extras">Ingresos Extras</option>
+            </select>
+          </div>
+
+          <div v-if="nuevoIngreso.fuente === 'Ingresos Extras'" class="ingresos-input-group">
+            <label for="descripcion" class="ingresos-input-label">
+              <i class="fas fa-comment ingresos-icon"></i>
+              <span>Descripción</span>
+            </label>
+            <input
+              v-model="nuevoIngreso.descripcion"
+              id="descripcion"
+              type="text"
+              class="ingresos-auth-input"
+              maxlength="70"
+              placeholder="Descripción (máximo 70 caracteres)"
+              required
+            >
+          </div>
+
+          <div class="ingresos-input-group">
+            <label for="monto" class="ingresos-input-label">
+              <i class="fas fa-coins ingresos-icon"></i>
+              <span>Valor</span>
+            </label>
+            <input
+              v-model="nuevoIngreso.monto"
+              id="monto"
+              type="text"
+              class="ingresos-auth-input"
+              inputmode="decimal"
+              @input="validateMonto"
+              required
+              placeholder="Ingrese un valor con decimales, Ejm: '217,50'"
+            >
+          </div>
+
+          <button
+            type="submit"
+            class="ingresos-auth-btn ingresos-submit-btn"
+            :disabled="isSubmitting || !isFormValid"
+            :class="{'ingresos-loading': isSubmitting}"
+          >
+            <span v-if="!isSubmitting">Agregar Ingreso</span>
+            <i v-else class="fas fa-spinner fa-spin"></i>
+          </button>
+        </form>
       </div>
-      <div v-if="nuevoIngreso.fuente === 'Ingresos Extras'" class="mb-3">
-        <label for="descripcion" class="form-label">Descripción</label>
-        <input v-model="nuevoIngreso.descripcion" id="descripcion" type="text" class="form-control" maxlength="70" placeholder="Descripción (máximo 70 caracteres)" required style="color: #000;">
-      </div>
-      <div class="mb-3">
-        <label for="monto" class="form-label">Valor</label>
-        <input v-model="nuevoIngreso.monto" id="monto" type="text" class="form-control" inputmode="decimal" @input="validateMonto" required placeholder="Ingrese un valor con decimales, Ejm: '217,50'" :style="{ color: nuevoIngreso.monto ? '#000' : 'rgba(0, 0, 0, 0.3)' }">
-      </div>
-      <button type="submit" :class="['btn', 'w-100', isFormValid ? 'btn-primary' : 'btn-secondary']" :style="!isFormValid ? { backgroundColor: '#d3d3d3', borderColor: '#d3d3d3' } : {}" :disabled="isSubmitting || !isFormValid">Agregar Ingreso</button>
-    </form>
+    </main>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
-import NavigationBar from './NavigationBar.vue'
 
 export default {
   name: 'IngresosComponent',
-  components: {
-    NavigationBar
-  },
   data() {
     return {
       nuevoIngreso: {
@@ -49,42 +124,31 @@ export default {
       },
       quincenaExists: false,
       finMesExists: false,
-      isSubmitting: false  // Nueva propiedad para controlar el estado del botón
+      isSubmitting: false
     }
   },
   computed: {
     isFormValid() {
-      return this.nuevoIngreso.fuente && this.nuevoIngreso.monto && this.nuevoIngreso.fecha && parseFloat(this.nuevoIngreso.monto) > 0;
+      return this.nuevoIngreso.fuente && 
+             this.nuevoIngreso.monto && 
+             this.nuevoIngreso.fecha && 
+             parseFloat(this.nuevoIngreso.monto) > 0;
     }
   },
   methods: {
-    updateDescripcion() {
-      if (this.nuevoIngreso.fuente === 'Ingresar Salario (Quincena)') {
-        this.nuevoIngreso.descripcion = 'Quincena'
-      } else if (this.nuevoIngreso.fuente === 'Ingresar Salario (Fin de Mes)') {
-        this.nuevoIngreso.descripcion = 'Fin de Mes'
-      } else {
-        this.nuevoIngreso.descripcion = ''
-      }
-    },
     validateMonto(event) {
       let value = event.target.value.replace(/,/g, '.')
-      // Remove non-numeric characters except for the first dot
       value = value.replace(/[^0-9.]/g, '')
-      // Ensure only one dot is present
       const parts = value.split('.')
       if (parts.length > 2) {
         value = parts[0] + '.' + parts.slice(1).join('')
       }
-      // Limit to two decimal places
       if (parts[1] && parts[1].length > 2) {
         value = parts[0] + '.' + parts[1].slice(0, 2)
       }
-      // Limit to 7 digits before the decimal point
       if (parts[0].length > 7) {
         value = parts[0].slice(0, 7) + (parts[1] ? '.' + parts[1] : '')
       }
-      // Check for leading zeros or negative values
       if (value.startsWith('0') || parseFloat(value) <= 0) {
         Swal.fire({
           icon: 'error',
@@ -111,7 +175,7 @@ export default {
         })
         this.quincenaExists = response.data.quincena_exists
         this.finMesExists = response.data.fin_mes_exists
-        this.setDefaultFuente()  // Establecer la fuente por defecto nuevamente
+        this.setDefaultFuente()
       } catch (error) {
         console.error('Error al verificar ingresos:', error)
       }
@@ -126,7 +190,7 @@ export default {
       }
     },
     async addIngreso() {
-      this.isSubmitting = true  // Deshabilitar el botón al hacer clic
+      this.isSubmitting = true
       const [year, month] = this.nuevoIngreso.fecha.split('-');
       try {
         const response = await axios.get('/check_ingresos', {
@@ -162,16 +226,14 @@ export default {
           }
         })
         this.nuevoIngreso = { fuente: '', descripcion: '', fecha: '', monto: '' }
-        await this.checkIngresos()  // Verificar nuevamente los ingresos después de agregar uno nuevo
-        this.setDefaultFuente()  // Establecer la fuente por defecto nuevamente
-        Swal.fire({
+        await this.checkIngresos()
+        this.setDefaultFuente()
+        await Swal.fire({
           icon: 'success',
           title: 'Ingreso Exitoso!',
           text: 'El ingreso ha sido agregado correctamente.',
           showConfirmButton: false,
           timer: 1500
-        }).then(() => {
-          this.isSubmitting = false  // Habilitar el botón después de mostrar el mensaje
         })
       } catch (error) {
         console.error('Error al registrar ingreso:', error)
@@ -180,9 +242,9 @@ export default {
           title: 'Error',
           text: 'Hubo un problema al registrar el ingreso.',
           showConfirmButton: true
-        }).then(() => {
-          this.isSubmitting = false  // Habilitar el botón después de mostrar el mensaje de error
         })
+      } finally {
+        this.isSubmitting = false
       }
     }
   }
@@ -190,8 +252,5 @@ export default {
 </script>
 
 <style>
-/* Estilo para cambiar el cursor cuando se pasa el mouse sobre las opciones deshabilitadas */
-option[disabled] {
-  cursor: not-allowed;
-}
+@import './IngresosComponent.css';
 </style>

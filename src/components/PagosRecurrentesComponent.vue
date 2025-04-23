@@ -1,45 +1,71 @@
 <template>
-  <div class="container mt-5">
-    <navigation-bar :showBack="true" :showHome="false" :showLogout="false"></navigation-bar>
-    <h1 class="text-center mb-1">Pagos Recurrentes</h1>
-    <h3 class="text-center mb-4" style="font-size: 1.6rem;">({{ nombreMesActual }})</h3>
-    <div class="card p-4 shadow-sm">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Categoría</th>
-            <th>Fecha</th>
-            <th>Monto</th>
-            <th>Pagado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="pago in pagosRecurrentes" :key="pago.categoria">
-            <td>{{ pago.categoria }}</td>
-            <td>{{ pago.fecha ? formatDate(pago.fecha) : '' }}</td>
-            <td>{{ parseFloat(pago.monto || 0).toFixed(2) }}</td>
-            <td>
-              <input type="checkbox" v-model="pago.pagado" disabled>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="text-end mt-3">
-        <strong>Total Pagos Recurrentes: {{ totalPagosRecurrentes }}</strong>
+  <div class="pagos-container">
+    <!-- Usa el componente NavigationBar aquí si es necesario -->
+    <NavigationBar />
+    <!-- Animación de monedas -->
+    <div class="pagos-animated-coins">
+      <div v-for="index in 25" :key="index" class="pagos-coin" :class="`pagos-coin-${index}`">
+        <img src="/monedas.png" alt="Moneda animada" class="pagos-coin-img">
       </div>
     </div>
+
+    <!-- Botón de regreso -->
+    <button class="pagos-back-btn" @click="$router.go(-1)">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <main class="pagos-main-content">
+      <h1 class="pagos-main-title">
+        <span class="pagos-brand-text">CONTABILÍZATE</span>
+        <p class="pagos-main-subtitle">Gestión de Pagos Recurrentes</p>
+      </h1>
+      <h3 
+        class="pagos-mes-subtitle" 
+        :class="{ 'mes-blanco': true }"
+      >
+        {{ nombreMesActual }}
+      </h3>
+
+      <div class="pagos-content-card">
+        <div class="pagos-tabla-container">
+          <table class="pagos-table">
+            <thead>
+              <tr>
+                <th>Categoría</th>
+                <th>Fecha</th>
+                <th>Monto</th>
+                <th>Pagado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="pago in pagosRecurrentes" :key="pago.categoria">
+                <td>{{ pago.categoria }}</td>
+                <td>{{ pago.fecha ? formatDate(pago.fecha) : '' }}</td>
+                <td>${{ parseFloat(pago.monto || 0).toFixed(2) }}</td>
+                <td>
+                  <input type="checkbox" v-model="pago.pagado" disabled class="pagos-checkbox">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagos-total-card">
+          <p class="pagos-total-text">
+            <strong>Total Pagos Recurrentes:</strong> 
+            <span>${{ totalPagosRecurrentes }}</span>
+          </p>
+        </div>
+      </div>
+    </main>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import NavigationBar from './NavigationBar.vue'
 
 export default {
   name: 'PagosRecurrentesComponent',
-  components: {
-    NavigationBar
-  },
   data() {
     return {
       pagosRecurrentes: [],
@@ -113,3 +139,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+@import './PagosRecurrentesComponent.css';
+
+.mes-blanco {
+  color: var(--text-white);
+}
+</style>

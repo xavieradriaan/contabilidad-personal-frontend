@@ -1,0 +1,387 @@
+:root {
+    --text-white: #FFFFFF;
+    --primary-blue: #1A2B3C;
+    --secondary-blue: #2D4A5E;
+    --light-gray: #F5F7FA;
+    --accent-gold: #FFD700;
+}
+
+.credenciales-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow: auto;
+    padding: 4rem 1rem 1rem;
+}
+
+.credenciales-animated-coins {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: space-around;
+}
+
+.credenciales-coin {
+    position: absolute;
+    width: 45px; /* Increase size */
+    height: 45px;
+    animation: credenciales-coinFloat 8s ease-in-out infinite;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+    z-index: 1;
+    top: calc(100% * var(--random-y, 0.5)); /* Random vertical position */
+    left: calc(100% * var(--random-x, 0.5)); /* Random horizontal position */
+    transform-origin: center; /* Fix spinning effect */
+}
+
+.credenciales-coin-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(0.9);
+    opacity: 0.8;
+}
+
+@keyframes credenciales-coinFloat {
+    0%, 100% { 
+        transform: translateY(0) rotateZ(0deg); 
+    }
+    50% { 
+        transform: translateY(-40px) rotateZ(360deg); 
+    }
+}
+
+@keyframes credenciales-coinSpin {
+    0% { transform: rotateZ(0deg) scale(1); }
+    100% { transform: rotateZ(360deg) scale(1); }
+}
+
+@keyframes credenciales-coinPulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.9; }
+}
+
+.credenciales-main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+    margin-top: 2rem;
+}
+
+.credenciales-main-card {
+    background: rgba(255, 255, 255, 0.98);
+    padding: 1.5rem; /* Reduce padding */
+    border-radius: 12px; /* Slightly smaller border radius */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Adjust shadow */
+    width: 100%;
+    max-width: 600px; /* Increase max width */
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(3px); /* Slightly reduce blur */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.credenciales-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Reduce gap between elements */
+    margin-bottom: 1.5rem; /* Increase bottom margin */
+}
+
+.credenciales-input-group {
+    margin-bottom: 0.8rem; /* Reduce spacing between input groups */
+}
+
+.credenciales-input-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Reduce gap between icon and label */
+    color: var(--primary-blue);
+    margin-bottom: 0.3rem; /* Reduce bottom margin */
+    font-size: 0.85rem; /* Smaller font size */
+    font-weight: 500;
+}
+
+.credenciales-auth-input {
+    width: 100%;
+    padding: 0.6rem; /* Reduce padding */
+    background: var(--light-gray);
+    border: 1.5px solid rgba(0, 0, 0, 0.08); /* Thinner border */
+    border-radius: 6px; /* Smaller border radius */
+    font-size: 0.9rem; /* Smaller font size */
+    transition: all 0.3s ease;
+}
+
+.credenciales-textarea {
+    min-height: 80px; /* Reduce height */
+    resize: vertical;
+}
+
+.credenciales-auth-input:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(26, 43, 60, 0.1);
+}
+
+.credenciales-auth-btn {
+    width: 100%;
+    padding: 0.7rem; /* Reduce padding */
+    border-radius: 6px; /* Smaller border radius */
+    font-size: 0.9rem; /* Smaller font size */
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.credenciales-save-btn {
+    background: var(--primary-blue);
+    color: var(--text-white);
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto; /* Center the button */
+    display: block;
+}
+
+.credenciales-save-btn:not([disabled])::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, 
+        rgba(255, 255, 255, 0) 20%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0) 80%
+    );
+    animation: credenciales-btn-shine 3s infinite;
+    pointer-events: none;
+}
+
+@keyframes credenciales-btn-shine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.credenciales-list-section {
+    margin-top: 0.9rem; /* Reduce top margin */
+}
+
+.credenciales-list-title {
+    color: var(--text-white);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.credenciales-item {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    position: relative;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.credenciales-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.credenciales-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.credenciales-item-title {
+    color: var(--primary-blue);
+    font-size: 0.95rem;
+    font-weight: 600;
+    max-width: 80%;
+}
+
+.credenciales-delete-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    color: #ff4d4d;
+    font-size: 1rem;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+.credenciales-delete-btn:hover {
+    background: rgba(255, 77, 77, 0.1);
+    transform: scale(1.1);
+}
+
+.credenciales-delete-btn:active {
+    transform: scale(0.95);
+}
+
+.credenciales-item-content {
+    color: var(--secondary-blue);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    padding-right: 1.5rem;
+}
+
+.credenciales-list-container {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+}
+
+.credenciales-empty {
+    text-align: center;
+    color: var(--secondary-blue);
+    padding: 2rem;
+}
+
+.credenciales-brand-text {
+    color: var(--text-white);
+    font-size: 2.5rem; /* Adjust size as needed */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.credenciales-animated-coins::before {
+    content: '';
+    display: none; /* Remove repeated background */
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url('~@/assets/monedas.png') repeat; /* Use the same path as in Login */
+}
+
+.credenciales-main-subtitle {
+    color: var(--text-white);
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+/* Random positioning for coins */
+.credenciales-coin-1 { left: 5%; top: 10%; animation-delay: 0s; }
+.credenciales-coin-2 { left: 15%; top: 30%; animation-delay: 1.2s; }
+.credenciales-coin-3 { left: 25%; top: 15%; animation-delay: 2.5s; }
+.credenciales-coin-4 { left: 35%; top: 25%; animation-delay: 3.7s; }
+.credenciales-coin-5 { left: 45%; top: 10%; animation-delay: 4.9s; }
+.credenciales-coin-6 { left: 55%; top: 30%; animation-delay: 1.8s; }
+.credenciales-coin-7 { left: 65%; top: 15%; animation-delay: 3.1s; }
+.credenciales-coin-8 { left: 75%; top: 25%; animation-delay: 5.3s; }
+.credenciales-coin-9 { left: 85%; top: 10%; animation-delay: 2.4s; }
+.credenciales-coin-10 { left: 95%; top: 30%; animation-delay: 4.6s; }
+.credenciales-coin-11 { left: 10%; top: 70%; animation-delay: 6s; }
+.credenciales-coin-12 { left: 30%; top: 80%; animation-delay: 1.5s; }
+.credenciales-coin-13 { left: 50%; top: 70%; animation-delay: 3.8s; }
+.credenciales-coin-14 { left: 70%; top: 80%; animation-delay: 5.2s; }
+.credenciales-coin-15 { left: 90%; top: 70%; animation-delay: 2.9s; }
+.credenciales-coin-16 { left: 48%; top: 50%; animation-delay: 0.5s; }
+.credenciales-coin-17 { left: 52%; top: 50%; animation-delay: 1.5s; }
+.credenciales-coin-18 { left: 50%; top: 46%; animation-delay: 2.5s; }
+.credenciales-coin-19 { left: 50%; top: 54%; animation-delay: 3.5s; }
+.credenciales-coin-20 { left: 50%; top: 50%; animation-delay: 4.5s; }
+.credenciales-coin-21 { left: 50%; top: 45%; animation-delay: 0.8s; }
+.credenciales-coin-22 { left: 50%; top: 55%; animation-delay: 1.8s; }
+.credenciales-coin-23 { left: 50%; top: 50%; animation-delay: 2.8s; }
+.credenciales-coin-24 { left: 50%; top: 48%; animation-delay: 3.2s; }
+.credenciales-coin-25 { left: 50%; top: 52%; animation-delay: 4.2s; }
+
+.credenciales-back-btn {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    background: transparent;
+    border: none;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    z-index: 100;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0;
+}
+
+.credenciales-back-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--accent-gold);
+    transform: scale(1.1);
+    box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.2);
+}
+
+.credenciales-back-btn i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.credenciales-back-btn:hover i {
+    transform: translateX(-2px);
+}
+
+@media (max-width: 768px) {
+    .credenciales-main-card {
+        padding: 1.5rem;
+    }
+    
+    .credenciales-item {
+        padding: 1rem;
+    }
+
+    .credenciales-back-btn {
+        top: 1.2rem;
+        left: 1.2rem;
+        width: 32px;
+        height: 32px;
+    }
+    
+    .credenciales-back-btn i {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .credenciales-container {
+        padding: 3rem 1rem 1rem;
+    }
+    
+    .credenciales-brand-text {
+        font-size: 2rem;
+    }
+    
+    .credenciales-main-subtitle {
+        font-size: 1rem;
+    }
+}

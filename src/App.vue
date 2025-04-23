@@ -1,12 +1,16 @@
 <template>
   <div id="app">
-    <div v-if="isLoggedIn" class="welcome-message">Hola, {{ username }}</div>
-    <navigation-bar :showHome="isLoggedIn" :showLogout="isLoggedIn" @logout-clicked="logout"></navigation-bar>
+    <navigation-bar 
+      :showHome="isLoggedIn" 
+      :showLogout="isLoggedIn" 
+      @logout-clicked="logout"
+    />
     <router-view/>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import axios from 'axios'
 import NavigationBar from './components/NavigationBar.vue'
 import inactivityLogout from './mixins/inactivityLogout.js'
@@ -19,34 +23,40 @@ export default {
   mixins: [inactivityLogout],
   data() {
     return {
-      isLoggedIn: !!localStorage.getItem('token'),
-      username: localStorage.getItem('username')
-    }
-  },
-  watch: {
-    isLoggedIn(newVal) {
-      if (!newVal) {
-        this.$router.push('/login')
-      }
+      isLoggedIn: !!localStorage.getItem('token')
     }
   },
   methods: {
+    ...mapActions(['applyTheme']),
     async logout() {
       try {
         await axios.post('/logout', {}, {
-          headers: {
+          headers: { 
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         })
-        localStorage.removeItem('token')
-        localStorage.removeItem('username')
-        this.isLoggedIn = false
-        this.username = null
-        this.$router.push('/login')
+        this.clearSession()
       } catch (error) {
         console.error('Error al cerrar sesión:', error)
+        this.clearSession()
       }
+    },
+    clearSession() {
+      localStorage.clear()
+      this.isLoggedIn = false
+      this.$router.push('/login')
     }
   }
 }
 </script>
+
+<style>
+:root {
+  --welcome-bg: var(--primary-color);
+  --welcome-text: var(--accent-color);
+}
+
+.welcome-message {
+  display: none; /* Removed functionality */
+}
+</style>
