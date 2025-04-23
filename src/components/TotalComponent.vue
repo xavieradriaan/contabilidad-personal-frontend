@@ -16,7 +16,6 @@
       </div>
     </div>
 
-    <!-- Botón de regreso agregado aquí -->
     <button class="total-back-btn" @click="$router.go(-1)">
       <i class="fas fa-chevron-left"></i>
     </button>
@@ -360,5 +359,9 @@ export default {
   display: flex;
   justify-content: center;
   gap: 1rem; /* Optional: Adds spacing between buttons */
+}
+
+.total-container {
+  padding-top: 0; /* Removed unnecessary padding */
 }
 </style>
