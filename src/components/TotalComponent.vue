@@ -354,14 +354,8 @@ export default {
 <style scoped>
 @import './TotalComponent.css';
 
-/* Add this CSS rule to center the buttons */
-.total-buttons-group {
-  display: flex;
-  justify-content: center;
-  gap: 1rem; /* Optional: Adds spacing between buttons */
-}
-
+/* Solo si necesitas sobreescribir algo */
 .total-container {
-  padding-top: 0; /* Removed unnecessary padding */
+  padding-top: 0;
 }
 </style>
