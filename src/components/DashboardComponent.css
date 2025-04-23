@@ -9,16 +9,17 @@
 }
 
 .dashboard-container {
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 1rem;
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
     font-family: 'Inter', sans-serif;
-    position: relative;
     overflow: hidden;
-    padding: 4rem 1rem 1rem;
 }
 
 .dashboard-animated-coins {
