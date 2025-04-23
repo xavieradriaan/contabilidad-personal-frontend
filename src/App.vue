@@ -54,13 +54,13 @@ export default {
 html, body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow-x: hidden;
   width: 100%;
   height: 100%;
 }
 
 #app {
-  overflow: hidden;
+  overflow-y: auto;
   width: 100%;
   height: 100%;
   position: relative;
