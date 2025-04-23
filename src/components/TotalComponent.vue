@@ -2,20 +2,20 @@
   <div class="total-container">
     <div class="total-animated-coins">
       <div
-        v-for="index in 60" 
+        v-for="index in 30" 
         :key="index" 
         class="total-coin" 
         :style="{ 
           top: `${Math.random() * 100}vh`, 
           left: `${Math.random() * 100}vw`, 
-          animationDelay: `${Math.random() * 5}s` 
+          animationDelay: `${Math.random() * 5}s`,
+          visibility: (Math.random() > 0.2 || (index > 5 && index < 10)) ? 'visible' : 'hidden' // Avoid coins near the title
         }"
       >
         <img src="/monedas.png" alt="Moneda animada" class="total-coin-img">
       </div>
     </div>
 
-    <!-- Botón de regreso agregado aquí -->
     <button class="total-back-btn" @click="$router.go(-1)">
       <i class="fas fa-chevron-left"></i>
     </button>
@@ -64,10 +64,10 @@
 
           <div class="total-buttons-group">
             <button type="submit" class="total-main-btn total-consult-btn">
-              Consultar
+              <span class="btn-text">Consultar</span>
             </button>
             <button @click="exportToXML" class="total-main-btn total-export-btn">
-              Exportar a XML
+              <span class="btn-text">Exportar XML</span>
             </button>
           </div>
         </form>
@@ -354,10 +354,8 @@ export default {
 <style scoped>
 @import './TotalComponent.css';
 
-/* Add this CSS rule to center the buttons */
-.total-buttons-group {
-  display: flex;
-  justify-content: center;
-  gap: 1rem; /* Optional: Adds spacing between buttons */
+/* Solo si necesitas sobreescribir algo */
+.total-container {
+  padding-top: 0;
 }
 </style>
