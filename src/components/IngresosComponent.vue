@@ -1,9 +1,7 @@
 <template>
   <div class="ingresos-container">
     <div class="ingresos-animated-coins">
-      <div v-for="index in 25" :key="index" class="ingresos-coin" :class="`ingresos-coin-${index}`">
-        <img src="/monedas.png" alt="Moneda animada" class="ingresos-coin-img">
-      </div>
+      <!-- Removed the coin animation behind the title -->
     </div>
 
     <button class="ingresos-back-btn" @click="$router.go(-1)">
