@@ -22,6 +22,7 @@
     );
     font-family: 'Inter', sans-serif;
     padding: 1rem;
+    padding-top: 2rem; /* Adjusted padding to move content slightly upwards */
 }
 
 .home-main-content {
@@ -32,6 +33,7 @@
     width: 100%;
     max-width: 1200px;
     text-align: center;
+    margin-top: -2rem; /* Negative margin to shift content upwards */
 }
 
 .home-hero-section {
