@@ -2,7 +2,7 @@
   <div class="total-container">
     <div class="total-animated-coins">
       <div
-        v-for="index in 60" 
+        v-for="index in 30" 
         :key="index" 
         class="total-coin" 
         :style="{ 
@@ -64,10 +64,10 @@
 
           <div class="total-buttons-group">
             <button type="submit" class="total-main-btn total-consult-btn">
-              Consultar
+              <span class="btn-text">Consultar</span>
             </button>
             <button @click="exportToXML" class="total-main-btn total-export-btn">
-              Exportar a XML
+              <span class="btn-text">Exportar XML</span>
             </button>
           </div>
         </form>

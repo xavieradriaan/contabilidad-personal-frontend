@@ -346,3 +346,134 @@
 .navigation-bar button:hover {
     transform: scale(1.1);
 }
+
+/* Ajustes generales para móvil */
+@media (max-width: 480px) {
+  .total-container {
+    padding: 3rem 0.5rem 1rem;
+  }
+  
+  .total-main-card {
+    max-width: 100%;
+    padding: 1.5rem 1rem;
+    border-radius: 12px;
+    margin: 0 0.5rem;
+  }
+  
+  .total-main-title {
+    font-size: 1.8rem;
+  }
+  
+  .total-main-subtitle {
+    font-size: 1.2rem;
+  }
+  
+  .total-input-group {
+    margin-bottom: 0.8rem;
+  }
+  
+  .total-input-label {
+    font-size: 0.9rem;
+  }
+  
+  .total-main-input {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+  
+  .total-buttons-group {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  
+  .total-main-btn {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .total-balance-card {
+    margin: 1.5rem 0;
+    padding: 1rem;
+  }
+  
+  .total-balance-amount {
+    font-size: 1.8rem;
+    flex-wrap: wrap;
+  }
+  
+  .total-month-summary {
+    padding: 1rem;
+  }
+  
+  .total-month-title {
+    font-size: 1.3rem;
+  }
+  
+  .total-month-list-item {
+    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
+  }
+  
+  .total-table-title {
+    font-size: 1.1rem;
+  }
+  
+  .total-data-table th,
+  .total-data-table td {
+    padding: 0.8rem;
+    font-size: 0.85rem;
+    min-width: 100px;
+  }
+  
+  .total-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .navigation-bar {
+    top: 3.5rem !important;
+    left: 1rem !important;
+  }
+}
+
+/* Mejoras específicas para tablas */
+.total-data-table {
+  min-width: 600px;
+}
+
+.total-table-section {
+  margin-top: 2rem;
+}
+
+.total-table-title {
+  color: var(--primary-blue);
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+/* Ajustes de alineación */
+.total-balance-title,
+.total-month-title {
+  text-align: center;
+}
+
+/* Mejora en los inputs */
+.total-main-input {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Espaciado entre secciones */
+.total-month-summary,
+.total-table-section {
+  margin-top: 1.5rem;
+}
+
+/* Ajuste del botón de regreso */
+@media (max-width: 480px) {
+  .total-back-btn {
+    top: 1rem;
+    left: 1rem;
+  }
+}
