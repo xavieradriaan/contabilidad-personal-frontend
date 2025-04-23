@@ -1,5 +1,5 @@
 <template>
-  <div class="egresos-container">
+  <div class="egresos-container" :class="{ 'egresos-disabled': isCredito }">
     <div class="egresos-animated-coins">
       <div v-for="index in 25" :key="index" class="egresos-coin" :class="`egresos-coin-${index}`">
         <img src="/monedas.png" alt="Moneda animada" class="egresos-coin-img">
@@ -139,6 +139,15 @@
         </div>
       </div>
     </div>
+
+    <!-- Overlay para crédito -->
+    <div v-if="isCredito" class="credito-disabled-overlay">
+      <div class="overlay-content">
+        <i class="fas fa-lock"></i>
+        <h3>Módulo en desarrollo</h3>
+        <p>Los egresos de crédito estarán disponibles próximamente</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -185,6 +194,9 @@ export default {
              this.nuevoEgreso.monto && 
              this.nuevoEgreso.fecha && 
              parseFloat(this.nuevoEgreso.monto) > 0;
+    },
+    isCredito() {
+      return this.$route.params.tipo === 'credito';
     }
   },
   async created() {
@@ -292,4 +304,49 @@ export default {
 
 <style>
 @import './EgresosComponent.css';
+
+.egresos-disabled {
+  position: relative;
+}
+
+.credito-disabled-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.overlay-content {
+  max-width: 400px;
+  padding: 2rem;
+}
+
+.overlay-content i {
+  font-size: 2.5rem;
+  color: var(--primary-blue);
+  margin-bottom: 1rem;
+}
+
+.overlay-content h3 {
+  color: var(--primary-blue);
+  margin-bottom: 0.5rem;
+}
+
+.overlay-content p {
+  color: var(--secondary-blue);
+}
+
+.egresos-disabled .egresos-main-content {
+  filter: blur(2px);
+  pointer-events: none;
+  user-select: none;
+}
 </style>
