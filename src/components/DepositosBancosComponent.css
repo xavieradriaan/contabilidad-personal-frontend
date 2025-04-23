@@ -2,9 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Changed from center to flex-start */
   min-height: 100vh;
-  padding-top: 2rem; /* Adjusted padding to move content slightly upwards */
+  padding-top: 0; /* Removed unnecessary padding */
+  margin-top: -2rem; /* Adjusted margin to remove extra space */
   background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
   font-family: 'Inter', sans-serif;
   position: relative;
