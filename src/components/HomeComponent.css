@@ -301,6 +301,14 @@
     }
 }
 
+/* Ajuste adicional para pantallas grandes */
+@media (min-width: 1024px) {
+    .home-auth-card {
+        max-width: 450px; /* Reduce aún más el tamaño máximo del cuadro */
+        padding: 1.5rem; /* Ajusta el relleno para mayor compactación */
+    }
+}
+
 @media (max-width: 768px) {
     .home-container .home-brand-text {
         font-size: clamp(1.8rem, 7.5vw, 2rem);
