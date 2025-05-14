@@ -74,4 +74,42 @@ html, body {
 .welcome-message {
   display: none; /* Removed functionality */
 }
+
+/* Estilos para el popup de recordatorios */
+.dashboard-recordatorio-popup {
+  background: #FFFFFF !important; /* Fondo completamente opaco */
+  border: 2px solid var(--glass-border) !important;
+  border-radius: 16px !important;
+  color: var(--primary-blue) !important;
+  font-family: 'Inter', sans-serif !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+  opacity: 1 !important; /* Asegurar opacidad completa */
+}
+
+.dashboard-recordatorio-popup .swal2-popup {
+  background: #FFFFFF !important; /* Forzar fondo blanco en contenedor interno */
+}
+
+.dashboard-recordatorio-popup .swal2-icon {
+  color: var(--primary-blue) !important; /* Color del icono 'i' */
+  border-color: var(--primary-blue) !important;
+}
+
+/* Ajustar posición del icono */
+.dashboard-recordatorio-popup .swal2-icon {
+  margin: 1rem auto 0.5rem;
+}
+
+/* Sobreescribir clase dashboard-brand-text en el popup */
+.dashboard-recordatorio-popup .dashboard-brand-text {
+  color: var(--primary-blue) !important;
+  text-shadow: none !important;
+}
+
+/* Sobreescribir clase dashboard-auth-subtitle en el popup */
+.dashboard-recordatorio-popup .dashboard-auth-subtitle {
+  color: var(--primary-blue) !important;
+  opacity: 0.9 !important;
+  margin-bottom: 1rem !important;
+}
 </style>

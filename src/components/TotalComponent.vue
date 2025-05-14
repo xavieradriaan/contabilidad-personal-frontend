@@ -95,7 +95,10 @@
               Total de Ingresos + Otros Ingresos: ${{ formatCurrency(total_ingresos + total_otros_ingresos) }}
             </li>
             <li class="total-month-list-item">
-              Total Egresos: ${{ formatCurrency(total_egresos) }}
+              Total Egresos (sin incluir Tarjetas de Crédito): ${{ formatCurrency(total_egresos) }}
+            </li>
+            <li class="total-month-list-item">
+              Consumos con Tarjetas de Crédito: ${{ formatCurrency(total_tarjetas_credito) }}
             </li>
             <li class="total-month-list-item">
               Saldo mes de ({{ nombre_mes }}): ${{ formatCurrency(total) }}
@@ -164,11 +167,67 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="egreso in detalles_egresos" :key="egreso.id">
+                <tr v-for="egreso in detalles_egresos.filter(e => e.tipo_egreso !== 'credito')" :key="egreso.id">
+                  <td>{{ egreso.categoria }}</td>
+                  <td>
+                    {{ egreso.categoria === 'Pago de tarjetas' && egreso.bancos ? `(${egreso.bancos})` : egreso.subcategoria }}
+                  </td>
+                  <td>{{ formatDate(egreso.fecha) }}</td>
+                  <td>${{ formatCurrency(egreso.monto) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div v-if="detalles_egresos_credito.length" class="total-table-section">
+          <h3 class="total-table-title">Consumos con Tarjetas de Crédito</h3>
+          <div class="total-table-container">
+            <table class="total-data-table">
+              <thead>
+                <tr>
+                  <th>Tarjeta</th>
+                  <th>Categoría</th>
+                  <th>Descripción</th>
+                  <th>Fecha</th>
+                  <th>Monto</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="egreso in detalles_egresos_credito" :key="egreso.id">
+                  <td>{{ egreso.bancos }}</td>
                   <td>{{ egreso.categoria }}</td>
                   <td>{{ egreso.subcategoria }}</td>
                   <td>{{ formatDate(egreso.fecha) }}</td>
                   <td>${{ formatCurrency(egreso.monto) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div v-if="detalles_tarjetas.length" class="total-table-section">
+          <h3 class="total-table-title">Estado de Tarjetas de Crédito</h3>
+          <div class="total-table-container">
+            <table class="total-data-table">
+              <thead>
+                <tr>
+                  <th>Tarjeta</th>
+                  <th>Fecha de Corte</th>
+                  <th>Fecha de Pago</th>
+                  <th>Monto Pendiente</th>
+                  <th>Pagada</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="tarjeta in detalles_tarjetas" :key="tarjeta.id">
+                  <td>{{ tarjeta.tarjeta_nombre }}</td>
+                  <td>{{ formatDate(tarjeta.fecha_corte) }}</td>
+                  <td>{{ formatDate(tarjeta.fecha_pago) }}</td>
+                  <td>${{ formatCurrency(tarjeta.monto) }}</td>
+                  <td>
+                    <input type="checkbox" :checked="tarjeta.pagada" disabled />
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -218,6 +277,7 @@ export default {
       total_ingresos: 0,
       total_otros_ingresos: 0,
       total_egresos: 0,
+      total_tarjetas_credito: 0, // Add a new property to track credit card expenses
       total: 0,
       saldo_anterior: 0,
       saldo_disponible: 0,
@@ -225,6 +285,8 @@ export default {
       detalles_ingresos: [],
       detalles_otros_ingresos: [],
       detalles_egresos: [],
+      detalles_tarjetas: [],
+      detalles_egresos_credito: [],
       showSaldo: false
     }
   },
@@ -238,26 +300,60 @@ export default {
           year: this.year,
           month: this.month
         }
-      })
-      this.total_ingresos = parseFloat(response.data.total_ingresos)
-      this.total_otros_ingresos = parseFloat(response.data.total_otros_ingresos)
-      this.total_egresos = parseFloat(response.data.total_egresos)
-      this.total = parseFloat(response.data.total)
-      this.saldo_anterior = parseFloat(response.data.saldo_anterior)
-      this.saldo_disponible = parseFloat(response.data.saldo_disponible)
-      this.nombre_mes = response.data.nombre_mes
+      });
+      this.total_ingresos = parseFloat(response.data.total_ingresos);
+      this.total_otros_ingresos = parseFloat(response.data.total_otros_ingresos);
+      this.total_egresos = parseFloat(
+        response.data.detalles_egresos
+          .filter(egreso => egreso.tipo_egreso !== 'credito')
+          .reduce((sum, egreso) => sum + parseFloat(egreso.monto), 0)
+      ); // Only include debit expenses
+      this.total_tarjetas_credito = parseFloat(
+        response.data.detalles_egresos
+          .filter(egreso => egreso.tipo_egreso === 'credito')
+          .reduce((sum, egreso) => sum + parseFloat(egreso.monto), 0)
+      ); // Sum credit card expenses
+      this.total = this.total_ingresos + this.total_otros_ingresos - this.total_egresos;
+      this.saldo_anterior = parseFloat(response.data.saldo_anterior);
+      this.saldo_disponible = this.saldo_anterior + this.total_ingresos + this.total_otros_ingresos - this.total_egresos; 
+      // Exclude total_tarjetas_credito from saldo_disponible
+      this.nombre_mes = response.data.nombre_mes;
       this.detalles_ingresos = response.data.detalles_ingresos.map(ingreso => ({
         ...ingreso,
         monto: parseFloat(ingreso.monto)
-      }))
+      }));
       this.detalles_otros_ingresos = response.data.detalles_otros_ingresos.map(otro_ingreso => ({
         ...otro_ingreso,
         monto: parseFloat(otro_ingreso.monto)
-      }))
+      }));
       this.detalles_egresos = response.data.detalles_egresos.map(egreso => ({
         ...egreso,
         monto: parseFloat(egreso.monto)
-      }))
+      }));
+      this.detalles_egresos_credito = response.data.detalles_egresos
+        .filter(egreso => egreso.tipo_egreso === 'credito')
+        .map(egreso => ({
+          ...egreso,
+          monto: parseFloat(egreso.monto)
+        }));
+    },
+    async fetchTarjetas() {
+      try {
+        const response = await axios.get('/tarjetas_credito', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          params: {
+            include_paid: true  // Include paid cards
+          }
+        });
+        this.detalles_tarjetas = response.data.map(tarjeta => ({
+          ...tarjeta,
+          monto: parseFloat(tarjeta.monto)
+        }));
+      } catch (error) {
+        console.error('Error al obtener detalles de tarjetas de crédito:', error);
+      }
     },
     formatDate(date) {
       const options = { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' }
@@ -345,8 +441,9 @@ export default {
       });
     }
   },
-  created() {
-    this.fetchTotals()
+  async created() {
+    await this.fetchTotals();
+    await this.fetchTarjetas();
   }
 }
 </script>

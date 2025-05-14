@@ -34,6 +34,7 @@
 
 <script>
 import NavigationBar from './NavigationBar.vue'
+import axios from 'axios'
 
 export default {
   name: 'DashboardComponent',
@@ -53,7 +54,40 @@ export default {
       ]
     }
   },
+  async created() {
+    await this.fetchRecordatorios();
+  },
   methods: {
+    async fetchRecordatorios() {
+      try {
+        const response = await axios.get('/recordatorios_pagos_recurrentes', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        const recordatorios = response.data;
+        if (recordatorios.length > 0) {
+          const categorias = recordatorios.map(recordatorio => 
+            `<span style="color: var(--primary-blue); font-weight: 500;">- ${recordatorio.categoria}</span>`
+          ).join('<br>');
+          this.$swal.fire({
+            icon: 'info',
+            title: '<span class="dashboard-brand-text">Recordatorio</span>',
+            html: `
+              <p class="dashboard-auth-subtitle">Recuerda realizar el pago de:</p>
+              ${categorias}
+            `,
+            confirmButtonText: 'Entendido',
+            customClass: {
+              popup: 'dashboard-recordatorio-popup'
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error al obtener recordatorios:', error);
+      }
+    },
     logout() {
       localStorage.removeItem('token')
       localStorage.removeItem('username')

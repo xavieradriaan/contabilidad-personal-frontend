@@ -1,5 +1,7 @@
 <template>
   <div class="egresos-container" :class="{ 'egresos-disabled': isCredito }">
+    <TarjetasCreditoModal v-if="showTarjetasModal" @close="showTarjetasModal = false" />
+    
     <div class="egresos-animated-coins">
       <div v-for="index in 25" :key="index" class="egresos-coin" :class="`egresos-coin-${index}`">
         <img src="/monedas.png" alt="Moneda animada" class="egresos-coin-img">
@@ -41,9 +43,29 @@
               v-model="nuevoEgreso.categoria"
               id="categoria"
               class="egresos-auth-input"
+              @change="handleCategoriaChange"
               required
             >
               <option v-for="categoria in categorias" :key="categoria" :value="categoria">{{ categoria }}</option>
+            </select>
+          </div>
+
+          <div v-if="nuevoEgreso.categoria === 'Pago de tarjetas'" class="egresos-input-group">
+            <label for="tarjeta" class="egresos-input-label">
+              <i class="fas fa-credit-card egresos-icon"></i>
+              <span>Tarjetas de Crédito</span>
+            </label>
+            <select
+              v-model="nuevoEgreso.tarjeta"
+              id="tarjeta"
+              class="egresos-auth-input"
+              @change="handleTarjetaChange"
+              required
+            >
+              <option value="">Seleccione una tarjeta</option>
+              <option v-for="tarjeta in tarjetas" :key="tarjeta.id" :value="tarjeta.tarjeta_nombre">
+                {{ tarjeta.tarjeta_nombre }} - Saldo pendiente: ${{ formatCurrency(tarjeta.monto) }}
+              </option>
             </select>
           </div>
 
@@ -73,12 +95,12 @@
               class="egresos-auth-input"
               inputmode="decimal"
               @input="validateMonto"
+              :placeholder="nuevoEgreso.categoria === 'Pago de tarjetas' && tarjetaSeleccionada ? `Pago sugerido $${formatCurrency(tarjetaSeleccionada.monto)}` : 'Ej: 217,50'"
               required
-              placeholder="Ej: 217,50"
             >
           </div>
 
-          <div class="egresos-input-group">
+          <div v-if="!isCredito" class="egresos-input-group">
             <label for="bancos" class="egresos-input-label">
               <i class="fas fa-university egresos-icon"></i>
               <span>Banco (opcional)</span>
@@ -90,6 +112,24 @@
             >
               <option value="">Seleccione un banco</option>
               <option v-for="banco in bancos" :key="banco" :value="banco">{{ banco }}</option>
+            </select>
+          </div>
+
+          <div v-else class="egresos-input-group">
+            <label for="tarjeta" class="egresos-input-label">
+              <i class="fas fa-credit-card egresos-icon"></i>
+              <span>Tarjeta de Crédito</span>
+            </label>
+            <select
+              v-model="nuevoEgreso.tarjeta"
+              id="tarjeta"
+              class="egresos-auth-input"
+              required
+            >
+              <option value="">Seleccione una tarjeta</option>
+              <option v-for="tarjeta in tarjetas" :key="tarjeta.tarjeta_nombre" :value="tarjeta.tarjeta_nombre">
+                {{ tarjeta.tarjeta_nombre }}
+              </option>
             </select>
           </div>
 
@@ -139,53 +179,104 @@
         </div>
       </div>
     </div>
-
-    <!-- Overlay para crédito -->
-    <div v-if="isCredito" class="credito-disabled-overlay">
-      <div class="overlay-content">
-        <i class="fas fa-lock"></i>
-        <h3>Módulo en desarrollo</h3>
-        <p>Los egresos de crédito estarán disponibles próximamente</p>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-import Swal from 'sweetalert2'
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import TarjetasCreditoModal from './TarjetasCreditoModal.vue';
 
 export default {
   name: 'EgresosComponent',
+  components: {
+    TarjetasCreditoModal
+  },
+  props: {
+    tipo: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
+      isCredito: this.tipo === 'credito', // Determinar si es crédito basado en el parámetro de la ruta
       nuevoEgreso: {
         categoria: '',
         subcategoria: '',
         monto: '',
         fecha: '',
+        tarjeta: '',
         bancos: ''
       },
       categorias: [
-        'Teléfono Móvil', 'GitHub', 'Mami', 'Comida', 'Movilización Trabajo', 
-        'Pago de Tarjetas (Pacificard)', 'Pago de Tarjetas (Bankard)', 
-        'Pago de Tarjetas (American Express)', 'Pago de Tarjetas (Diners Club)', 
-        'Spotify', 'Maestría', 'Ropa', 'Zapatos', 'Tecnología', 'Restaurantes', 
-        'Salud', 'Cursos Online', 'Gastos Hijos', 'Videojuegos', 'Netflix', 
-        'Amazon Prime', 'Alquiler', 'Transporte', 'Entretenimiento', 'Manutención', 
-        'Otros (Gastos Varios)', 'PayPal', 'Luz', 'Agua', 'Teléfono Fijo', 
-        'Préstamos', 'Seguros', 'Automóvil', 'Railway'
+        'Teléfono Móvil', 'GitHub', 'Mami', 'Comida', 'Movilización Trabajo',
+        'Spotify', 'Maestría', 'Ropa', 'Zapatos', 'Tecnología', 'Restaurantes',
+        'Salud', 'Cursos Online', 'Gastos Hijos', 'Videojuegos', 'Netflix',
+        'Amazon Prime', 'Alquiler', 'Transporte', 'Entretenimiento', 'Manutención',
+        'Otros (Gastos Varios)', 'PayPal', 'Luz', 'Agua', 'Teléfono Fijo',
+        'Préstamos', 'Seguros', 'Automóvil', 'Railway', 'Pago de tarjetas' // Keep only this
       ],
-      bancos: [
-        'Pacificard', 'Bankard', 'Banco Diners Club', 'American Express', 
-        'Banco Pichincha', 'Produbanco', 'Banco Guayaquil', 'Banco del Pacífico', 
-        'Banco Bolivariano', 'Banco Internacional', 'Banco del Austro', 
-        'Banco G. Rumiñahui', 'Banco de Machala', 'CitiBank', 'Banco ProCredit', 
-        'Banco Amazonas', 'Banco CoopNacional', 'Banco del Litoral', 'Banco DelBank'
-      ],
+      tarjetas: [], // Lista de tarjetas de crédito
+      bancos: ['Banco Pichincha', 'Banco de Guayaquil', 'Banco del Pacífico', 'Produbanco', 'Banco Internacional'], // Lista de bancos
       showModal: false,
+      showTarjetasModal: false,
       selectedCategorias: [],
-      isSubmitting: false
+      isSubmitting: false,
+      tarjetaSeleccionada: null, // Store the selected tarjeta details
+    };
+  },
+  async created() {
+    await this.checkFirstTime();
+    try {
+      console.log('EgresosComponent created hook called. isCredito:', this.isCredito); // Log para verificar si se ejecuta el hook
+
+      if (this.isCredito) { // Condicionar la lógica solo para crédito
+        console.log('Fetching tarjetas de crédito...'); // Log antes de la solicitud
+
+        const response = await axios.get('/tarjetas_credito', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          },
+          params: {
+            include_paid: true // <- Agregar este parámetro
+          }
+        });
+
+        console.log('Response from /tarjetas_credito:', response.data); // Log de la respuesta
+
+        this.tarjetas = Array.isArray(response.data) ? response.data : []; // Validar que la respuesta sea un array
+
+        // Verificar si es la primera vez que el usuario accede o si no tiene tarjetas registradas
+        if (this.tarjetas.length === 0) {
+          console.log('No tarjetas found. Showing welcome modal.'); // Log si no hay tarjetas
+
+          await Swal.fire({
+            icon: 'info',
+            title: '¡Bienvenido!',
+            text: 'Parece que es tu primera vez aquí. Por favor, registra las fechas de corte de tus tarjetas de crédito.',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, deseo ingresar una tarjeta',
+            cancelButtonText: 'No, gracias',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.showTarjetasModal = true; // Mostrar el modal para registrar tarjetas
+            } else {
+              console.log('El usuario decidió no registrar tarjetas de crédito.');
+              this.$router.push('/egresos-tipo'); // Redirigir a la selección de tipo de egreso
+            }
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error al obtener tarjetas de crédito:', error);
+      // Mostrar un mensaje de error al usuario si ocurre un problema
+      await Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un problema al verificar tus tarjetas de crédito. Por favor, intenta nuevamente.',
+        showConfirmButton: true
+      });
     }
   },
   computed: {
@@ -194,15 +285,23 @@ export default {
              this.nuevoEgreso.monto && 
              this.nuevoEgreso.fecha && 
              parseFloat(this.nuevoEgreso.monto) > 0;
-    },
-    isCredito() {
-      return this.$route.params.tipo === 'credito';
     }
   },
-  async created() {
-    await this.checkFirstTime()
-  },
   methods: {
+    async checkFirstTime() {
+      try {
+          const response = await axios.get('/check_pagos_recurrentes', {
+              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+          });
+          
+          if (!response.data.tiene_pagos_recurrentes) {
+              this.showModal = true;
+          }
+      } catch (error) {
+          console.error('Error verificando pagos recurrentes:', error);
+          Swal.fire('Error', 'No se pudo verificar la configuración de pagos recurrentes', 'error');
+      }
+    },
     validateMonto(event) {
       let value = event.target.value.replace(/,/g, '.')
       value = value.replace(/[^0-9.]/g, '')
@@ -222,22 +321,6 @@ export default {
       }
       this.nuevoEgreso.monto = value
     },
-    async checkFirstTime() {
-      try {
-        const response = await axios.get('/pagos_recurrentes', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          },
-          params: {
-            year: new Date().getFullYear(),
-            month: new Date().getMonth() + 1
-          }
-        })
-        if (response.data.length === 0) this.showModal = true
-      } catch (error) {
-        console.error('Error al verificar pagos recurrentes:', error)
-      }
-    },
     async savePagosRecurrentes() {
       try {
         await axios.post('/pagos_recurrentes', 
@@ -251,6 +334,10 @@ export default {
           text: 'Configuración guardada correctamente',
           showConfirmButton: false,
           timer: 1500
+        }).then(() => {
+          this.$router.push({ 
+              path: '/egresos/debito'
+          });
         })
       } catch (error) {
         console.error('Error al guardar pagos recurrentes:', error)
@@ -265,41 +352,91 @@ export default {
     closeModal() {
       this.showModal = false
     },
+    async handleCategoriaChange() {
+      if (this.nuevoEgreso.categoria === 'Pago de tarjetas') {
+        // Solo cargar tarjetas si aún no están cargadas
+        if (this.tarjetas.length === 0) {
+          try {
+            const response = await axios.get('/tarjetas_credito', {
+              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            });
+            this.tarjetas = response.data;
+          } catch (error) {
+            console.error('Error al cargar tarjetas de crédito:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudieron cargar las tarjetas de crédito. Por favor, intenta nuevamente.',
+            });
+          }
+        }
+      } else {
+        // Si se selecciona otra categoría, no borrar las tarjetas, solo limpiar la tarjeta seleccionada
+        this.nuevoEgreso.tarjeta = '';
+        this.tarjetaSeleccionada = null;
+      }
+    },
+    handleTarjetaChange() {
+      this.tarjetaSeleccionada = this.tarjetas.find(
+        (tarjeta) => tarjeta.tarjeta_nombre === this.nuevoEgreso.tarjeta
+      );
+    },
     async addEgreso() {
-      this.isSubmitting = true
+      this.isSubmitting = true;
       try {
-        await axios.post('/egresos', {
-          categoria: this.nuevoEgreso.categoria,
-          subcategoria: this.nuevoEgreso.subcategoria,
-          monto: parseFloat(this.nuevoEgreso.monto),
-          fecha: this.nuevoEgreso.fecha,
-          bancos: this.nuevoEgreso.bancos
-        }, {
-          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-        })
+        const tipoEgreso = this.isCredito ? 'credito' : 'debito'; // Determinar el tipo de egreso dinámicamente
+
+        if (this.nuevoEgreso.categoria === 'Pago de tarjetas' && this.tarjetaSeleccionada) {
+          const tarjetaId = this.tarjetaSeleccionada.id;
+          await axios.post('/egresos', {
+            ...this.nuevoEgreso,
+            tipo_egreso: tipoEgreso,
+            tarjeta_id: tarjetaId,  // Enviar el ID de la tarjeta
+            bancos: this.tarjetaSeleccionada.tarjeta_nombre // Enviar el nombre de la tarjeta
+          }, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+          });
+          // Actualizar el saldo de la tarjeta
+          this.tarjetaSeleccionada.monto -= parseFloat(this.nuevoEgreso.monto);
+        } else {
+          await axios.post('/egresos', {
+            categoria: this.nuevoEgreso.categoria,
+            subcategoria: this.nuevoEgreso.subcategoria,
+            monto: parseFloat(this.nuevoEgreso.monto),
+            fecha: this.nuevoEgreso.fecha,
+            tarjeta: this.nuevoEgreso.tarjeta,
+            bancos: this.isCredito ? this.tarjetaSeleccionada?.tarjeta_nombre : this.nuevoEgreso.bancos, // Enviar el nombre de la tarjeta si es crédito
+            tipo_egreso: tipoEgreso
+          }, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+          });
+        }
         
-        this.nuevoEgreso = { categoria: '', subcategoria: '', monto: '', fecha: '', bancos: '' }
+        this.nuevoEgreso = { categoria: '', subcategoria: '', monto: '', fecha: '', tarjeta: '', bancos: '' };
         await Swal.fire({
           icon: 'success',
           title: 'Egreso Registrado!',
           text: 'El egreso se ha registrado correctamente',
           showConfirmButton: false,
           timer: 1500
-        })
+        });
       } catch (error) {
-        console.error('Error al registrar egreso:', error)
+        console.error('Error al registrar egreso:', error);
         Swal.fire({
           icon: 'error',
           title: 'Error',
           text: 'Hubo un problema al registrar el egreso',
           showConfirmButton: true
-        })
+        });
       } finally {
-        this.isSubmitting = false
+        this.isSubmitting = false;
       }
+    },
+    formatCurrency(value) {
+      return parseFloat(value).toFixed(2);
     }
   }
-}
+};
 </script>
 
 <style>
@@ -307,46 +444,5 @@ export default {
 
 .egresos-disabled {
   position: relative;
-}
-
-.credito-disabled-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(4px);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.overlay-content {
-  max-width: 400px;
-  padding: 2rem;
-}
-
-.overlay-content i {
-  font-size: 2.5rem;
-  color: var(--primary-blue);
-  margin-bottom: 1rem;
-}
-
-.overlay-content h3 {
-  color: var(--primary-blue);
-  margin-bottom: 0.5rem;
-}
-
-.overlay-content p {
-  color: var(--secondary-blue);
-}
-
-.egresos-disabled .egresos-main-content {
-  filter: blur(2px);
-  pointer-events: none;
-  user-select: none;
 }
 </style>

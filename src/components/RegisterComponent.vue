@@ -420,11 +420,11 @@ export default {
       }
     },
     startTimer() {
-      this.timeLeft = 300
+      this.timeLeft = 60; // Set timer to 1 minute
       this.timer = setInterval(() => {
-        if (this.timeLeft > 0) this.timeLeft--
-        else clearInterval(this.timer)
-      }, 1000)
+        if (this.timeLeft > 0) this.timeLeft--;
+        else clearInterval(this.timer);
+      }, 1000);
     },
     async resendOTP() {
       try {

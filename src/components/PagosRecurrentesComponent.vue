@@ -87,24 +87,9 @@ export default {
     }
   },
   async created() {
-    await this.checkEgresos()
-    if (this.egresosRegistrados) {
-      await this.fetchPagosRecurrentes()
-    }
+    await this.fetchPagosRecurrentes(); // Llamar siempre a la API de pagos recurrentes
   },
   methods: {
-    async checkEgresos() {
-      try {
-        const response = await axios.get('/egresos', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        })
-        this.egresosRegistrados = response.data.length > 0
-      } catch (error) {
-        console.error('Error al verificar egresos:', error)
-      }
-    },
     async fetchPagosRecurrentes() {
       try {
         const response = await axios.get('/pagos_recurrentes', {
@@ -115,20 +100,15 @@ export default {
             year: this.year,
             month: this.month
           }
-        })
-        const currentDate = new Date()
-        this.pagosRecurrentes = response.data.map(pago => {
-          const pagoFecha = pago.fecha ? new Date(pago.fecha) : null
-          const isCurrentMonth = pagoFecha && pagoFecha.getFullYear() === currentDate.getFullYear() && pagoFecha.getMonth() === currentDate.getMonth()
-          return {
-            ...pago,
-            fecha: isCurrentMonth ? pagoFecha : null,
-            monto: isCurrentMonth ? pago.monto : 0,
-            pagado: isCurrentMonth ? pago.pagado : false
-          }
-        })
+        });
+        this.pagosRecurrentes = response.data.map(pago => ({
+          ...pago,
+          fecha: pago.fecha ? new Date(pago.fecha) : null,
+          monto: pago.monto || 0, // Asegurar que el monto sea 0 si no está definido
+          pagado: pago.pagado || false
+        }));
       } catch (error) {
-        console.error('Error al obtener pagos recurrentes:', error)
+        console.error('Error al obtener pagos recurrentes:', error);
       }
     },
     formatDate(date) {

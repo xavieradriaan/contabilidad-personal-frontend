@@ -31,6 +31,7 @@
               class="login-auth-input"
               :class="{'login-input-error': errorMessage}"
               required
+              @keydown="preventSpace"
             >
           </div>
 
@@ -46,6 +47,7 @@
               class="login-auth-input"
               :class="{'login-input-error': errorMessage}"
               required
+              @keydown="preventSpace"
             >
           </div>
 
@@ -106,6 +108,11 @@ export default {
     }
   },
   methods: {
+    preventSpace(event) {
+      if (event.key === ' ') {
+        event.preventDefault();
+      }
+    },
     async login() {
       if (this.isFormInvalid) return
       

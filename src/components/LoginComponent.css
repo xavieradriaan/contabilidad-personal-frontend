@@ -9,9 +9,9 @@
 html, body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
     width: 100%;
     height: 100%;
+    overflow: auto; /* Allow scrolling */
 }
 
 /* Botón de regreso mejorado */
@@ -54,17 +54,13 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Changed from center to flex-start */
-    min-height: 100vh;
-    padding-top: 0; /* Removed unnecessary padding */
-    margin-top: -2rem; /* Adjusted margin to remove extra space */
+    justify-content: flex-start;
+    min-height: 100vh; /* Ensure it fills the viewport */
+    padding: 4rem 1rem 1rem;
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
     font-family: 'Inter', sans-serif;
     position: relative;
     overflow: hidden;
-    width: 100%;
-    height: 100%;
-    padding: 4rem 1rem 1rem;
 }
 
 .login-container .login-animated-coins {
