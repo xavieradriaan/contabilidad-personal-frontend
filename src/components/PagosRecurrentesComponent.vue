@@ -104,7 +104,7 @@ export default {
         this.pagosRecurrentes = response.data.map(pago => ({
           ...pago,
           fecha: pago.fecha ? new Date(pago.fecha) : null,
-          monto: pago.monto || 0, // Asegurar que el monto sea 0 si no está definido
+          monto: parseFloat(pago.monto || 0).toFixed(2), // Ensure consistent formatting
           pagado: pago.pagado || false
         }));
       } catch (error) {
@@ -112,9 +112,14 @@ export default {
       }
     },
     formatDate(date) {
-      if (!date) return ''
-      const options = { day: '2-digit', month: '2-digit', year: 'numeric' }
-      return new Date(date).toLocaleDateString('es-ES', options)
+      if (!date) return '';
+      const parsedDate = new Date(date); // Parse the date string
+      return parsedDate.toLocaleDateString('es-ES', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        timeZone: 'UTC' // Ensure no timezone adjustments
+      });
     }
   }
 }

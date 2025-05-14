@@ -227,29 +227,32 @@ export default {
     };
   },
   async created() {
-    await this.checkFirstTime();
-    try {
-      console.log('EgresosComponent created hook called. isCredito:', this.isCredito); // Log para verificar si se ejecuta el hook
+    // Only check recurring payments if it's debit
+    if (!this.isCredito) {
+      await this.checkFirstTime();
+    }
 
-      if (this.isCredito) { // Condicionar la lógica solo para crédito
-        console.log('Fetching tarjetas de crédito...'); // Log antes de la solicitud
+    try {
+      console.log('EgresosComponent created hook called. isCredito:', this.isCredito);
+
+      if (this.isCredito) {
+        console.log('Fetching tarjetas de crédito...');
 
         const response = await axios.get('/tarjetas_credito', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           },
           params: {
-            include_paid: true // <- Agregar este parámetro
+            include_paid: true
           }
         });
 
-        console.log('Response from /tarjetas_credito:', response.data); // Log de la respuesta
+        console.log('Response from /tarjetas_credito:', response.data);
 
-        this.tarjetas = Array.isArray(response.data) ? response.data : []; // Validar que la respuesta sea un array
+        this.tarjetas = Array.isArray(response.data) ? response.data : [];
 
-        // Verificar si es la primera vez que el usuario accede o si no tiene tarjetas registradas
         if (this.tarjetas.length === 0) {
-          console.log('No tarjetas found. Showing welcome modal.'); // Log si no hay tarjetas
+          console.log('No tarjetas found. Showing welcome modal.');
 
           await Swal.fire({
             icon: 'info',
@@ -260,17 +263,16 @@ export default {
             cancelButtonText: 'No, gracias',
           }).then((result) => {
             if (result.isConfirmed) {
-              this.showTarjetasModal = true; // Mostrar el modal para registrar tarjetas
+              this.showTarjetasModal = true;
             } else {
               console.log('El usuario decidió no registrar tarjetas de crédito.');
-              this.$router.push('/egresos-tipo'); // Redirigir a la selección de tipo de egreso
+              this.$router.push('/egresos-tipo');
             }
           });
         }
       }
     } catch (error) {
       console.error('Error al obtener tarjetas de crédito:', error);
-      // Mostrar un mensaje de error al usuario si ocurre un problema
       await Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -384,34 +386,28 @@ export default {
     async addEgreso() {
       this.isSubmitting = true;
       try {
-        const tipoEgreso = this.isCredito ? 'credito' : 'debito'; // Determinar el tipo de egreso dinámicamente
+        const tipoEgreso = this.isCredito ? 'credito' : 'debito';
 
-        if (this.nuevoEgreso.categoria === 'Pago de tarjetas' && this.tarjetaSeleccionada) {
-          const tarjetaId = this.tarjetaSeleccionada.id;
-          await axios.post('/egresos', {
-            ...this.nuevoEgreso,
-            tipo_egreso: tipoEgreso,
-            tarjeta_id: tarjetaId,  // Enviar el ID de la tarjeta
-            bancos: this.tarjetaSeleccionada.tarjeta_nombre // Enviar el nombre de la tarjeta
-          }, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-          });
-          // Actualizar el saldo de la tarjeta
-          this.tarjetaSeleccionada.monto -= parseFloat(this.nuevoEgreso.monto);
+        const payload = {
+          categoria: this.nuevoEgreso.categoria,
+          subcategoria: this.nuevoEgreso.subcategoria,
+          monto: this.nuevoEgreso.monto,
+          fecha: this.nuevoEgreso.fecha,
+          tarjeta: this.nuevoEgreso.tarjeta,
+          tipo_egreso: tipoEgreso // Ensure this is sent
+        };
+
+        if (this.isCredito) {
+          payload.bancos = this.tarjetaSeleccionada?.tarjeta_nombre;
         } else {
-          await axios.post('/egresos', {
-            categoria: this.nuevoEgreso.categoria,
-            subcategoria: this.nuevoEgreso.subcategoria,
-            monto: parseFloat(this.nuevoEgreso.monto),
-            fecha: this.nuevoEgreso.fecha,
-            tarjeta: this.nuevoEgreso.tarjeta,
-            bancos: this.isCredito ? this.tarjetaSeleccionada?.tarjeta_nombre : this.nuevoEgreso.bancos, // Enviar el nombre de la tarjeta si es crédito
-            tipo_egreso: tipoEgreso
-          }, {
-            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-          });
+          payload.bancos = this.nuevoEgreso.bancos;
         }
-        
+
+        await axios.post('/egresos', payload, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+
+        // Reset form and show success message
         this.nuevoEgreso = { categoria: '', subcategoria: '', monto: '', fecha: '', tarjeta: '', bancos: '' };
         await Swal.fire({
           icon: 'success',
