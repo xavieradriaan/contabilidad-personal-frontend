@@ -102,10 +102,28 @@
 
           <div v-if="!isCredito" class="egresos-input-group">
             <label for="bancos" class="egresos-input-label">
-              <i class="fas fa-university egresos-icon"></i>
-              <span>Banco (opcional)</span>
+              <i class="fas fa-credit-card egresos-icon"></i>
+              <span v-if="nuevoEgreso.categoria === 'Pago de tarjetas'">Tarjeta a Pagar</span>
+              <span v-else>Banco (opcional)</span>
             </label>
             <select
+              v-if="nuevoEgreso.categoria === 'Pago de tarjetas'"
+              v-model="nuevoEgreso.tarjeta"
+              id="tarjeta"
+              class="egresos-auth-input"
+              required
+            >
+              <option value="">Seleccione una tarjeta</option>
+              <option 
+                v-for="tarjeta in tarjetas" 
+                :key="tarjeta.id" 
+                :value="tarjeta.tarjeta_nombre"
+              >
+                {{ tarjeta.tarjeta_nombre }} - Saldo: ${{ formatCurrency(tarjeta.monto) }}
+              </option>
+            </select>
+            <select
+              v-else
               v-model="nuevoEgreso.bancos"
               id="bancos"
               class="egresos-auth-input"
@@ -393,15 +411,13 @@ export default {
           subcategoria: this.nuevoEgreso.subcategoria,
           monto: this.nuevoEgreso.monto,
           fecha: this.nuevoEgreso.fecha,
+          tipo_egreso: tipoEgreso,
+          // Add these fields
           tarjeta: this.nuevoEgreso.tarjeta,
-          tipo_egreso: tipoEgreso // Ensure this is sent
+          bancos: this.nuevoEgreso.categoria === 'Pago de tarjetas' 
+                  ? this.nuevoEgreso.tarjeta 
+                  : this.nuevoEgreso.bancos
         };
-
-        if (this.isCredito) {
-          payload.bancos = this.tarjetaSeleccionada?.tarjeta_nombre;
-        } else {
-          payload.bancos = this.nuevoEgreso.bancos;
-        }
 
         await axios.post('/egresos', payload, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }

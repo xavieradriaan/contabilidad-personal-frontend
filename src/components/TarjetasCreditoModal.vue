@@ -34,7 +34,7 @@
         </form>
         <ul class="tarjetas-list">
           <li v-for="tarjeta in tarjetas" :key="tarjeta.id">
-            {{ tarjeta.nombre }} - Corte: {{ tarjeta.fechaCorte }} - Pago: {{ tarjeta.fechaPago }}
+            {{ tarjeta.tarjeta_nombre }} - Fecha de Corte: {{ tarjeta.fecha_corte }} - Fecha Máximo Pago: {{ tarjeta.fecha_pago }}
           </li>
         </ul>
       </div>
