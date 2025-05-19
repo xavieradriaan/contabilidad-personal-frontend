@@ -112,4 +112,60 @@ html, body {
   opacity: 0.9 !important;
   margin-bottom: 1rem !important;
 }
+
+/* Sobreescribir estilos de SweetAlert2 para coincidir con tu tema */
+.swal2-confirm.swal2-styled.tarjetas-modal-btn-primary {
+  background: var(--primary-blue) !important;
+  color: white !important;
+  padding: 0.6rem 1.2rem !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.swal2-confirm.swal2-styled.tarjetas-modal-btn-primary:hover {
+  background: #2D4A5E !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+.swal2-cancel.swal2-styled.tarjetas-modal-btn-secondary {
+  background: var(--secondary-blue) !important;
+  color: white !important;
+  padding: 0.6rem 1.2rem !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.swal2-cancel.swal2-styled.tarjetas-modal-btn-secondary:hover {
+  background: #3a5f76 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Styles for SweetAlert2 buttons */
+.tarjetas-modal-btn-primary {
+  background: var(--primary-blue) !important; /* Matches "Agregar Tarjeta" */
+  color: white !important;
+  padding: 0.6rem 1.2rem !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.tarjetas-modal-btn-primary:hover {
+  background: #2D4A5E !important; /* Hover effect for primary button */
+  transform: translateY(-2px) !important;
+}
+
+.tarjetas-modal-btn-secondary {
+  background: var(--secondary-blue) !important; /* Matches "Cerrar" */
+  color: white !important;
+  padding: 0.6rem 1.2rem !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+}
+
+.tarjetas-modal-btn-secondary:hover {
+  background: #3a5f76 !important; /* Hover effect for secondary button */
+  transform: translateY(-2px) !important;
+}
 </style>

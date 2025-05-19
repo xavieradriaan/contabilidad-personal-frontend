@@ -279,6 +279,11 @@ export default {
             showCancelButton: true,
             confirmButtonText: 'Sí, deseo ingresar una tarjeta',
             cancelButtonText: 'No, gracias',
+            customClass: {
+              confirmButton: 'tarjetas-modal-btn tarjetas-modal-btn-primary', // Matches "Agregar Tarjeta"
+              cancelButton: 'tarjetas-modal-btn tarjetas-modal-btn-secondary' // Matches "Cerrar"
+            },
+            buttonsStyling: false // Disable default SweetAlert2 button styles
           }).then((result) => {
             if (result.isConfirmed) {
               this.showTarjetasModal = true;

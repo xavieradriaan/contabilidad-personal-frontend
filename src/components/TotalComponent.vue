@@ -235,7 +235,7 @@
         </div>
 
         <div class="total-table-section">
-          <h3 class="total-table-title">Detalles Totales</h3>
+          <h3 class="total-table-title">Liquidez ({{ nombre_mes }})</h3>
           <div class="total-table-container">
             <table class="total-data-table">
               <thead>
