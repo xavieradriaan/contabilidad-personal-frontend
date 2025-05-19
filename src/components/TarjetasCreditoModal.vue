@@ -3,7 +3,7 @@
     <div class="tarjetas-modal-card">
       <div class="tarjetas-modal-header">
         <h3 class="tarjetas-modal-title">Gestión de Tarjetas</h3>
-        <button class="tarjetas-modal-close" @click="$emit('close')">
+        <button class="tarjetas-modal-close" @click="$router.push('/egresos-tipo')">
           <!-- Removed the "X" icon -->
         </button>
       </div>
@@ -74,7 +74,7 @@
         </button>
         <button 
           class="tarjetas-modal-btn tarjetas-modal-btn-secondary"
-          @click="$emit('close')"
+          @click="$router.push('/egresos-tipo')"
         >
           Cerrar
         </button>

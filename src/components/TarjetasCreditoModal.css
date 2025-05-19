@@ -154,11 +154,13 @@
   display: flex;
   gap: 1rem;
   margin-top: 1.5rem;
-  justify-content: flex-end;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap; /* Para manejar espacios en pantallas pequeñas */
 }
 
 .tarjetas-modal-btn {
-  padding: 0.8rem 1.5rem;
+  padding: 0.6rem 1.2rem; /* Reducir altura ajustando el padding */
   border-radius: 8px;
   border: none;
   cursor: pointer;
@@ -168,6 +170,8 @@
   align-items: center;
   gap: 0.5rem;
   flex-shrink: 0;
+  min-width: 180px; /* Ancho mínimo para mantener proporción */
+  justify-content: center; /* Centrado interno del texto */
 }
 
 .tarjetas-modal-btn-primary {
@@ -224,12 +228,12 @@
   
   .tarjetas-modal-actions {
     flex-direction: column;
-    gap: 0.8rem;
+    align-items: center;
   }
   
   .tarjetas-modal-btn {
     width: 100%;
-    justify-content: center;
+    max-width: 300px; /* Límite máximo para mobile */
   }
 }
 
@@ -251,5 +255,48 @@
   
   .fecha-item {
     font-size: 0.85rem;
+  }
+}
+
+/* Versión Desktop (769px en adelante) */
+@media (min-width: 769px) {
+  .tarjetas-modal-actions {
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 1.5rem; /* Espacio controlado entre botones */
+  }
+  
+  .tarjetas-modal-btn {
+    min-width: 180px; /* Restaurar ancho mínimo */
+    flex: 1; /* Ocupar espacio proporcional */
+    max-width: 200px; /* Límite máximo por botón */
+  }
+  
+  .tarjetas-modal-card {
+    max-width: 480px; /* Ancho óptimo para desktop */
+    padding: 2rem 2.5rem; /* Padding más generoso */
+  }
+}
+
+/* Versión Pantallas Grandes (1440px+) */
+@media (min-width: 1440px) {
+  .tarjetas-modal-card {
+    max-width: 500px; /* Recuperar ancho máximo original */
+  }
+}
+
+/* Ajuste adicional para pantallas muy grandes */
+@media (min-width: 1440px) {
+  .tarjetas-modal-card {
+    max-width: 420px; /* Más estrecho en pantallas XL */
+    padding: 1.5rem;
+  }
+}
+
+/* Mejora para pantallas pequeñas < 360px */
+@media (max-width: 359px) {
+  .tarjetas-modal-btn {
+    min-width: unset;
+    padding: 0.8rem;
   }
 }
