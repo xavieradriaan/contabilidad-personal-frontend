@@ -72,7 +72,7 @@
           <div class="egresos-input-group">
             <label for="subcategoria" class="egresos-input-label">
               <i class="fas fa-comment-dots egresos-icon"></i>
-              <span>Subcategoría (opcional)</span>
+              <span>Descripción (Opcional)</span>
             </label>
             <input
               v-model="nuevoEgreso.subcategoria"
@@ -103,27 +103,9 @@
           <div v-if="!isCredito" class="egresos-input-group">
             <label for="bancos" class="egresos-input-label">
               <i class="fas fa-credit-card egresos-icon"></i>
-              <span v-if="nuevoEgreso.categoria === 'Pago de tarjetas'">Tarjeta a Pagar</span>
-              <span v-else>Banco (opcional)</span>
+              <span>Banco (opcional)</span>
             </label>
             <select
-              v-if="nuevoEgreso.categoria === 'Pago de tarjetas'"
-              v-model="nuevoEgreso.tarjeta"
-              id="tarjeta"
-              class="egresos-auth-input"
-              required
-            >
-              <option value="">Seleccione una tarjeta</option>
-              <option 
-                v-for="tarjeta in tarjetas" 
-                :key="tarjeta.id" 
-                :value="tarjeta.tarjeta_nombre"
-              >
-                {{ tarjeta.tarjeta_nombre }} - Saldo: ${{ formatCurrency(tarjeta.monto) }}
-              </option>
-            </select>
-            <select
-              v-else
               v-model="nuevoEgreso.bancos"
               id="bancos"
               class="egresos-auth-input"
@@ -132,7 +114,7 @@
               <option v-for="banco in bancos" :key="banco" :value="banco">{{ banco }}</option>
             </select>
           </div>
-
+          
           <div v-else class="egresos-input-group">
             <label for="tarjeta" class="egresos-input-label">
               <i class="fas fa-credit-card egresos-icon"></i>
