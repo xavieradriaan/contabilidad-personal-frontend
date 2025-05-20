@@ -53,7 +53,7 @@
           <div v-if="nuevoEgreso.categoria === 'Pago de tarjetas'" class="egresos-input-group">
             <label for="tarjeta" class="egresos-input-label">
               <i class="fas fa-credit-card egresos-icon"></i>
-              <span>Tarjetas de Crédito</span>
+              <span>Tarjeta de Crédito</span>
             </label>
             <select
               v-model="nuevoEgreso.tarjeta"
@@ -95,7 +95,7 @@
               class="egresos-auth-input"
               inputmode="decimal"
               @input="validateMonto"
-              :placeholder="nuevoEgreso.categoria === 'Pago de tarjetas' && tarjetaSeleccionada ? `Pago sugerido $${formatCurrency(tarjetaSeleccionada.monto)}` : 'Ej: 217,50'"
+              :placeholder="nuevoEgreso.categoria === 'Pago de Tarjetas de Crédito' && tarjetaSeleccionada ? `Pago sugerido $${formatCurrency(tarjetaSeleccionada.monto)}` : 'Ej: 217,50'"
               required
             >
           </div>
