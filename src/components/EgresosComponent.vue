@@ -46,7 +46,7 @@
               @change="handleCategoriaChange"
               required
             >
-              <option v-for="categoria in categorias" :key="categoria" :value="categoria">{{ categoria }}</option>
+              <option v-for="categoria in filteredCategorias" :key="categoria" :value="categoria">{{ categoria }}</option>
             </select>
           </div>
 
@@ -95,7 +95,7 @@
               class="egresos-auth-input"
               inputmode="decimal"
               @input="validateMonto"
-              :placeholder="nuevoEgreso.categoria === 'Pago de Tarjetas de Crédito' && tarjetaSeleccionada ? `Pago sugerido $${formatCurrency(tarjetaSeleccionada.monto)}` : 'Ej: 217,50'"
+              :placeholder="nuevoEgreso.categoria === 'Pago de tarjetas' && tarjetaSeleccionada ? `Pago sugerido $${formatCurrency(tarjetaSeleccionada.monto)}` : 'Ej: 217,50'"
               required
             >
           </div>
@@ -213,7 +213,7 @@ export default {
   },
   data() {
     return {
-      isCredito: this.tipo === 'credito', // Determinar si es crédito basado en el parámetro de la ruta
+      isCredito: this.tipo === 'credito',
       nuevoEgreso: {
         categoria: '',
         subcategoria: '',
@@ -228,8 +228,9 @@ export default {
         'Salud', 'Cursos Online', 'Gastos Hijos', 'Videojuegos', 'Netflix',
         'Amazon Prime', 'Alquiler', 'Transporte', 'Entretenimiento', 'Manutención',
         'Otros (Gastos Varios)', 'PayPal', 'Luz', 'Agua', 'Teléfono Fijo',
-        'Préstamos', 'Seguros', 'Automóvil', 'Railway', 'Pago de tarjetas' // Keep only this
+        'Préstamos', 'Seguros', 'Automóvil', 'Railway'
       ],
+      categoriaTarjeta: 'Pago de tarjetas',
       tarjetas: [], // Lista de tarjetas de crédito
       bancos: ['Banco Pichincha', 'Banco de Guayaquil', 'Banco del Pacífico', 'Produbanco', 'Banco Internacional'], // Lista de bancos
       showModal: false,
@@ -300,6 +301,13 @@ export default {
     }
   },
   computed: {
+    filteredCategorias() {
+      const baseCategories = [...this.categorias];
+      if (!this.isCredito) {
+        baseCategories.push(this.categoriaTarjeta);
+      }
+      return baseCategories;
+    },
     isFormValid() {
       return this.nuevoEgreso.categoria && 
              this.nuevoEgreso.monto && 
@@ -374,24 +382,23 @@ export default {
     },
     async handleCategoriaChange() {
       if (this.nuevoEgreso.categoria === 'Pago de tarjetas') {
-        // Solo cargar tarjetas si aún no están cargadas
-        if (this.tarjetas.length === 0) {
-          try {
-            const response = await axios.get('/tarjetas_credito', {
-              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-            });
-            this.tarjetas = response.data;
-          } catch (error) {
-            console.error('Error al cargar tarjetas de crédito:', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'No se pudieron cargar las tarjetas de crédito. Por favor, intenta nuevamente.',
-            });
-          }
+        try {
+          const response = await axios.get('/tarjetas_credito', {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+            params: {
+              include_paid: true // Agregar este parámetro
+            }
+          });
+          this.tarjetas = response.data;
+        } catch (error) {
+          console.error('Error al cargar tarjetas de crédito:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudieron cargar las tarjetas de crédito. Por favor, intenta nuevamente.',
+          });
         }
       } else {
-        // Si se selecciona otra categoría, no borrar las tarjetas, solo limpiar la tarjeta seleccionada
         this.nuevoEgreso.tarjeta = '';
         this.tarjetaSeleccionada = null;
       }
@@ -400,6 +407,7 @@ export default {
       this.tarjetaSeleccionada = this.tarjetas.find(
         (tarjeta) => tarjeta.tarjeta_nombre === this.nuevoEgreso.tarjeta
       );
+      this.$forceUpdate(); // Forzar actualización del template
     },
     async addEgreso() {
       this.isSubmitting = true;
