@@ -155,14 +155,15 @@
 .egresos-brand-text {
     font-size: clamp(2rem, 6.5vw, 2.5rem);
     font-weight: 700;
-    color: var(--text-white);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    color: var(--text-white) !important; /* #1A2B3C */
+    text-shadow: none;
     letter-spacing: -0.03em;
 }
 
 .egresos-subtitle {
     font-size: clamp(1rem, 3vw, 1.2rem);
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-white) !important;
+    opacity: 0.9;
     font-weight: 300;
     margin-top: 0.5rem;
 }
@@ -177,7 +178,7 @@
     position: relative;
     z-index: 20;
     backdrop-filter: blur(4px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(26, 43, 60, 0.1); /* Borde más suave usando primary-blue */
     overflow-y: auto;
     max-height: 80vh;
 }
@@ -228,12 +229,12 @@ select.egresos-auth-input {
 }
 
 .egresos-auth-input:focus {
-    border-color: var(--primary-blue);
-    box-shadow: 0 0 0 3px rgba(26, 43, 60, 0.1);
+    border-color: var(--accent-gold); /* Usar oro en lugar de azul para focus */
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
 }
 
 .egresos-auth-btn.egresos-submit-btn {
-    background: var(--primary-blue);
+    background: var(--secondary-blue); /* Usar azul secundario para botón */
     color: var(--text-white);
     width: 100%;
     max-width: 300px;
@@ -246,7 +247,7 @@ select.egresos-auth-input {
     position: relative;
     overflow: hidden;
     border: none;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .egresos-auth-btn.egresos-submit-btn:not([disabled])::after {
@@ -277,8 +278,44 @@ select.egresos-auth-input {
 }
 
 .egresos-auth-btn:not([disabled]):hover {
+    background: var(--primary-blue);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* ================ SECCIÓN DEL MODAL ================ */
+
+/* Contenedor principal del modal */
+.login-auth-card {
+  max-width: 420px !important;
+  margin: 1rem !important;
+}
+
+/* Contenido interno */
+.login-auth-content {
+  padding: 1.2rem !important;
+}
+
+/* Títulos */
+.login-brand-text {
+  font-size: clamp(1.4rem, 5vw, 1.8rem) !important;
+}
+
+.login-auth-subtitle {
+  font-size: clamp(0.95rem, 3vw, 1.1rem) !important;
+}
+
+/* Botón */
+.login-login-btn {
+  padding: 0.7rem !important;
+}
+
+/* Checkboxes y labels */
+.login-check-label {
+  font-size: 0.92rem !important;
+}
+
+.login-check-input {
+  transform: scale(0.85) !important;
 }
 
 /* Estilos del Modal */
@@ -347,47 +384,219 @@ select.egresos-auth-input {
     font-size: 0.95rem;
 }
 
+/* Mucho menos espacio entre las opciones de categorías en el modal */
+.login-check-label {
+  margin-bottom: 0 !important;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 1;
+}
+
+/* Opcional: reduce el tamaño de fuente y el espacio de los íconos para mayor compacidad */
+.login-check-label,
+.login-check-label .login-icon {
+  font-size: 0.95rem;
+}
+
+.login-input-group {
+  margin-bottom: 0 !important;
+}
+
 .egresos-modal-btn {
     width: 100%;
     padding: 0.9rem;
     margin-top: 1rem;
 }
 
+/* Modal Responsive */
+.login-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 10000;
+  overflow: auto;
+}
+
+/* === ELIMINAR ESTE BLOQUE COMPLETO === */
+.login-auth-card {
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(26, 43, 60, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  margin: auto;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-auth-content {
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.login-brand-text {
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.login-auth-subtitle {
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  color: var(--primary-blue) !important;
+  margin-bottom: 2rem;
+}
+/* === FIN DE BLOQUE A ELIMINAR === */
+
+.login-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Ajustes para móviles */
 @media (max-width: 768px) {
-    .egresos-back-btn {
-        top: 1.2rem;
-        left: 1.2rem;
-        width: 32px;
-        height: 32px;
-    }
-    
-    .egresos-auth-card {
-        padding: 1.5rem;
-    }
-    
-    .egresos-modal-card {
-        padding: 1.5rem;
-    }
+  .login-auth-card {
+    max-height: 85vh;
+    margin: 1rem;
+  }
+  
+  .login-auth-content {
+    padding: 1.5rem;
+  }
+  
+  .login-check-label {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+  
+  .login-back-btn {
+    top: 1rem;
+    left: 1rem;
+    width: 30px;
+    height: 30px;
+  }
 }
 
 @media (max-width: 480px) {
-    .egresos-container {
-        padding: 3rem 1rem 1rem;
-    }
-    
-    .egresos-brand-text {
-        font-size: 2rem;
-    }
-    
-    .egresos-subtitle {
-        font-size: 1rem;
-    }
-    
-    .egresos-auth-card {
-        padding: 1.2rem;
-    }
-    
-    .egresos-modal-title {
-        font-size: 1.2rem;
-    }
+  .login-auth-card {
+    border-radius: 12px;
+  }
+  
+  .login-auth-content {
+    padding: 1rem;
+  }
+  
+  .login-brand-text {
+    font-size: 1.75rem;
+  }
+  
+  .login-auth-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .login-check-label {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .login-check-input {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* Scroll personalizado para el modal */
+.login-auth-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.login-auth-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.login-auth-content::-webkit-scrollbar-thumb {
+  background: var(--primary-blue);
+  border-radius: 4px;
+}
+
+/* Ajuste de monedas en modal */
+.login-animated-coins {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.login-coin {
+  width: 35px;
+  height: 35px;
+}
+
+@media (max-width: 768px) {
+  .login-coin {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+/* Ajuste: en el modal de pagos recurrentes, ambos textos en azul */
+.login-auth-title .login-brand-text,
+.login-auth-title .login-auth-subtitle {
+  color: var(--primary-blue) !important;
+}
+
+/* En la sección de estilos del modal */
+.login-auth-form {
+  gap: 0.3rem !important; /* Reduce espacio entre elementos del formulario */
+}
+
+.login-check-label {
+  padding: 0.3rem 0 !important; /* Reduce espacio interno */
+  min-height: 30px !important; /* Altura mínima compacta */
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Alinear verticalmente todos los elementos */
+.login-check-label {
+  align-items: baseline !important; /* Alinea por la línea base del texto */
+}
+
+.login-check-input {
+  position: relative;
+  top: 2px !important; /* Compensa la posición del checkbox */
+  margin-right: 0.6rem !important;
+}
+
+.login-check-label .login-icon {
+  position: relative;
+  top: 1px !important; /* Alinea ícono con el texto */
+  vertical-align: middle;
+}
+
+.login-check-label .login-icon {
+  margin-right: 0.5rem !important; /* Reduce espacio entre ícono y texto */
+  font-size: 0.9em !important;
+}
+
+.login-check-input {
+  margin-right: 0.5rem !important; /* Reduce espacio del checkbox */
+  transform: scale(0.9) !important; /* Tamaño más compacto */
+}
+
+/* Ajustar contenedor principal del modal */
+.login-auth-content {
+  padding: 1.5rem !important;
 }

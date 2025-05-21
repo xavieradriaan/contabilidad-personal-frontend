@@ -161,17 +161,17 @@ html, body {
     z-index: 15;
 }
 
-.login-brand-text {
-    font-size: clamp(2rem, 6.5vw, 2.5rem);
-    font-weight: 700;
-    color: var(--text-white);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    letter-spacing: -0.03em;
+/* Solo aplica blanco para login, pero NO para el modal de pagos recurrentes en EgresosComponent */
+.login-container .login-brand-text,
+.login-container .login-auth-title .login-brand-text,
+.login-container .login-auth-subtitle,
+.login-container .login-auth-title .login-auth-subtitle {
+    color: #fff !important;
 }
 
 .login-auth-subtitle {
     font-size: clamp(1rem, 3vw, 1.2rem);
-    color: rgba(255, 255, 255, 0.9);
+    color: #fff !important;
     font-weight: 300;
     margin-top: 0.5rem;
 }

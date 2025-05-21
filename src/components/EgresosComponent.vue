@@ -146,36 +146,49 @@
       </div>
     </main>
 
-    <!-- Modal actualizado -->
-    <div v-if="showModal" class="egresos-modal-overlay">
-      <div class="egresos-modal-card">
-        <div class="egresos-modal-header">
-          <h3 class="egresos-modal-title">Seleccionar Pagos Recurrentes</h3>
-          <button class="egresos-modal-close" @click="closeModal">
-            <i class="fas fa-times"></i>
-          </button>
+    <!-- Modal actualizado con estilo de Login -->
+    <div v-if="showModal" class="login-modal-overlay">
+      <div class="login-animated-coins">
+        <div v-for="index in 25" :key="index" class="login-coin" :class="`login-coin-${index}`">
+          <img src="/monedas.png" alt="Moneda animada" class="login-coin-img">
         </div>
-        <div class="egresos-modal-body">
-          <div v-for="categoria in categorias" :key="categoria" class="egresos-check-group">
-            <input
-              type="checkbox"
-              :id="categoria"
-              :value="categoria"
-              v-model="selectedCategorias"
-              class="egresos-check-input"
+      </div>
+
+      <!-- Cambia el @click para redirigir a /egresos-tipo -->
+      <button class="login-back-btn" @click="$router.push('/egresos-tipo')">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+
+      <div class="login-auth-card">
+        <div class="login-auth-content">
+          <h1 class="login-auth-title">
+            <span class="login-brand-text">CONTABILÍZATE</span>
+            <p class="login-auth-subtitle">Seleccionar Pagos Recurrentes</p>
+          </h1>
+
+          <form @submit.prevent="savePagosRecurrentes" class="login-auth-form">
+            <div class="login-input-group" v-for="categoria in categorias" :key="categoria">
+              <label class="login-check-label">
+                <input
+                  type="checkbox"
+                  :value="categoria"
+                  v-model="selectedCategorias"
+                  class="login-check-input"
+                >
+                <i class="fas fa-calendar-check login-icon"></i>
+                {{ categoria }}
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              class="login-auth-btn login-login-btn"
+              :class="{'login-loading': isSubmitting}"
             >
-            <label :for="categoria" class="egresos-check-label">
-              {{ categoria }}
-            </label>
-          </div>
-        </div>
-        <div class="egresos-modal-footer">
-          <button
-            class="egresos-auth-btn egresos-modal-btn"
-            @click="savePagosRecurrentes"
-          >
-            Guardar Selección
-          </button>
+              <span v-if="!isSubmitting">Guardar Selección</span>
+              <i v-else class="fas fa-spinner fa-spin"></i>
+            </button>
+          </form>
         </div>
       </div>
     </div>
