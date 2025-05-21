@@ -155,9 +155,12 @@
           <button
             type="submit"
             class="register-auth-btn register-primary-btn"
-            :disabled="isFormInvalid"
+            :disabled="isFormInvalid || isSubmitting"
           >
-            <span>Registrarse</span>
+            <span v-if="!isSubmitting">Registrarse</span>
+            <span v-else>
+              <i class="fas fa-spinner fa-spin"></i> Enviando...
+            </span>
           </button>
         </form>
 
@@ -239,7 +242,8 @@ export default {
       emailMessage: '',
       otpSent: false,
       timeLeft: 300,
-      timer: null
+      timer: null,
+      isSubmitting: false
     }
   },
   computed: {
@@ -363,33 +367,37 @@ export default {
       this.otpError = this.otp.length !== 6 ? 'El código de confirmación debe tener 6 dígitos.' : ''
     },
     async register() {
-      if (this.isFormInvalid) return
-      
+      if (this.isFormInvalid || this.isSubmitting) return
+
+      this.isSubmitting = true;
+
       try {
         const response = await axios.post('/register', {
           username: this.username,
           email: this.email,
           password: this.password
-        })
-        
+        });
+
         Swal.fire({
           icon: 'success',
           title: 'Código Enviado',
           text: response.data.message,
           showConfirmButton: false,
           timer: 15000
-        })
-        
-        this.otpSent = true
-        this.startTimer()
+        });
+
+        this.otpSent = true;
+        this.startTimer();
       } catch (error) {
-        const errorMessage = error.response?.data?.message || 'Hubo un problema al registrar el usuario.'
+        const errorMessage = error.response?.data?.message || 'Hubo un problema al registrar el usuario.';
         Swal.fire({
           icon: 'error',
           title: 'Error',
           text: errorMessage,
           showConfirmButton: true
-        })
+        });
+      } finally {
+        this.isSubmitting = false;
       }
     },
     async confirmOTP() {
