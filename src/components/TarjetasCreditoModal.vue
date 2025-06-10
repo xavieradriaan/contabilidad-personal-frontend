@@ -18,9 +18,10 @@
           >
             <option value="">Seleccione tipo</option>
             <option 
-              v-for="(tarjeta, index) in tarjetasPredefinidas" 
+              v-for="(tarjeta, index) in filteredPredefinidas" 
               :key="index" 
               :value="tarjeta"
+              :disabled="tarjeta === 'Otra tarjeta' ? false : isTarjetaExistente(tarjeta)"
             >
               {{ tarjeta }}
             </option>
@@ -97,12 +98,23 @@ export default {
         fechaPago: ''
       },
       tarjetasPredefinidas: [
-        'Pacificard', 'Bankard', 'American Express', 'Diners Club', 'Titanium', 'Discover', 'Otra tarjeta'
+        'Pacificard', 'Bankard', 'American Express', 'Diners Club', 'Titanium', 'Discover','Produbanco','Otra tarjeta'
       ],
       tarjetas: []
     };
   },
+  computed: {
+    filteredPredefinidas() {
+      return this.tarjetasPredefinidas.filter(tarjeta => 
+        !this.tarjetas.some(t => t.tarjeta_nombre === tarjeta) || 
+        tarjeta === 'Otra tarjeta'
+      );
+    }
+  },
   methods: {
+    isTarjetaExistente(nombreTarjeta) {
+      return this.tarjetas.some(t => t.tarjeta_nombre === nombreTarjeta);
+    },
     handleTarjetaChange() {
       if (this.nuevaTarjeta.nombre !== 'Otra tarjeta') {
         this.nuevaTarjeta.nombrePersonalizado = '';
