@@ -178,15 +178,15 @@ html, body {
 
 .login-auth-card {
     background: rgba(255, 255, 255, 0.98);
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    padding: 1.2rem 1rem;         /* Reduce padding */
+    border-radius: 14px;          /* Menor border-radius */
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.09); /* Menor sombra */
     width: 100%;
-    max-width: 400px;
+    max-width: 340px;             /* Más angosto */
     position: relative;
     z-index: 10;
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(3px);
+    border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .login-auth-form {
@@ -248,7 +248,7 @@ html, body {
     padding: 0.9rem;
     border-radius: 8px;
     font-weight: 500;
-    margin: 2rem auto 1.5rem;
+    margin: 1.2rem auto 0.8rem; /* Reduce espacio arriba y abajo */
     transition: all 0.3s ease;
     display: block;
     text-align: center;
@@ -295,7 +295,7 @@ html, body {
     justify-content: center;
     align-items: center;
     gap: 0.8rem;
-    margin-top: 1rem;
+    margin-top: 0.2rem; /* Reduce el espacio superior */
     flex-wrap: wrap;
 }
 
