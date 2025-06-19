@@ -1,7 +1,7 @@
 <template>
   <div class="seleccion-tipo-container">
     <div class="egresos-back-btn-container">
-      <button class="egresos-back-btn" @click="$router.go(-1)">
+      <button class="egresos-back-btn" @click="handleBack">
         <i class="fas fa-chevron-left"></i>
       </button>
     </div>
@@ -47,6 +47,12 @@ export default {
     document.documentElement.style.setProperty('--secondary-blue', '#2D4A5E');
     document.documentElement.style.setProperty('--accent-gold', '#FFD700');
     document.documentElement.style.setProperty('--text-white', '#FFFFFF');
+  },
+  methods: {
+    handleBack() {
+      // Siempre redirige a dashboard desde aquí
+      this.$router.push('/dashboard');
+    }
   }
 };
 </script>
