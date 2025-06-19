@@ -73,11 +73,10 @@
           </button>
         </form>
 
-        <div class="login-auth-footer">
+        <div class="login-auth-footer login-auth-footer-vertical">
           <router-link to="/password_reset" class="login-password-reset-link">
             ¿Olvidaste tu contraseña?
           </router-link>
-          <span class="login-footer-separator">|</span>
           <router-link to="/register" class="login-password-reset-link">
             Crear nueva cuenta
           </router-link>
