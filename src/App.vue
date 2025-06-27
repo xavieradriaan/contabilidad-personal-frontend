@@ -1,19 +1,20 @@
 <template>
   <div id="app">
-    <navigation-bar 
-      :showHome="isLoggedIn" 
-      :showLogout="isLoggedIn" 
+    <router-view/>
+    <NavigationBar 
+      v-if="isLoggedIn && navigationBarVisible"
+      :showLogout="true"
+      :showHome="false"
       @logout-clicked="logout"
     />
-    <router-view/>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
 import axios from 'axios'
-import NavigationBar from './components/NavigationBar.vue'
 import inactivityLogout from './mixins/inactivityLogout.js'
+import NavigationBar from './components/NavigationBar.vue'
 
 export default {
   name: 'App',
@@ -23,7 +24,27 @@ export default {
   mixins: [inactivityLogout],
   data() {
     return {
-      isLoggedIn: !!localStorage.getItem('token')
+      isLoggedIn: !!localStorage.getItem('token'),
+      navigationBarVisible: true
+    }
+  },
+  watch: {
+    isLoggedIn(newVal) {
+      this.navigationBarVisible = newVal;
+    },
+    $route() {
+      // Ocultar barra en rutas específicas si es necesario
+      if (this.$route.path === '/login' || this.$route.path === '/register') {
+        this.navigationBarVisible = false;
+      } else if (this.isLoggedIn) {
+        this.navigationBarVisible = true;
+      }
+    }
+  },
+  mounted() {
+    // Ocultar barra en login/register
+    if (this.$route.path === '/login' || this.$route.path === '/register') {
+      this.navigationBarVisible = false;
     }
   },
   methods: {
@@ -34,17 +55,18 @@ export default {
           headers: { 
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
-        })
-        this.clearSession()
+        });
+        this.clearSession();
       } catch (error) {
-        console.error('Error al cerrar sesión:', error)
-        this.clearSession()
+        console.error('Error al cerrar sesión:', error);
+        this.clearSession();
       }
     },
     clearSession() {
-      localStorage.clear()
-      this.isLoggedIn = false
-      this.$router.push('/login')
+      localStorage.clear();
+      this.isLoggedIn = false;
+      this.navigationBarVisible = false;
+      this.$router.push('/login');
     }
   }
 }
@@ -167,5 +189,20 @@ html, body {
 .tarjetas-modal-btn-secondary:hover {
   background: #3a5f76 !important; /* Hover effect for secondary button */
   transform: translateY(-2px) !important;
+}
+
+/* Posición para la barra de navegación global */
+.navigation-bar {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+@media (max-width: 768px) {
+  .navigation-bar {
+    top: 10px;
+    right: 10px;
+  }
 }
 </style>

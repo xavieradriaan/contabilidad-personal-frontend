@@ -89,7 +89,7 @@
               inputmode="decimal"
               @input="validateMonto"
               required
-              placeholder="Ingrese un valor con decimales, Ejm: '217,50'"
+              placeholder="Ingrese un valor con decimales, Ejm: 217,50"
             >
           </div>
 

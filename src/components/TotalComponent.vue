@@ -95,7 +95,7 @@
               Total de Ingresos + Otros Ingresos: ${{ formatCurrency(total_ingresos + total_otros_ingresos) }}
             </li>
             <li class="total-month-list-item">
-              Total Egresos (sin incluir Tarjetas de Crédito): ${{ formatCurrency(total_egresos) }}
+              Total Egresos (Débito o Cash)): ${{ formatCurrency(total_egresos) }}
             </li>
             <li class="total-month-list-item">
               Consumos con Tarjetas de Crédito: ${{ formatCurrency(total_tarjetas_credito) }}
@@ -225,7 +225,7 @@
                   <td>{{ formatDate(tarjeta.fecha_corte) }}</td>
                   <td>{{ formatDate(tarjeta.fecha_pago) }}</td>
                   <td>${{ formatCurrency(tarjeta.monto) }}</td>
-                  <td>
+                  <td class="checkbox-cell">
                     <input type="checkbox" :checked="tarjeta.pagada" disabled />
                   </td>
                 </tr>
