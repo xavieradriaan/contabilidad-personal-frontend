@@ -24,6 +24,18 @@
     overflow: hidden;
 }
 
+/* Fix para la franja blanca SOLO en móviles */
+@media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
+    .dashboard-container {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+    
+    html {
+        height: -webkit-fill-available;
+    }
+}
+
 .dashboard-animated-coins {
     position: absolute;
     width: 100%;

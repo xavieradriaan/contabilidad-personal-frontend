@@ -88,6 +88,18 @@ html, body {
   position: relative;
 }
 
+/* Fix global para la franja blanca SOLO en móviles */
+@media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
+  html {
+    height: -webkit-fill-available;
+  }
+  
+  body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+}
+
 :root {
   --welcome-bg: var(--primary-color);
   --welcome-text: var(--accent-color);

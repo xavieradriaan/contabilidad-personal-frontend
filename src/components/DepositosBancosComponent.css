@@ -13,6 +13,18 @@
   padding: 4rem 1rem 1rem;
 }
 
+/* Fix para la franja blanca SOLO en móviles */
+@media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
+    .depositos-container {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+    
+    html {
+        height: -webkit-fill-available;
+    }
+}
+
 /* Elementos comunes heredados del Login */
 .depositos-back-btn {
   position: fixed;

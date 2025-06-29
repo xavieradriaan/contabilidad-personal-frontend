@@ -21,6 +21,18 @@
     padding: 3rem 1rem 2rem; /* Increased top padding */
 }
 
+/* Fix para la franja blanca SOLO en móviles */
+@media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
+    .egresos-container {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+    
+    html {
+        height: -webkit-fill-available;
+    }
+}
+
 .egresos-animated-coins {
     position: absolute;
     width: 100%;

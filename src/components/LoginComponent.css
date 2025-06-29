@@ -63,6 +63,18 @@ html, body {
     overflow: hidden;
 }
 
+/* Fix para la franja blanca SOLO en móviles */
+@media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
+    .login-container {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+    
+    html {
+        height: -webkit-fill-available;
+    }
+}
+
 .login-container .login-animated-coins {
     position: absolute;
     width: 100%;
@@ -159,6 +171,7 @@ html, body {
 
 .login-auth-title {
     text-align: center;
+    margin-top: 6rem; /* Aumentado significativamente para bajar más el título */
     margin-bottom: 2rem; /* Aumentado el margin-bottom para similar al home */
     z-index: 15;
 }
@@ -178,7 +191,7 @@ html, body {
     letter-spacing: -0.5px;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     display: block;
-    margin: 0.5rem 0;
+    margin: 2rem 0 0.5rem 0; /* Aumentado el margin-top para bajar más el título */
 }
 
 .login-auth-subtitle {
@@ -187,7 +200,7 @@ html, body {
     font-weight: 400;
     letter-spacing: 0.5px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    margin: 0.5rem 0;
+    margin: 0.5rem 0 1.5rem 0; /* Aumentado margins para bajar más el subtítulo */
     line-height: 1.3;
 }
 
@@ -201,7 +214,7 @@ html, body {
     z-index: 10;
     backdrop-filter: blur(3px);
     border: 1px solid rgba(0, 0, 0, 0.04);
-    margin-top: auto;
+    margin-top: 0.5rem; /* Margen positivo para bajar más el formulario */
     margin-bottom: auto;
 }
 

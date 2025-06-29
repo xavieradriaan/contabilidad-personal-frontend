@@ -23,6 +23,18 @@
   isolation: isolate;
 }
 
+/* Fix para la franja blanca SOLO en móviles */
+@media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
+    .pagos-container {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+    
+    html {
+        height: -webkit-fill-available;
+    }
+}
+
 .pagos-back-btn {
   position: fixed;
   top: 1.5rem;
