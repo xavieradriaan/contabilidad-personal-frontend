@@ -34,19 +34,23 @@
             class="tarjeta-input"
           />
           
-          <input
-            type="date"
-            v-model="nuevaTarjeta.fechaCorte"
-            class="tarjeta-input"
-            placeholder="Fecha de corte"
-          />
+          <div class="fecha-field-group">
+            <label class="fecha-label">Fecha de Corte</label>
+            <input
+              type="date"
+              v-model="nuevaTarjeta.fechaCorte"
+              class="tarjeta-input"
+            />
+          </div>
           
-          <input
-            type="date"
-            v-model="nuevaTarjeta.fechaPago"
-            class="tarjeta-input"
-            placeholder="Fecha máximo pago"
-          />
+          <div class="fecha-field-group">
+            <label class="fecha-label">Fecha Máximo de Pago</label>
+            <input
+              type="date"
+              v-model="nuevaTarjeta.fechaPago"
+              class="tarjeta-input"
+            />
+          </div>
         </div>
 
         <!-- Listado de tarjetas existentes -->

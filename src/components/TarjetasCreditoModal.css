@@ -92,6 +92,19 @@
   box-shadow: 0 0 0 3px rgba(26, 43, 60, 0.1);
 }
 
+.fecha-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fecha-label {
+  color: var(--primary-blue);
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
 .tarjeta-item {
   display: flex;
   gap: 1rem;

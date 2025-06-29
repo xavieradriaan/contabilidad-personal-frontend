@@ -4,6 +4,10 @@
     --secondary-blue: #2D4A5E;
     --light-gray: #F5F7FA;
     --accent-gold: #FFD700;
+    --success-green: #28a745;
+    --warning-orange: #ffc107;
+    --info-blue: #17a2b8;
+    --danger-red: #dc3545;
 }
 
 .total-container {
@@ -12,7 +16,7 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    padding-top: 2rem; /* Adjusted padding to move content slightly upwards */
+    padding-top: 2rem;
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
     font-family: 'Inter', sans-serif;
     position: relative;
@@ -28,15 +32,14 @@
     z-index: 1;
 }
 
-/* Mantener mismas animaciones de monedas cambiando prefijo a total- */
 .total-coin {
     position: absolute;
-    width: 50px; /* Match size with LoginComponent */
-    height: 50px; /* Match size with LoginComponent */
+    width: 50px;
+    height: 50px;
     animation: 
-        total-coinFloat 12s ease-in-out infinite, /* Increased duration */
-        total-coinSpin 10s linear infinite,       /* Increased duration */
-        total-coinPulse 8s ease-in-out infinite; /* Increased duration */
+        total-coinFloat 12s ease-in-out infinite,
+        total-coinSpin 10s linear infinite,
+        total-coinPulse 8s ease-in-out infinite;
     filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
     z-index: 1;
     pointer-events: none;
@@ -44,7 +47,7 @@
 
 @keyframes total-coinFloat {
     0%, 100% { transform: translateY(0) rotateX(0); }
-    50% { transform: translateY(-20px) rotateX(360deg); } /* Reduced vertical movement */
+    50% { transform: translateY(-20px) rotateX(360deg); }
 }
 
 @keyframes total-coinSpin {
@@ -76,14 +79,114 @@
 }
 
 .total-main-title {
-    color: var(--text-white); /* Set title color to white */
+    color: var(--text-white);
     text-align: center;
 }
 
 .total-main-subtitle {
-    color: var(--text-white); /* Set subtitle color to white */
+    color: var(--text-white);
     text-align: center;
 }
+
+/* NUEVOS ESTILOS PARA EL DASHBOARD */
+
+.proximos-vencimientos {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 1rem 0 2rem 0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 1000px;
+}
+
+.proximos-vencimientos h5 {
+    margin: 0 0 1rem 0;
+    color: var(--primary-blue);
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.vencimiento-item {
+    background: #fff5f5;
+    border-left: 4px solid var(--danger-red);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+}
+
+.vencimiento-item:hover {
+    transform: translateX(5px);
+}
+
+.vencimiento-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.vencimiento-icon {
+    margin-right: 0.5rem;
+}
+
+.vencimiento-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vencimiento-monto {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--danger-red);
+}
+
+.vencimiento-fecha {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.bg-danger { background-color: var(--danger-red) !important; }
+.bg-warning { background-color: var(--warning-orange) !important; color: #000 !important; }
+.bg-success { background-color: var(--success-green) !important; }
+.bg-secondary { background-color: #6c757d !important; }
+.bg-info { background-color: #17a2b8 !important; color: white !important; }
+
+/* Clases de color para texto */
+.text-danger { color: var(--danger-red) !important; }
+.text-warning { color: var(--warning-orange) !important; }
+.text-success { color: var(--success-green) !important; }
+.text-info { color: var(--info-blue) !important; }
+
+/* Estilos para filas de tabla con estado */
+.row-vencida {
+    background-color: #ffebee !important;
+}
+
+.row-por-pagar {
+    background-color: #fff8e1 !important;
+}
+
+.row-en-curso {
+    background-color: #e8f5e8 !important;
+}
+
+/* NUEVO ESTILO PARA EL ESTADO "AL DÍA" */
+.row-al-dia {
+    background-color: #e3f2fd !important; /* Azul claro */
+}
+
+/* ESTILOS ORIGINALES MANTENIDOS */
 
 .total-main-card {
     background: white;
@@ -91,24 +194,23 @@
     border-radius: 16px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
     width: 90%;
-    max-width: 800px; /* Valor base para móvil/tablet */
+    max-width: 1000px;
     margin: 0 auto;
     position: relative;
     z-index: 10;
     overflow-y: auto;
     max-height: 80vh;
-    /* Propiedades duplicadas eliminadas */
 }
 
 .total-main-form {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
-    margin-bottom: 1rem; /* Reducido de 2rem */
+    margin-bottom: 1rem;
 }
 
 .total-input-group {
-    margin-bottom: 0.5rem; /* Reducido de 1rem */
+    margin-bottom: 0.5rem;
 }
 
 .total-input-label {
@@ -116,14 +218,14 @@
     align-items: center;
     gap: 0.8rem;
     color: var(--primary-blue);
-    margin-bottom: 0.3rem; /* Reducido de 0.5rem */
+    margin-bottom: 0.3rem;
     font-size: 0.95rem;
     font-weight: 500;
 }
 
 .total-main-input {
     width: 100%;
-    padding: 0.6rem; /* Reducido de 0.8rem */
+    padding: 0.6rem;
     background: var(--light-gray);
     border: 2px solid rgba(0, 0, 0, 0.08);
     border-radius: 8px;
@@ -132,21 +234,22 @@
 }
 
 .total-buttons-group {
-  display: flex;
-  justify-content: center;
-  gap: 1.2rem;
-  margin: 0.3rem auto 0; /* Reducido aún más el espacio vertical */
-  max-width: 500px;
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    margin: 0.3rem auto 0;
+    max-width: 500px;
 }
 
 .total-main-btn {
-  flex: 0 0 auto;
-  width: 175px; /* Aumentado de 160px */
-  padding: 0.65rem 0.5rem; /* Aumentado de 0.5rem 0.4rem */
-  font-size: 1rem; /* Aumentado de 0.9rem */
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
+    flex: 0 0 auto;
+    width: 175px;
+    padding: 0.65rem 0.5rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
 }
 
 .total-consult-btn {
@@ -163,8 +266,13 @@
     background: var(--light-gray);
     border-radius: 12px;
     padding: 1.5rem;
-    margin: 1.2rem 0; /* Reducido de 2rem 0 */
+    margin: 1.2rem 0;
     text-align: center;
+}
+
+.total-balance-title {
+    margin-bottom: 1rem;
+    color: var(--primary-blue);
 }
 
 .total-balance-amount {
@@ -177,52 +285,17 @@
     gap: 0.5rem;
 }
 
+.balance-note {
+    color: #666;
+    font-style: italic;
+    margin-top: 0.5rem;
+    display: block;
+}
+
 .total-eye-icon {
     cursor: pointer;
     font-size: 1.2rem;
     color: var(--secondary-blue);
-}
-
-.total-details-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.total-detail-item {
-    background: var(--light-gray);
-    padding: 1.5rem;
-    border-radius: 12px;
-    text-align: center;
-}
-
-.total-table-section {
-    margin-top: 3rem;
-}
-
-.total-data-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--text-white);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.total-data-table th,
-.total-data-table td {
-    padding: 1rem;
-    text-align: left;
-}
-
-.total-data-table thead {
-    background: var(--primary-blue);
-    color: var(--text-white);
-}
-
-.total-data-table tbody tr:nth-child(even) {
-    background: var(--light-gray);
 }
 
 .total-month-summary {
@@ -257,115 +330,66 @@
     line-height: 1.5;
 }
 
-/* Ordenar media queries de mayor a menor */
-
-/* Desktop (1024px+) */
-@media (min-width: 1024px) {
-    .total-container {
-        padding: 4rem 2rem 1rem;
-    }
-    
-    .total-main-card {
-        max-width: 1000px;
-        padding: 2.5rem;
-    }
-    
-    .total-main-form {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 2rem;
-    }
-    
-    .total-input-group:nth-child(1) {
-        grid-column: 1 / 3;
-    }
-    
-    .total-input-group:nth-child(2) {
-        grid-column: 3 / 5;
-    }
-    
-    .total-buttons-group {
-        grid-column: 2 / 4;
-        justify-content: center;
-    }
-    
-    .total-month-summary {
-        max-width: 100%;
-    }
+.total-table-section {
+    margin-top: 3rem;
 }
 
-/* Tablet (769px-1023px) */
-@media (max-width: 1023px) and (min-width: 769px) {
-    .total-main-card {
-        max-width: 700px;
-    }
-    
-    .total-main-form {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .total-buttons-group {
-        grid-column: span 2;
-    }
+.total-table-title {
+    color: var(--primary-blue);
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.2rem;
 }
 
-/* Mobile (<768px) */
-@media (max-width: 768px) {
-    .total-main-form {
-        grid-template-columns: 1fr;
-    }
-    
-    .total-buttons-group {
-        grid-column: span 1;
-        flex-direction: column;
-    }
+.total-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
-/* Ajustar espaciado vertical en móviles */
-@media (max-width: 768px) {
-    .total-main-form {
-        gap: 1rem;
-    }
-    .total-buttons-group {
-        margin-top: 0.8rem;
-        gap: 0.6rem; /* Reducido de 1.2rem */
-    }
-    .total-main-btn {
-        width: 150px; /* Aumentado de 140px */
-        padding: 0.7rem 0.4rem; /* Aumentado de 0.5rem 0.3rem */
-    }
+.total-data-table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    background: var(--text-white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Ajustes adicionales para móviles pequeños */
-@media (max-width: 480px) {
-    .total-main-card {
-        padding: 1.2rem 0.8rem; /* Reducido de 1.5rem 1rem */
-    }
-    
-    .total-balance-card {
-        padding: 1rem; /* Reducido de 1.5rem */
-        margin: 1rem 0; /* Reducido */
-    }
-    
-    .total-balance-amount {
-        font-size: 2rem; /* Reducido de 2.5rem */
-    }
+.total-data-table th,
+.total-data-table td {
+    padding: 1rem;
+    text-align: left;
+    vertical-align: middle;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .total-back-btn {
-        top: 1.2rem;
-        left: 1.2rem;
-        width: 32px;
-        height: 32px;
-    }
-    
-    .total-back-btn i {
-        font-size: 1.1rem;
-    }
+.total-data-table th {
+    background: var(--primary-blue);
+    color: var(--text-white);
+    font-weight: 600;
 }
 
-/* Restaurar estilos originales del botón de retroceso */
+.total-data-table tbody tr:nth-child(even) {
+    background: var(--light-gray);
+}
+
+.total-data-table tbody tr:hover {
+    background: rgba(26, 43, 60, 0.05);
+}
+
+.checkbox-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkbox-cell input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+}
+
+/* Botón de retroceso */
 .total-back-btn {
     position: fixed;
     top: 1.5rem;
@@ -376,7 +400,7 @@
     height: 36px;
     cursor: pointer;
     color: rgba(255, 255, 255, 0.8);
-    z-index: 100;
+    z-index: 10000;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
@@ -401,8 +425,85 @@
     transform: translateX(-2px);
 }
 
-/* Restaurar responsive del botón */
+/* RESPONSIVE DESIGN */
+
+/* Desktop (1024px+) */
+@media (min-width: 1024px) {
+    .total-container {
+        padding: 4rem 2rem 1rem;
+    }
+    
+    .total-main-card {
+        max-width: 1200px;
+        padding: 2.5rem;
+    }
+    
+    .total-main-form {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+    
+    .total-input-group:nth-child(1) {
+        grid-column: 1 / 3;
+    }
+    
+    .total-input-group:nth-child(2) {
+        grid-column: 3 / 5;
+    }
+    
+    .total-buttons-group {
+        grid-column: 2 / 4;
+        justify-content: center;
+    }
+    
+    .proximos-vencimientos {
+        max-width: 1200px;
+    }
+}
+
+/* Tablet (769px-1023px) */
+@media (max-width: 1023px) and (min-width: 769px) {
+    .total-main-card {
+        max-width: 700px;
+    }
+    
+    .total-main-form {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .total-buttons-group {
+        grid-column: span 2;
+    }
+}
+
+/* Mobile Large (481px-768px) */
 @media (max-width: 768px) {
+    .total-main-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .total-buttons-group {
+        grid-column: span 1;
+        flex-direction: column;
+        gap: 0.6rem;
+        margin-top: 0.8rem;
+    }
+    
+    .total-main-btn {
+        width: 150px;
+        padding: 0.7rem 0.4rem;
+    }
+    
+    .vencimiento-details {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+    
+    .vencimiento-monto {
+        font-size: 1.2rem;
+    }
+    
     .total-back-btn {
         top: 1.2rem;
         left: 1.2rem;
@@ -415,12 +516,92 @@
     }
 }
 
-/* Asegurar que la barra de navegación no interfiera */
-.navigation-bar {
-    top: 4rem !important; /* Ajustar posición para no solapar con el botón */
-    left: 1.5rem !important;
+/* Mobile Small (<480px) */
+@media (max-width: 480px) {
+    .total-container {
+        padding: 3rem 0.5rem 1rem;
+    }
+    
+    .total-main-card {
+        max-width: 100%;
+        padding: 1.5rem 1rem;
+        border-radius: 12px;
+        margin: 0 0.5rem;
+    }
+    
+    .total-main-title {
+        font-size: 1.8rem;
+    }
+    
+    .total-main-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .proximos-vencimientos {
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .vencimiento-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .total-balance-amount {
+        font-size: 1.8rem;
+        flex-wrap: wrap;
+    }
+    
+    .total-month-summary {
+        padding: 1rem;
+    }
+    
+    .total-month-title {
+        font-size: 1.3rem;
+    }
+    
+    .total-month-list-item {
+        font-size: 0.9rem;
+        margin-bottom: 0.6rem;
+    }
+    
+    .total-table-title {
+        font-size: 1.1rem;
+    }
+    
+    .total-data-table th,
+    .total-data-table td {
+        padding: 0.8rem;
+        font-size: 0.85rem;
+        min-width: 100px;
+    }
+    
+    .total-back-btn {
+        top: 1rem;
+        left: 1rem;
+    }
 }
 
+/* Ajustes finales para muy pequeñas pantallas */
+@media (max-width: 320px) {
+    .proximos-vencimientos {
+        width: 98%;
+        margin: 1rem 1%;
+    }
+    
+    .total-main-card {
+        padding: 1rem 0.8rem;
+        margin: 0 0.2rem;
+    }
+    
+    .total-balance-amount {
+        font-size: 1.5rem;
+    }
+}
+
+/* Mejoras para navegación */
 .navigation-bar {
     position: fixed;
     top: 1.5rem;
@@ -428,158 +609,16 @@
     z-index: 100;
 }
 
-.navigation-bar button {
-    background: transparent;
-    border: none;
-    color: var(--text-white);
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+@media (max-width: 768px) {
+    .navigation-bar {
+        top: 3.5rem !important;
+        left: 1rem !important;
+    }
 }
 
-.navigation-bar button:hover {
-    transform: scale(1.1);
-}
-
-/* Ajustes generales para móvil */
 @media (max-width: 480px) {
-  .total-container {
-    padding: 3rem 0.5rem 1rem;
-  }
-  
-  .total-main-card {
-    max-width: 100%;
-    padding: 1.5rem 1rem;
-    border-radius: 12px;
-    margin: 0 0.5rem;
-  }
-  
-  .total-main-title {
-    font-size: 1.8rem;
-  }
-  
-  .total-main-subtitle {
-    font-size: 1.2rem;
-  }
-  
-  .total-input-group {
-    margin-bottom: 0.8rem;
-  }
-  
-  .total-input-label {
-    font-size: 0.9rem;
-  }
-  
-  .total-main-input {
-    padding: 0.7rem;
-    font-size: 0.9rem;
-  }
-  
-  .total-buttons-group {
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-  
-  .total-main-btn {
-    padding: 0.8rem;
-    font-size: 0.9rem;
-  }
-  
-  .total-balance-card {
-    margin: 1.5rem 0;
-    padding: 1rem;
-  }
-  
-  .total-balance-amount {
-    font-size: 1.8rem;
-    flex-wrap: wrap;
-  }
-  
-  .total-month-summary {
-    padding: 1rem;
-  }
-  
-  .total-month-title {
-    font-size: 1.3rem;
-  }
-  
-  .total-month-list-item {
-    font-size: 0.9rem;
-    margin-bottom: 0.6rem;
-  }
-  
-  .total-table-title {
-    font-size: 1.1rem;
-  }
-  
-  .total-data-table th,
-  .total-data-table td {
-    padding: 0.8rem;
-    font-size: 0.85rem;
-    min-width: 100px;
-  }
-  
-  .total-table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  .navigation-bar {
-    top: 3.5rem !important;
-    left: 1rem !important;
-  }
-}
-
-/* Mejoras específicas para tablas */
-.total-data-table {
-  min-width: 600px;
-}
-
-.total-table-section {
-  margin-top: 2rem;
-}
-
-.total-table-title {
-  color: var(--primary-blue);
-  margin-bottom: 1rem;
-  text-align: center;
-  font-size: 1.2rem;
-}
-
-/* Ajustes de alineación */
-.total-balance-title,
-.total-month-title {
-  text-align: center;
-}
-
-/* Mejora en los inputs */
-.total-main-input {
-  width: 100%;
-  max-width: 100%;
-}
-
-/* Espaciado entre secciones */
-.total-month-summary,
-.total-table-section {
-  margin-top: 1.5rem;
-}
-
-/* Ajuste del botón de regreso */
-@media (max-width: 480px) {
-  .total-back-btn {
-    top: 1rem;
-    left: 1rem;
-  }
-}
-
-.checkbox-cell {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.checkbox-cell input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
-  margin: 0 auto;
+    .navigation-bar {
+        top: 3rem !important;
+        left: 0.8rem !important;
+    }
 }

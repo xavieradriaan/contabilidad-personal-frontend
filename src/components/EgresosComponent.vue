@@ -167,27 +167,31 @@
           </h1>
 
           <form @submit.prevent="savePagosRecurrentes" class="login-auth-form">
-            <div class="login-input-group" v-for="categoria in categorias" :key="categoria">
-              <label class="login-check-label">
-                <input
-                  type="checkbox"
-                  :value="categoria"
-                  v-model="selectedCategorias"
-                  class="login-check-input"
-                >
-                <i class="fas fa-calendar-check login-icon"></i>
-                {{ categoria }}
-              </label>
+            <div class="login-categories-container">
+              <div class="login-input-group" v-for="categoria in categorias" :key="categoria">
+                <label class="login-check-label">
+                  <input
+                    type="checkbox"
+                    :value="categoria"
+                    v-model="selectedCategorias"
+                    class="login-check-input"
+                  >
+                  <i class="fas fa-calendar-check login-icon"></i>
+                  {{ categoria }}
+                </label>
+              </div>
             </div>
 
-            <button
-              type="submit"
-              class="login-auth-btn login-login-btn"
-              :class="{'login-loading': isSubmitting}"
-            >
-              <span v-if="!isSubmitting">Guardar Selección</span>
-              <i v-else class="fas fa-spinner fa-spin"></i>
-            </button>
+            <div class="login-button-container">
+              <button
+                type="submit"
+                class="login-auth-btn login-login-btn"
+                :class="{'login-loading': isSubmitting}"
+              >
+                <span v-if="!isSubmitting">Guardar Selección</span>
+                <i v-else class="fas fa-spinner fa-spin"></i>
+              </button>
+            </div>
           </form>
         </div>
       </div>
