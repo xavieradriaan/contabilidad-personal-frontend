@@ -267,10 +267,10 @@
                       {{ item.dias_para_vencimiento }} para vencer
                     </small>
                     <small v-else-if="item.estado_ciclo === 'al_dia'">
-                      Al día ✅
+                      Al día 
                     </small>
                     <small v-else-if="item.estado_ciclo === 'vencida'">
-                      Vencida ❌
+                      Vencida 
                     </small>
                     <small v-else>
                       -
@@ -290,7 +290,7 @@
                 <tr>
                   <th>Total Ingresos + Otros Ingresos</th>
                   <th>Total Egresos (Solo Débito/Cash)</th>
-                  <th>Dinero Real Disponible</th>
+                  <th>Dinero Disponible</th>
                 </tr>
               </thead>
               <tbody>
