@@ -130,7 +130,12 @@ export default {
           title: 'Inicio de Sesión Exitoso',
           text: 'Bienvenido de nuevo',
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
+          customClass: {
+            popup: 'login-success-popup',
+            title: 'login-success-title',
+            content: 'login-success-content'
+          }
         })
         
         this.$router.push('/dashboard')
@@ -150,7 +155,12 @@ export default {
           icon: 'error',
           title: 'Cuenta Bloqueada',
           html: `La cuenta se encuentra bloqueada. <a href="${error.response.data.reset_url}">Restablecer contraseña</a>`,
-          showConfirmButton: true
+          showConfirmButton: true,
+          customClass: {
+            popup: 'login-error-popup',
+            title: 'login-error-title',
+            content: 'login-error-content'
+          }
         })
       } else {
         const errorMessage = error.response?.data?.remaining_attempts !== undefined 
@@ -162,7 +172,12 @@ export default {
           icon: 'error',
           title: 'Error',
           text: errorMessage,
-          showConfirmButton: true
+          showConfirmButton: true,
+          customClass: {
+            popup: 'login-error-popup',
+            title: 'login-error-title',
+            content: 'login-error-content'
+          }
         })
       }
     }
