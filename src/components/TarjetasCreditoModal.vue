@@ -62,7 +62,7 @@
               <span class="fecha-item">Fecha Máximo Pago: {{ tarjeta.fecha_pago }}</span>
             </div>
           </div>
-          <button class="btn-eliminar">
+          <button class="btn-eliminar" @click="eliminarTarjeta(tarjeta.id)">
             <i class="fas fa-trash-alt"></i>
           </button>
         </div>
@@ -90,6 +90,7 @@
 
 <script>
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default {
   name: 'TarjetasCreditoModal',
@@ -167,6 +168,52 @@ export default {
       } catch (error) {
         console.error('Error:', error.response?.data || error.message);
         alert(`Error al agregar: ${error.response?.data?.message || 'Verifique los datos'}`);
+      }
+    },
+    async eliminarTarjeta(tarjetaId) {
+      try {
+        // Mostrar confirmación antes de eliminar
+        const result = await Swal.fire({
+          title: '¿Estás seguro?',
+          text: 'Esta acción no se puede deshacer',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar',
+          confirmButtonColor: '#dc3545',
+          cancelButtonColor: '#6c757d'
+        });
+
+        if (!result.isConfirmed) {
+          return;
+        }
+
+        // Realizar la eliminación
+        await axios.delete(`/tarjetas_credito/${tarjetaId}`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+        });
+
+        // Actualizar la lista local
+        this.tarjetas = this.tarjetas.filter(tarjeta => tarjeta.id !== tarjetaId);
+
+        // Mostrar mensaje de éxito
+        await Swal.fire({
+          icon: 'success',
+          title: 'Tarjeta eliminada',
+          text: 'La tarjeta se eliminó correctamente',
+          showConfirmButton: false,
+          timer: 1500
+        });
+
+      } catch (error) {
+        console.error('Error al eliminar tarjeta:', error);
+        
+        await Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.response?.data?.message || 'No se pudo eliminar la tarjeta',
+          showConfirmButton: true
+        });
       }
     },
     async fetchTarjetas() {
