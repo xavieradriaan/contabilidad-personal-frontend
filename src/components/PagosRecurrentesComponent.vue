@@ -1,7 +1,5 @@
 <template>
   <div class="pagos-container">
-    <!-- Usa el componente NavigationBar aquí si es necesario -->
-    <NavigationBar />
     <!-- Animación de monedas -->
     <div class="pagos-animated-coins">
       <div v-for="index in 25" :key="index" class="pagos-coin" :class="`pagos-coin-${index}`">

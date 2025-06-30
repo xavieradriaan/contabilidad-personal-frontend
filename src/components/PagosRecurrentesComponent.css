@@ -12,14 +12,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Changed from center to flex-start */
+  justify-content: flex-start;
   background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
   font-family: 'Inter', sans-serif;
   position: relative;
   overflow: hidden;
-  padding-top: 0; /* Removed unnecessary padding */
-  margin-top: -2rem; /* Adjusted margin to remove extra space */
-  padding: 4rem 1rem 1rem;
+  padding: 20px 1rem; /* Padding consistente con otros componentes */
   isolation: isolate;
 }
 
@@ -32,6 +30,14 @@
     
     html {
         height: -webkit-fill-available;
+    }
+}
+
+/* Fix específico para escritorio - asegurar altura completa */
+@media screen and (min-width: 769px) {
+    .pagos-container {
+        min-height: 100vh;
+        height: 100vh;
     }
 }
 
@@ -73,6 +79,7 @@
   position: relative;
   z-index: 10;
   margin-top: 2rem;
+  flex: 1; /* Permite que ocupe el espacio disponible */
 }
 
 .pagos-main-title {
@@ -116,7 +123,8 @@
   backdrop-filter: blur(4px);
   border: 1px solid rgba(0, 0, 0, 0.05);
   overflow-y: auto;
-  max-height: 80vh;
+  max-height: calc(100vh - 200px); /* Ajustar para evitar overflow */
+  margin-bottom: 2rem; /* Añadir margen inferior */
 }
 
 .pagos-tabla-container {
@@ -256,7 +264,7 @@
 
 @media (max-width: 480px) {
   .pagos-container {
-    padding: 3rem 1rem 1rem;
+    padding: 20px 1rem; /* Consistente con otros componentes */
   }
   
   .pagos-brand-text {
