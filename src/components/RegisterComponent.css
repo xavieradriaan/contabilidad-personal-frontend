@@ -8,19 +8,27 @@
     --success-green: #28a745;
 }
 
+/* Eliminar márgenes y paddings globales que causan el borde blanco */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
 .register-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Changed from center to flex-start */
+    justify-content: flex-start;
     min-height: 100vh;
-    padding-top: 0; /* Removed unnecessary padding */
-    margin-top: -2rem; /* Adjusted margin to remove extra space */
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
     font-family: 'Inter', sans-serif;
     position: relative;
     overflow: hidden;
-    padding: 4rem 1rem 1rem;
+    padding: 3rem 1rem 1rem;
+    margin: 0;
 }
 
 /* Fix para la franja blanca SOLO en móviles */
@@ -33,6 +41,22 @@
     html {
         height: -webkit-fill-available;
     }
+}
+
+/* Fix específico para escritorio - eliminar borde blanco */
+@media (min-width: 769px) {
+  .register-container {
+    min-height: 100vh;
+    height: 100vh;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    height: 100%;
+    overflow-y: auto;
+  }
 }
 
 .register-animated-coins {
