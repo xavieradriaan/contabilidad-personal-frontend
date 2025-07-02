@@ -103,7 +103,7 @@ export default {
         fechaPago: ''
       },
       tarjetasPredefinidas: [
-        'Pacificard', 'Bankard', 'American Express', 'Diners Club', 'Titanium', 'Discover','Produbanco','Otra tarjeta'
+        'Pacificard', 'Bankard', 'American Express', 'Diners Club', 'Titanium', 'Discover','Produbanco','Visa','Mastercard','American Express','Otra tarjeta'
       ],
       tarjetas: []
     };
@@ -218,10 +218,10 @@ export default {
     },
     async fetchTarjetas() {
       try {
-        const response = await axios.get('/tarjetas_credito', {
+        const response = await axios.get('/api/tarjetas_con_ciclo', {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
-        this.tarjetas = response.data;
+        this.tarjetas = response.data.tarjetas.map(item => item.tarjeta);
       } catch (error) {
         console.error('Error al obtener tarjetas:', error);
       }
