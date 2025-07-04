@@ -36,7 +36,7 @@ export default {
 <style scoped>
 .navigation-bar {
   position: absolute;
-  top: 60px;
+  top: 80px;
   right: 20px;
   z-index: 10000;
 }
@@ -92,7 +92,7 @@ export default {
 /* Estilos responsivos */
 @media (max-width: 768px) {
   .navigation-bar {
-    top: 50px;
+    top: 120px;
     right: 10px;
   }
   

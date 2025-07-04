@@ -233,7 +233,12 @@ export default {
           title: 'Ingreso Exitoso!',
           text: 'El ingreso ha sido agregado correctamente.',
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
+          customClass: {
+            popup: 'ingresos-success-popup',
+            title: 'ingresos-success-title',
+            htmlContainer: 'ingresos-success-content'
+          }
         })
       } catch (error) {
         console.error('Error al registrar ingreso:', error)

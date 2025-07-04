@@ -365,7 +365,12 @@ export default {
           title: 'Pagos Recurrentes Guardados',
           text: 'Configuración guardada correctamente',
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
+          customClass: {
+            popup: 'egresos-success-popup',
+            title: 'egresos-success-title',
+            htmlContainer: 'egresos-success-content'
+          }
         }).then(() => {
           this.$router.push({ 
               path: '/egresos/debito'
@@ -442,7 +447,12 @@ export default {
           title: 'Egreso Registrado!',
           text: 'El egreso se ha registrado correctamente',
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
+          customClass: {
+            popup: 'egresos-success-popup',
+            title: 'egresos-success-title',
+            htmlContainer: 'egresos-success-content'
+          }
         });
       } catch (error) {
         console.error('Error al registrar egreso:', error);

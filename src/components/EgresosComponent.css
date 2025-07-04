@@ -707,158 +707,133 @@ select.egresos-auth-input {
   color: var(--primary-blue) !important;
 }
 
-/* ================ RESPONSIVE STYLES FOR EGRESOS ================ */
-
-@media (max-width: 768px) {
-  .egresos-container {
-    padding: 2rem 0.8rem 1rem;
-    margin-top: 0;
-  }
-  
-  .egresos-auth-card {
-    max-width: 350px;
-    max-height: 90vh;
-    padding: 2rem 1.5rem;
-    margin: 0 0.5rem;
-  }
-  
-  .egresos-main-content {
-    margin-top: 0.5rem;
-  }
-  
-  .egresos-coin {
-    width: 25px;
-    height: 25px;
-  }
-  
-  .egresos-title {
-    margin-bottom: 1rem;
-  }
-  
-  .egresos-brand-text {
-    font-size: 1.8rem;
-  }
-  
-  .egresos-subtitle {
-    font-size: 1rem;
-  }
-  
-  /* Modal responsive */
-  .login-auth-card {
-    max-width: 380px;
-    margin: 0.5rem;
-    max-height: 85vh;
-  }
-  
-  .login-auth-content {
-    padding: 1.2rem;
-  }
-  
-  .login-categories-container {
-    max-height: 300px;
-  }
-  
-  .login-check-label {
-    font-size: 0.85rem;
-    padding: 0.35rem 0;
-  }
-  
-  .login-coin {
-    width: 22px;
-    height: 22px;
-  }
-  
-  .login-coin-16 { width: 18px; height: 18px; }
-  .login-coin-17 { width: 20px; height: 20px; }
-  .login-coin-18 { width: 16px; height: 16px; }
-  .login-coin-19 { width: 19px; height: 19px; }
-  .login-coin-20 { width: 22px; height: 22px; }
-  .login-coin-21 { width: 20px; height: 20px; }
-  .login-coin-22 { width: 19px; height: 19px; }
-  .login-coin-23 { width: 22px; height: 22px; }
-  .login-coin-24 { width: 17px; height: 17px; }
-  .login-coin-25 { width: 18px; height: 18px; }
+/* ===== ESTILOS PARA MODALES DE ÉXITO DE EGRESOS ===== */
+.egresos-success-popup {
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(20px) !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    width: 320px !important;
+    max-width: 90vw !important;
 }
 
-@media (max-width: 480px) {
-  .egresos-container {
-    padding: 2.5rem 0.5rem 1rem;
-  }
-  
-  .egresos-auth-card {
-    max-width: 320px;
-    max-height: 92vh;
-    padding: 1.5rem 1rem;
-  }
-  
-  .egresos-input-group {
-    margin-bottom: 0.8rem;
-  }
-  
-  .egresos-auth-input {
-    padding: 0.8rem;
-    font-size: 1rem;
-  }
-  
-  .egresos-auth-btn.egresos-submit-btn {
-    max-width: 280px;
-    padding: 0.8rem;
-    font-size: 1rem;
-  }
-  
-  .egresos-coin {
-    width: 20px;
-    height: 20px;
-  }
-  
-  /* Modal responsive pequeño */
-  .login-auth-card {
-    max-width: 320px;
-    margin: 0.5rem;
-    max-height: 80vh;
-  }
-  
-  .login-auth-content {
-    padding: 1rem;
-  }
-  
-  .login-categories-container {
-    max-height: 250px;
-    padding-right: 0.25rem;
-  }
-  
-  .login-brand-text {
-    font-size: 1.4rem !important;
-  }
-  
-  .login-auth-subtitle {
-    font-size: 0.9rem !important;
-  }
-  
-  .login-check-label {
-    font-size: 0.8rem;
-    padding: 0.3rem 0;
-    min-height: 28px;
-  }
-  
-  .login-login-btn {
-    padding: 0.7rem 1rem;
-    font-size: 0.9rem;
-  }
-  
-  .login-coin {
-    width: 18px;
-    height: 18px;
-  }
-  
-  .login-coin-16 { width: 15px; height: 15px; }
-  .login-coin-17 { width: 17px; height: 17px; }
-  .login-coin-18 { width: 14px; height: 14px; }
-  .login-coin-19 { width: 16px; height: 16px; }
-  .login-coin-20 { width: 19px; height: 19px; }
-  .login-coin-21 { width: 17px; height: 17px; }
-  .login-coin-22 { width: 16px; height: 16px; }
-  .login-coin-23 { width: 19px; height: 19px; }
-  .login-coin-24 { width: 15px; height: 15px; }
-  .login-coin-25 { width: 16px; height: 16px; }
+.egresos-success-title {
+    color: #1A2B3C !important;
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    margin: 0.5rem 0 !important;
+    text-align: center !important;
+}
+
+.egresos-success-content {
+    color: #2D4A5E !important;
+    font-size: 0.95rem !important;
+    line-height: 1.4 !important;
+    margin: 0.5rem 0 !important;
+    text-align: center !important;
+}
+
+.egresos-success-popup .swal2-icon.swal2-success {
+    width: 60px !important;
+    height: 60px !important;
+    margin: 1rem auto !important;
+    border: 3px solid #28a745 !important;
+    border-radius: 50% !important;
+    position: relative !important;
+    background: radial-gradient(circle, rgba(40, 167, 69, 0.1) 0%, transparent 70%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    animation: egresos-success-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important;
+}
+
+/* Ocultar elementos nativos del icono de éxito */
+.egresos-success-popup .swal2-icon.swal2-success * {
+    display: none !important;
+}
+
+/* Check mark elegante para egresos usando CSS puro */
+.egresos-success-popup .swal2-icon.swal2-success::before {
+    content: '' !important;
+    position: absolute !important;
+    width: 12px !important;
+    height: 24px !important;
+    border: solid #28a745 !important;
+    border-width: 0 3px 3px 0 !important;
+    transform: rotate(45deg) !important;
+    top: 50% !important;
+    left: 50% !important;
+    margin-top: -14px !important;
+    margin-left: -4px !important;
+    animation: egresos-check-appear 0.5s ease-out 0.3s both !important;
+}
+
+/* Animaciones para el modal de éxito de egresos */
+@keyframes egresos-success-bounce {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+        border-color: transparent;
+    }
+    60% {
+        transform: scale(1.1);
+        opacity: 0.9;
+        border-color: #28a745;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+        border-color: #28a745;
+    }
+}
+
+@keyframes egresos-check-appear {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        transform: rotate(45deg) scale(0);
+    }
+    50% {
+        width: 6px;
+        height: 12px;
+        opacity: 0.7;
+        transform: rotate(45deg) scale(1.1);
+    }
+    100% {
+        width: 12px;
+        height: 24px;
+        opacity: 1;
+        transform: rotate(45deg) scale(1);
+    }
+}
+
+/* Responsive para modales de éxito de egresos */
+@media (max-width: 768px) {
+    .egresos-success-popup {
+        width: 280px !important;
+        padding: 1.2rem !important;
+    }
+    
+    .egresos-success-title {
+        font-size: 1.2rem !important;
+    }
+    
+    .egresos-success-content {
+        font-size: 0.9rem !important;
+    }
+    
+    .egresos-success-popup .swal2-icon.swal2-success {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    .egresos-success-popup .swal2-icon.swal2-success::before {
+        width: 10px !important;
+        height: 20px !important;
+        margin-top: -12px !important;
+        margin-left: -3px !important;
+    }
 }

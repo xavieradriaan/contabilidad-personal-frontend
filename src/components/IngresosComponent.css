@@ -311,6 +311,131 @@ select.ingresos-auth-input {
     }
 }
 
+/* ===== ESTILOS PARA MODALES DE ÉXITO DE INGRESOS ===== */
+.ingresos-success-popup {
+    width: 340px !important;
+    max-width: 90vw !important;
+    padding: 1.5rem !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(4px) !important;
+    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+    box-shadow: 0 8px 30px rgba(34, 197, 94, 0.15) !important;
+}
+
+.ingresos-success-title {
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    color: #22c55e !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.ingresos-success-content {
+    font-size: 0.95rem !important;
+    color: rgba(26, 43, 60, 0.8) !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.4 !important;
+}
+
+/* Icono de éxito personalizado para ingresos */
+.ingresos-success-popup .swal2-icon.swal2-success {
+    width: 60px !important;
+    height: 60px !important;
+    margin: 1rem auto !important;
+    border: 3px solid #22c55e !important;
+    border-radius: 50% !important;
+    position: relative !important;
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    animation: ingresos-success-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important;
+}
+
+/* Ocultar elementos nativos del icono de éxito */
+.ingresos-success-popup .swal2-icon.swal2-success * {
+    display: none !important;
+}
+
+/* Check mark elegante para ingresos usando CSS puro */
+.ingresos-success-popup .swal2-icon.swal2-success::before {
+    content: '' !important;
+    position: absolute !important;
+    width: 12px !important;
+    height: 24px !important;
+    border: solid #22c55e !important;
+    border-width: 0 3px 3px 0 !important;
+    transform: rotate(45deg) !important;
+    top: 50% !important;
+    left: 50% !important;
+    margin-top: -14px !important;
+    margin-left: -4px !important;
+    animation: ingresos-check-appear 0.5s ease-out 0.3s both !important;
+}
+
+/* Animaciones para el modal de éxito de ingresos */
+@keyframes ingresos-success-bounce {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+        border-color: transparent;
+    }
+    60% {
+        transform: scale(1.1);
+        opacity: 0.9;
+        border-color: #22c55e;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+        border-color: #22c55e;
+    }
+}
+
+@keyframes ingresos-check-appear {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        transform: rotate(45deg) scale(0);
+    }
+    100% {
+        width: 12px;
+        height: 24px;
+        opacity: 1;
+        transform: rotate(45deg) scale(1);
+    }
+}
+
+/* Responsive para modal de éxito de ingresos */
+@media (max-width: 480px) {
+    .ingresos-success-popup {
+        width: 300px !important;
+        padding: 1.3rem !important;
+    }
+    
+    .ingresos-success-title {
+        font-size: 1.2rem !important;
+    }
+    
+    .ingresos-success-content {
+        font-size: 0.9rem !important;
+    }
+    
+    .ingresos-success-popup .swal2-icon.swal2-success {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    .ingresos-success-popup .swal2-icon.swal2-success::before {
+        width: 10px !important;
+        height: 20px !important;
+        border-width: 0 2px 2px 0 !important;
+        margin-top: -12px !important;
+        margin-left: -3px !important;
+    }
+}
+
 /* Asegurar contexto de apilamiento */
 .ingresos-auth-card {
     transform: translateZ(30px);
