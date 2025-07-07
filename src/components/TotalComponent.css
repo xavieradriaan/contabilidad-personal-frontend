@@ -103,61 +103,85 @@
 /* NUEVOS ESTILOS PARA EL DASHBOARD */
 
 .proximos-vencimientos {
-    background: white;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin: 1rem 0 2rem 0;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    width: 90%;
-    max-width: 1000px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 0.8rem 0 1.5rem 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    width: 85%;
+    max-width: 600px;
+    border: 1px solid rgba(220, 53, 69, 0.1);
 }
 
 .proximos-vencimientos h5 {
-    margin: 0 0 1rem 0;
+    margin: 0 0 0.8rem 0;
     color: var(--primary-blue);
-    font-size: 1.2rem;
-    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .vencimiento-item {
-    background: #fff5f5;
-    border-left: 4px solid var(--danger-red);
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    transition: transform 0.2s ease;
+    background: linear-gradient(135deg, #fff8f8 0%, #fff5f5 100%);
+    border-left: 3px solid var(--danger-red);
+    border-radius: 6px;
+    padding: 0.7rem 0.9rem;
+    margin-bottom: 0.6rem;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    transition: all 0.2s ease;
+}
+
+.vencimiento-item:last-child {
+    margin-bottom: 0;
 }
 
 .vencimiento-item:hover {
-    transform: translateX(5px);
+    transform: translateX(3px);
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.1);
 }
 
 .vencimiento-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
 }
 
 .vencimiento-icon {
-    margin-right: 0.5rem;
+    margin-right: 0.4rem;
+    font-size: 0.9rem;
+}
+
+.vencimiento-header strong {
+    font-size: 0.95rem;
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
 }
 
 .vencimiento-details {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
 }
 
 .vencimiento-monto {
-    font-size: 1.4rem;
-    font-weight: bold;
+    font-size: 1.1rem;
+    font-weight: 700;
     color: var(--danger-red);
 }
 
 .vencimiento-fecha {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #6c757d;
 }
 
@@ -550,15 +574,64 @@
     }
     
     .proximos-vencimientos {
-        width: 95%;
-        margin-left: auto;
-        margin-right: auto;
+        width: 92%;
+        padding: 0.8rem;
+        margin: 0.6rem auto 1.2rem auto;
+    }
+    
+    .proximos-vencimientos h5 {
+        font-size: 0.9rem;
+        margin-bottom: 0.6rem;
+    }
+    
+    .vencimiento-item {
+        padding: 0.6rem 0.7rem;
+        margin-bottom: 0.5rem;
     }
     
     .vencimiento-header {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
         gap: 0.5rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .vencimiento-header .vencimiento-icon {
+        order: 1;
+        margin-right: 0;
+        margin-left: 0;
+        flex-shrink: 0;
+    }
+    
+    .vencimiento-header strong {
+        order: 2;
+        font-size: 0.85rem;
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-right: 0.3rem;
+    }
+    
+    .vencimiento-header .badge {
+        order: 3;
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+        flex-shrink: 0;
+    }
+    
+    .vencimiento-details {
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+    
+    .vencimiento-monto {
+        font-size: 1rem;
+    }
+    
+    .vencimiento-fecha {
+        font-size: 0.75rem;
     }
     
     .total-balance-amount {
@@ -599,8 +672,22 @@
 /* Ajustes finales para muy pequeñas pantallas */
 @media (max-width: 320px) {
     .proximos-vencimientos {
-        width: 98%;
-        margin: 1rem 1%;
+        width: 95%;
+        margin: 0.5rem auto 1rem auto;
+        padding: 0.6rem;
+    }
+    
+    .proximos-vencimientos h5 {
+        font-size: 0.85rem;
+        text-align: center;
+    }
+    
+    .vencimiento-item {
+        padding: 0.5rem 0.6rem;
+    }
+    
+    .vencimiento-monto {
+        font-size: 0.9rem;
     }
     
     .total-main-card {

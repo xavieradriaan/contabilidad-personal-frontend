@@ -30,10 +30,10 @@
 
       <!-- Próximos Vencimientos -->
       <div v-if="resumen.proximos_vencimientos && resumen.proximos_vencimientos.length" class="proximos-vencimientos">
-        <h5>⏰ Próximos Vencimientos (7 días)</h5>
+        <h5><i class="fas fa-clock text-warning"></i> Próximos Vencimientos</h5>
         <div v-for="v in resumen.proximos_vencimientos" :key="v.nombre" class="vencimiento-item">
           <div class="vencimiento-header">
-            <span class="vencimiento-icon">🚨</span>
+            <span class="vencimiento-icon"><i class="fas fa-exclamation-triangle text-danger"></i></span>
             <strong>{{ v.nombre }}</strong>
             <span class="badge bg-danger">{{ v.dias }} días</span>
           </div>
