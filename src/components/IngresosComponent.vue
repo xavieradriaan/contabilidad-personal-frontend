@@ -233,7 +233,11 @@ export default {
           title: 'Ingreso Exitoso!',
           text: 'El ingreso ha sido agregado correctamente.',
           showConfirmButton: false,
-          timer: 1500,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          allowEnterKey: false,
+          timer: 1750,
+          timerProgressBar: false,
           customClass: {
             popup: 'ingresos-success-popup',
             title: 'ingresos-success-title',

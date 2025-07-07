@@ -165,6 +165,24 @@ export default {
           fechaPago: '' 
         };
 
+        // Mostrar mensaje de éxito con duración garantizada
+        await Swal.fire({
+          icon: 'success',
+          title: 'Tarjeta Registrada!',
+          text: 'Se han guardado con éxito las tarjetas de crédito',
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+          allowEnterKey: false,
+          timer: 1500,
+          timerProgressBar: false,
+          customClass: {
+            popup: 'tarjetas-success-popup',
+            title: 'tarjetas-success-title',
+            htmlContainer: 'tarjetas-success-content'
+          }
+        });
+
       } catch (error) {
         console.error('Error:', error.response?.data || error.message);
         alert(`Error al agregar: ${error.response?.data?.message || 'Verifique los datos'}`);
