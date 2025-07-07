@@ -4,10 +4,10 @@
     --secondary-blue: #2D4A5E;
     --light-gray: #F5F7FA;
     --accent-gold: #FFD700;
-    --success-green: #28a745;
-    --warning-orange: #ffc107;
-    --info-blue: #17a2b8;
-    --danger-red: #dc3545;
+    --success-green: #1B7B32;
+    --warning-orange: #E65A00;
+    --info-blue: #0B5394;
+    --danger-red: #B71C1C;
 }
 
 .total-container {
@@ -204,22 +204,26 @@
 .text-success { color: var(--success-green) !important; }
 .text-info { color: var(--info-blue) !important; }
 
-/* Estilos para filas de tabla con estado */
+/* Estilos para filas de tabla con estado - NUEVOS COLORES PROFESIONALES */
 .row-vencida {
-    background-color: #ffebee !important;
+    background-color: #FFEBEE !important;
+    border-left: 4px solid var(--danger-red) !important;
 }
 
 .row-por-pagar {
-    background-color: #fff8e1 !important;
+    background-color: #FFF3E0 !important;
+    border-left: 4px solid var(--warning-orange) !important;
 }
 
 .row-en-curso {
-    background-color: #e8f5e8 !important;
+    background-color: #E8F5E8 !important;
+    border-left: 4px solid var(--success-green) !important;
 }
 
 /* NUEVO ESTILO PARA EL ESTADO "AL DÍA" */
 .row-al-dia {
-    background-color: #e3f2fd !important; /* Azul claro */
+    background-color: #E3F2FD !important;
+    border-left: 4px solid var(--info-blue) !important;
 }
 
 /* ESTILOS ORIGINALES MANTENIDOS */
