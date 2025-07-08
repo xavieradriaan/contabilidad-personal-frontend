@@ -12,13 +12,25 @@
     align-items: center;
     justify-content: flex-start; /* Changed from center to flex-start */
     min-height: 100vh;
-    padding-top: 0; /* Removed unnecessary padding */
-    margin-top: -2rem; /* Adjusted margin to remove extra space */
+    padding-top: 1rem; /* Agregado padding superior */
+    margin-top: -1rem; /* Reducido el margen negativo */
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
     font-family: 'Inter', sans-serif;
     position: relative;
     overflow: hidden;
-    padding: 2rem 1rem 1rem; /* Adjusted padding to move content slightly upwards */
+    padding: 3rem 1rem 2rem; /* Increased top padding */
+}
+
+/* Fix para la franja blanca SOLO en móviles */
+@media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
+    .egresos-container {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+    
+    html {
+        height: -webkit-fill-available;
+    }
 }
 
 .egresos-animated-coins {
@@ -31,8 +43,8 @@
 
 .egresos-coin {
     position: absolute;
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     animation: 
         egresos-coinFloat 8s ease-in-out infinite,
         egresos-coinSpin 6s linear infinite,
@@ -120,7 +132,7 @@
     height: 36px;
     cursor: pointer;
     color: rgba(255, 255, 255, 0.8);
-    z-index: 100;
+    z-index: 10000;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
@@ -143,63 +155,73 @@
     width: 100%;
     position: relative;
     z-index: 20;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 .egresos-title {
     text-align: center;
-    margin-bottom: 1.8rem;
+    margin-bottom: 1.2rem;
     z-index: 25;
 }
 
 .egresos-brand-text {
     font-size: clamp(2rem, 6.5vw, 2.5rem);
     font-weight: 700;
-    color: var(--text-white);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    color: var(--text-white) !important; /* #1A2B3C */
+    text-shadow: none;
     letter-spacing: -0.03em;
 }
 
 .egresos-subtitle {
     font-size: clamp(1rem, 3vw, 1.2rem);
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-white) !important;
+    opacity: 0.9;
     font-weight: 300;
     margin-top: 0.5rem;
 }
 
 .egresos-auth-card {
     background: rgba(255, 255, 255, 0.98);
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     width: 100%;
     max-width: 400px;
+    min-height: auto;
     position: relative;
     z-index: 20;
     backdrop-filter: blur(4px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(26, 43, 60, 0.08);
     overflow-y: auto;
-    max-height: 80vh;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .egresos-auth-form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.2rem;
+    align-items: stretch;
 }
 
 .egresos-input-group {
     margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
 
 .egresos-input-label {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
+    gap: 0.6rem;
     color: var(--primary-blue);
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
     font-weight: 500;
+    text-align: left;
 }
 
 .egresos-icon {
@@ -211,12 +233,13 @@
 
 .egresos-auth-input {
     width: 100%;
-    padding: 0.8rem;
+    padding: 0.7rem 0.8rem;
     background: var(--light-gray);
-    border: 2px solid rgba(0, 0, 0, 0.08);
+    border: 2px solid rgba(0, 0, 0, 0.06);
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: 0.95rem;
     transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 select.egresos-auth-input {
@@ -228,25 +251,27 @@ select.egresos-auth-input {
 }
 
 .egresos-auth-input:focus {
-    border-color: var(--primary-blue);
-    box-shadow: 0 0 0 3px rgba(26, 43, 60, 0.1);
+    border-color: var(--accent-gold); /* Usar oro en lugar de azul para focus */
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
 }
 
 .egresos-auth-btn.egresos-submit-btn {
-    background: var(--primary-blue);
+    background: var(--secondary-blue);
     color: var(--text-white);
     width: 100%;
-    max-width: 300px;
-    padding: 0.9rem;
+    max-width: 280px;
+    padding: 0.8rem;
     border-radius: 8px;
     font-weight: 500;
-    margin: 1rem auto 1.5rem; /* Reduced top margin */
+    font-size: 0.95rem;
+    margin: 0.8rem auto 1rem;
     display: block;
     text-align: center;
     position: relative;
     overflow: hidden;
     border: none;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
 }
 
 .egresos-auth-btn.egresos-submit-btn:not([disabled])::after {
@@ -277,8 +302,44 @@ select.egresos-auth-input {
 }
 
 .egresos-auth-btn:not([disabled]):hover {
+    background: var(--primary-blue);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* ================ SECCIÓN DEL MODAL ================ */
+
+/* Contenedor principal del modal */
+.login-modal-overlay .login-auth-card {
+  max-width: 420px !important;
+  margin: 1rem !important;
+}
+
+/* Contenido interno */
+.login-modal-overlay .login-auth-content {
+  padding: 1.2rem !important;
+}
+
+/* Títulos */
+.login-modal-overlay .login-brand-text {
+  font-size: clamp(1.4rem, 5vw, 1.8rem) !important;
+}
+
+.login-modal-overlay .login-auth-subtitle {
+  font-size: clamp(0.95rem, 3vw, 1.1rem) !important;
+}
+
+/* Botón */
+.login-modal-overlay .login-login-btn {
+  padding: 0.7rem !important;
+}
+
+/* Checkboxes y labels */
+.login-modal-overlay .login-check-label {
+  font-size: 0.92rem !important;
+}
+
+.login-modal-overlay .login-check-input {
+  transform: scale(0.85) !important;
 }
 
 /* Estilos del Modal */
@@ -353,41 +414,426 @@ select.egresos-auth-input {
     margin-top: 1rem;
 }
 
+/* Modal Responsive */
+.login-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 10000;
+  overflow: auto;
+}
+
+.login-modal-overlay .login-auth-card {
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(26, 43, 60, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 380px;
+  position: relative;
+  margin: auto;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.login-modal-overlay .login-auth-content {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-modal-overlay .login-brand-text {
+  font-size: clamp(1.4rem, 5vw, 1.8rem);
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--primary-blue) !important;
+  font-weight: 600;
+}
+
+.login-modal-overlay .login-auth-subtitle {
+  font-size: clamp(0.95rem, 3vw, 1.1rem);
+  color: var(--secondary-blue) !important;
+  margin-bottom: 1.5rem;
+  opacity: 1;
+  font-weight: 500;
+}
+
+.login-modal-overlay .login-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.login-modal-overlay .login-categories-container {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
+  padding-right: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.login-modal-overlay .login-button-container {
+  flex-shrink: 0;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.login-modal-overlay .login-input-group {
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.login-modal-overlay .login-check-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-blue);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 0.4rem 0;
+  margin-bottom: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 32px;
+  line-height: 1.2;
+  width: 100%;
+}
+
+.login-modal-overlay .login-check-label:hover {
+  background: rgba(45, 74, 94, 0.05);
+  border-radius: 4px;
+  padding: 0.4rem 0.5rem;
+  color: var(--secondary-blue);
+}
+
+.login-modal-overlay .login-check-input {
+  margin: 0 0.5rem 0 0;
+  transform: scale(0.9);
+  accent-color: var(--primary-blue);
+  cursor: pointer;
+}
+
+.login-modal-overlay .login-icon {
+  font-size: 0.85rem;
+  color: var(--secondary-blue);
+  opacity: 1;
+  margin-right: 0.3rem;
+}
+
+.login-modal-overlay .login-login-btn {
+  background: var(--secondary-blue);
+  color: var(--text-white);
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.login-modal-overlay .login-login-btn:hover {
+  background: var(--primary-blue);
+  transform: translateY(-1px);
+}
+
+/* Ajustes para móviles */
 @media (max-width: 768px) {
-    .egresos-back-btn {
-        top: 1.2rem;
-        left: 1.2rem;
-        width: 32px;
-        height: 32px;
-    }
-    
-    .egresos-auth-card {
-        padding: 1.5rem;
-    }
-    
-    .egresos-modal-card {
-        padding: 1.5rem;
-    }
+  .login-modal-overlay .login-auth-card {
+    max-height: 85vh;
+    margin: 1rem;
+  }
+  
+  .login-modal-overlay .login-auth-content {
+    padding: 1.5rem;
+  }
+  
+  .login-modal-overlay .login-check-label {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+  
+  .login-modal-overlay .login-back-btn {
+    top: 1rem;
+    left: 1rem;
+    width: 30px;
+    height: 30px;
+  }
 }
 
 @media (max-width: 480px) {
-    .egresos-container {
-        padding: 3rem 1rem 1rem;
+  .login-modal-overlay .login-auth-card {
+    border-radius: 12px;
+  }
+  
+  .login-modal-overlay .login-auth-content {
+    padding: 1rem;
+  }
+  
+  .login-modal-overlay .login-brand-text {
+    font-size: 1.75rem;
+  }
+  
+  .login-modal-overlay .login-auth-subtitle {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .login-modal-overlay .login-check-label {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .login-modal-overlay .login-check-input {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* Scroll personalizado para el modal */
+.login-modal-overlay .login-auth-content::-webkit-scrollbar,
+.login-modal-overlay .login-categories-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.login-modal-overlay .login-auth-content::-webkit-scrollbar-track,
+.login-modal-overlay .login-categories-container::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
+.login-modal-overlay .login-auth-content::-webkit-scrollbar-thumb,
+.login-modal-overlay .login-categories-container::-webkit-scrollbar-thumb {
+  background: var(--primary-blue);
+  border-radius: 3px;
+}
+
+.login-modal-overlay .login-auth-content::-webkit-scrollbar-thumb:hover,
+.login-modal-overlay .login-categories-container::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-blue);
+}
+
+/* Ajuste de monedas en modal */
+.login-modal-overlay .login-animated-coins {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.login-modal-overlay .login-coin {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  animation: 
+    login-coinFloat 8s ease-in-out infinite,
+    login-coinSpin 6s linear infinite,
+    login-coinPulse 4s ease-in-out infinite;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.1));
+  z-index: 1;
+}
+
+.login-modal-overlay .login-coin-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(0.9);
+  opacity: 0.8;
+}
+
+/* Posicionamiento de monedas igual al LoginComponent */
+.login-modal-overlay .login-coin-1 { left: 5%; top: 10%; animation-delay: 0s; }
+.login-modal-overlay .login-coin-2 { left: 15%; top: 30%; animation-delay: 1.2s; }
+.login-modal-overlay .login-coin-3 { left: 25%; top: 15%; animation-delay: 2.5s; }
+.login-modal-overlay .login-coin-4 { left: 35%; top: 25%; animation-delay: 3.7s; }
+.login-modal-overlay .login-coin-5 { left: 45%; top: 10%; animation-delay: 4.9s; }
+.login-modal-overlay .login-coin-6 { left: 55%; top: 30%; animation-delay: 1.8s; }
+.login-modal-overlay .login-coin-7 { left: 65%; top: 15%; animation-delay: 3.1s; }
+.login-modal-overlay .login-coin-8 { left: 75%; top: 25%; animation-delay: 5.3s; }
+.login-modal-overlay .login-coin-9 { left: 85%; top: 10%; animation-delay: 2.4s; }
+.login-modal-overlay .login-coin-10 { left: 95%; top: 30%; animation-delay: 4.6s; }
+.login-modal-overlay .login-coin-11 { left: 10%; top: 70%; animation-delay: 6s; }
+.login-modal-overlay .login-coin-12 { left: 30%; top: 80%; animation-delay: 1.5s; }
+.login-modal-overlay .login-coin-13 { left: 50%; top: 70%; animation-delay: 3.8s; }
+.login-modal-overlay .login-coin-14 { left: 70%; top: 80%; animation-delay: 5.2s; }
+.login-modal-overlay .login-coin-15 { left: 90%; top: 70%; animation-delay: 2.9s; }
+.login-modal-overlay .login-coin-16 { left: 48%; top: 50%; animation-delay: 0.5s; transform: translate(-50%, -50%); width: 22px; height: 22px; z-index: 2; }
+.login-modal-overlay .login-coin-17 { left: 52%; top: 50%; animation-delay: 1.5s; transform: translate(-50%, -50%); width: 25px; height: 25px; }
+.login-modal-overlay .login-coin-18 { left: 50%; top: 46%; animation-delay: 2.5s; transform: translate(-50%, -50%); width: 20px; height: 20px; }
+.login-modal-overlay .login-coin-19 { left: 50%; top: 54%; animation-delay: 3.5s; transform: translate(-50%, -50%); width: 24px; height: 24px; }
+.login-modal-overlay .login-coin-20 { left: 50%; top: 50%; animation-delay: 4.5s; transform: translate(-50%, -50%) scale(1.2); width: 28px; height: 28px; z-index: 3; }
+.login-modal-overlay .login-coin-21 { left: 50%; top: 45%; animation-delay: 0.8s; transform: translate(-50%, -50%); width: 26px; height: 26px; z-index: 2; }
+.login-modal-overlay .login-coin-22 { left: 50%; top: 55%; animation-delay: 1.8s; transform: translate(-50%, -50%); width: 24px; height: 24px; }
+.login-modal-overlay .login-coin-23 { left: 50%; top: 50%; animation-delay: 2.8s; transform: translate(-50%, -50%) rotate(15deg); width: 28px; height: 28px; z-index: 3; }
+.login-modal-overlay .login-coin-24 { left: 50%; top: 48%; animation-delay: 3.2s; transform: translate(-50%, -50%); width: 21px; height: 21px; }
+.login-modal-overlay .login-coin-25 { left: 50%; top: 52%; animation-delay: 4.2s; transform: translate(-50%, -50%); width: 23px; height: 23px; }
+
+[class*="login-coin-"]:not(:nth-child(-n+15)) {
+  animation: 
+    login-coinFloat 7s ease-in-out infinite,
+    login-coinSpin 5s linear infinite,
+    login-coinFocus 2.5s ease-in-out infinite;
+}
+
+@keyframes login-coinFocus {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* Ajuste: en el modal de pagos recurrentes, ambos textos en azul */
+.login-modal-overlay .login-auth-title .login-brand-text,
+.login-modal-overlay .login-auth-title .login-auth-subtitle {
+  color: var(--primary-blue) !important;
+}
+
+/* ===== ESTILOS PARA MODALES DE ÉXITO DE EGRESOS ===== */
+.egresos-success-popup {
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(20px) !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    width: 320px !important;
+    max-width: 90vw !important;
+}
+
+.egresos-success-title {
+    color: #1A2B3C !important;
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    margin: 0.5rem 0 !important;
+    text-align: center !important;
+}
+
+.egresos-success-content {
+    color: #2D4A5E !important;
+    font-size: 0.95rem !important;
+    line-height: 1.4 !important;
+    margin: 0.5rem 0 !important;
+    text-align: center !important;
+}
+
+.egresos-success-popup .swal2-icon.swal2-success {
+    width: 60px !important;
+    height: 60px !important;
+    margin: 1rem auto !important;
+    border: 3px solid #28a745 !important;
+    border-radius: 50% !important;
+    position: relative !important;
+    background: radial-gradient(circle, rgba(40, 167, 69, 0.1) 0%, transparent 70%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    animation: egresos-success-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important;
+}
+
+/* Ocultar elementos nativos del icono de éxito */
+.egresos-success-popup .swal2-icon.swal2-success * {
+    display: none !important;
+}
+
+/* Check mark elegante para egresos usando CSS puro */
+.egresos-success-popup .swal2-icon.swal2-success::before {
+    content: '' !important;
+    position: absolute !important;
+    width: 12px !important;
+    height: 24px !important;
+    border: solid #28a745 !important;
+    border-width: 0 3px 3px 0 !important;
+    transform: rotate(45deg) !important;
+    top: 50% !important;
+    left: 50% !important;
+    margin-top: -14px !important;
+    margin-left: -4px !important;
+    animation: egresos-check-appear 0.5s ease-out 0.3s both !important;
+}
+
+/* Animaciones para el modal de éxito de egresos */
+@keyframes egresos-success-bounce {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+        border-color: transparent;
+    }
+    60% {
+        transform: scale(1.1);
+        opacity: 0.9;
+        border-color: #28a745;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+        border-color: #28a745;
+    }
+}
+
+@keyframes egresos-check-appear {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        transform: rotate(45deg) scale(0);
+    }
+    50% {
+        width: 6px;
+        height: 12px;
+        opacity: 0.7;
+        transform: rotate(45deg) scale(1.1);
+    }
+    100% {
+        width: 12px;
+        height: 24px;
+        opacity: 1;
+        transform: rotate(45deg) scale(1);
+    }
+}
+
+/* Responsive para modales de éxito de egresos */
+@media (max-width: 768px) {
+    .egresos-success-popup {
+        width: 280px !important;
+        padding: 1.2rem !important;
     }
     
-    .egresos-brand-text {
-        font-size: 2rem;
+    .egresos-success-title {
+        font-size: 1.2rem !important;
     }
     
-    .egresos-subtitle {
-        font-size: 1rem;
+    .egresos-success-content {
+        font-size: 0.9rem !important;
     }
     
-    .egresos-auth-card {
-        padding: 1.2rem;
+    .egresos-success-popup .swal2-icon.swal2-success {
+        width: 50px !important;
+        height: 50px !important;
     }
     
-    .egresos-modal-title {
-        font-size: 1.2rem;
+    .egresos-success-popup .swal2-icon.swal2-success::before {
+        width: 10px !important;
+        height: 20px !important;
+        margin-top: -12px !important;
+        margin-left: -3px !important;
     }
 }

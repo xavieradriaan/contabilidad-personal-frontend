@@ -31,6 +31,7 @@
               class="login-auth-input"
               :class="{'login-input-error': errorMessage}"
               required
+              @keydown="preventSpace"
             >
           </div>
 
@@ -46,6 +47,7 @@
               class="login-auth-input"
               :class="{'login-input-error': errorMessage}"
               required
+              @keydown="preventSpace"
             >
           </div>
 
@@ -71,11 +73,10 @@
           </button>
         </form>
 
-        <div class="login-auth-footer">
+        <div class="login-auth-footer login-auth-footer-vertical">
           <router-link to="/password_reset" class="login-password-reset-link">
             ¿Olvidaste tu contraseña?
           </router-link>
-          <span class="login-footer-separator">|</span>
           <router-link to="/register" class="login-password-reset-link">
             Crear nueva cuenta
           </router-link>
@@ -106,6 +107,11 @@ export default {
     }
   },
   methods: {
+    preventSpace(event) {
+      if (event.key === ' ') {
+        event.preventDefault();
+      }
+    },
     async login() {
       if (this.isFormInvalid) return
       
@@ -124,7 +130,12 @@ export default {
           title: 'Inicio de Sesión Exitoso',
           text: 'Bienvenido de nuevo',
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
+          customClass: {
+            popup: 'login-success-popup',
+            title: 'login-success-title',
+            content: 'login-success-content'
+          }
         })
         
         this.$router.push('/dashboard')
@@ -144,7 +155,12 @@ export default {
           icon: 'error',
           title: 'Cuenta Bloqueada',
           html: `La cuenta se encuentra bloqueada. <a href="${error.response.data.reset_url}">Restablecer contraseña</a>`,
-          showConfirmButton: true
+          showConfirmButton: true,
+          customClass: {
+            popup: 'login-error-popup',
+            title: 'login-error-title',
+            content: 'login-error-content'
+          }
         })
       } else {
         const errorMessage = error.response?.data?.remaining_attempts !== undefined 
@@ -156,7 +172,12 @@ export default {
           icon: 'error',
           title: 'Error',
           text: errorMessage,
-          showConfirmButton: true
+          showConfirmButton: true,
+          customClass: {
+            popup: 'login-error-popup',
+            title: 'login-error-title',
+            content: 'login-error-content'
+          }
         })
       }
     }

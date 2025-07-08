@@ -84,13 +84,27 @@ export default {
 <style scoped>
 @import './HomeComponent.css';
 
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%; /* Ensure the body fills the viewport */
+  overflow-y: auto; /* Allow vertical scrolling */
+}
+
+#app {
+  height: 100%; /* Ensure the app container fills the viewport */
+}
+
 .home-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+  justify-content: flex-start; /* Changed from center to flex-start */
+  min-height: 100%; /* Ensure it fills the viewport */
   text-align: center;
+  overflow: hidden; /* Prevent extra scrolling */
+  /* Removed margin-top and padding-top */
 }
 
 .home-main-content {
@@ -98,6 +112,8 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-grow: 1; /* Occupy all available space */
+  margin-top: 0; /* Removed negative margin */
 }
 
 .home-auth-section {

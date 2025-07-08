@@ -17,7 +17,54 @@
       </h1>
 
       <div class="register-auth-card">
-        <form @submit.prevent="register" class="register-auth-form" v-if="!otpSent">
+        <!-- TÉRMINOS Y CONDICIONES -->
+        <div class="register-terms-container" v-if="!showRegistrationForm">
+          <div class="register-terms-content">
+            <h2>Términos y Condiciones</h2>
+            <div class="register-terms-scroll">
+              <p><strong>Última actualización:</strong> 10 de junio de 2025</p>
+              <h3>1. Aceptación de los Términos</h3>
+              <p>Al crear una cuenta en CONTABILÍZATE, usted acepta cumplir con estos términos y condiciones. Si no está de acuerdo, no debe continuar con el registro.</p>
+              <h3>2. Uso de la Plataforma</h3>
+              <p>La plataforma está destinada únicamente para uso personal y no comercial. Usted es responsable de la veracidad de la información proporcionada.</p>
+              <h3>3. Privacidad</h3>
+              <p>Sus datos serán tratados conforme a nuestra política de privacidad. No compartiremos su información con terceros sin su consentimiento.</p>
+              <h3>4. Seguridad</h3>
+              <p>Debe mantener la confidencialidad de sus credenciales. Notifique cualquier uso no autorizado de su cuenta.</p>
+              <h3>5. Modificaciones</h3>
+              <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Se le notificará sobre cambios importantes.</p>
+              <h3>6. Contacto</h3>
+              <p>Para dudas o consultas, contáctenos a soporte@contabilizate.com</p>
+            </div>
+          </div>
+          <div class="register-terms-accept">
+            <input 
+              type="checkbox" 
+              id="acceptTerms" 
+              v-model="termsAccepted"
+              class="register-terms-checkbox"
+            >
+            <label for="acceptTerms">
+              He leído y acepto los términos y condiciones
+            </label>
+          </div>
+          <button
+            class="register-auth-btn register-primary-btn"
+            :class="{'register-btn-disabled': !termsAccepted}"
+            :disabled="!termsAccepted"
+            @click="showForm"
+            style="margin-top: 1rem;"
+          >
+            Continuar
+          </button>
+        </div>
+
+        <!-- FORMULARIO DE REGISTRO -->
+        <form 
+          v-if="showRegistrationForm && !otpSent"
+          @submit.prevent="register" 
+          class="register-auth-form register-form-visible"
+        >
           <!-- Usuario -->
           <div class="register-input-group">
             <label for="username" class="register-input-label">
@@ -155,13 +202,21 @@
           <button
             type="submit"
             class="register-auth-btn register-primary-btn"
-            :disabled="isFormInvalid"
+            :disabled="isFormInvalid || isSubmitting"
           >
-            <span>Registrarse</span>
+            <span v-if="!isSubmitting">Registrarse</span>
+            <span v-else>
+              <i class="fas fa-spinner fa-spin"></i> Enviando...
+            </span>
           </button>
         </form>
 
-        <form @submit.prevent="confirmOTP" class="register-auth-form" v-else>
+        <!-- FORMULARIO OTP -->
+        <form 
+          v-if="otpSent"
+          @submit.prevent="confirmOTP" 
+          class="register-auth-form register-form-visible"
+        >
           <div class="register-input-group">
             <label for="otp" class="register-input-label">
               <i class="fas fa-shield-alt register-icon"></i>
@@ -181,7 +236,6 @@
               <span>{{ otpError }}</span>
             </div>
           </div>
-
           <div class="register-otp-footer">
             <div v-if="timeLeft > 0" class="register-timer">
               <i class="fas fa-clock"></i>
@@ -196,7 +250,6 @@
               Reenviar código
             </button>
           </div>
-
           <button
             v-if="timeLeft > 0"
             type="submit"
@@ -218,6 +271,11 @@ export default {
   name: 'RegisterComponent',
   data() {
     return {
+      // NUEVAS PROPIEDADES
+      termsAccepted: false,
+      showRegistrationForm: false,
+      formVisible: false,
+      // ...existing code...
       username: '',
       email: '',
       confirmEmail: '',
@@ -239,10 +297,25 @@ export default {
       emailMessage: '',
       otpSent: false,
       timeLeft: 300,
-      timer: null
+      timer: null,
+      isSubmitting: false
+    }
+  },
+  watch: {
+    termsAccepted(newVal) {
+      if (!newVal) {
+        this.showRegistrationForm = false;
+        this.formVisible = false;
+      }
+    },
+    showRegistrationForm(newVal) {
+      if (!newVal) {
+        this.formVisible = false;
+      }
     }
   },
   computed: {
+    // ...existing code...
     isFormInvalid() {
       return this.usernameError || 
              this.emailError || 
@@ -265,6 +338,16 @@ export default {
     }
   },
   methods: {
+    // NUEVO MÉTODO
+    showForm() {
+      if (!this.termsAccepted) return;
+      this.showRegistrationForm = true;
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.formVisible = true;
+        }, 10); // 10ms is suficiente para que el DOM se actualice
+      });
+    },
     preventSpace(event) {
       if (event.key === ' ') {
         event.preventDefault()
@@ -363,33 +446,37 @@ export default {
       this.otpError = this.otp.length !== 6 ? 'El código de confirmación debe tener 6 dígitos.' : ''
     },
     async register() {
-      if (this.isFormInvalid) return
-      
+      if (this.isFormInvalid || this.isSubmitting) return
+
+      this.isSubmitting = true;
+
       try {
         const response = await axios.post('/register', {
           username: this.username,
           email: this.email,
           password: this.password
-        })
-        
+        });
+
         Swal.fire({
           icon: 'success',
           title: 'Código Enviado',
           text: response.data.message,
           showConfirmButton: false,
           timer: 15000
-        })
-        
-        this.otpSent = true
-        this.startTimer()
+        });
+
+        this.otpSent = true;
+        this.startTimer();
       } catch (error) {
-        const errorMessage = error.response?.data?.message || 'Hubo un problema al registrar el usuario.'
+        const errorMessage = error.response?.data?.message || 'Hubo un problema al registrar el usuario.';
         Swal.fire({
           icon: 'error',
           title: 'Error',
           text: errorMessage,
           showConfirmButton: true
-        })
+        });
+      } finally {
+        this.isSubmitting = false;
       }
     },
     async confirmOTP() {
@@ -420,11 +507,11 @@ export default {
       }
     },
     startTimer() {
-      this.timeLeft = 300
+      this.timeLeft = 60; // Set timer to 1 minute
       this.timer = setInterval(() => {
-        if (this.timeLeft > 0) this.timeLeft--
-        else clearInterval(this.timer)
-      }, 1000)
+        if (this.timeLeft > 0) this.timeLeft--;
+        else clearInterval(this.timer);
+      }, 1000);
     },
     async resendOTP() {
       try {

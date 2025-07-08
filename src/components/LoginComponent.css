@@ -9,9 +9,9 @@
 html, body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
     width: 100%;
     height: 100%;
+    overflow: auto; /* Allow scrolling */
 }
 
 /* Botón de regreso mejorado */
@@ -54,17 +54,25 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Changed from center to flex-start */
+    justify-content: flex-start;
     min-height: 100vh;
-    padding-top: 0; /* Removed unnecessary padding */
-    margin-top: -2rem; /* Adjusted margin to remove extra space */
+    padding: 20px 1rem; /* Reducido el padding superior */
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
     font-family: 'Inter', sans-serif;
     position: relative;
     overflow: hidden;
-    width: 100%;
-    height: 100%;
-    padding: 4rem 1rem 1rem;
+}
+
+/* Fix para la franja blanca SOLO en móviles */
+@media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
+    .login-container {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+    
+    html {
+        height: -webkit-fill-available;
+    }
 }
 
 .login-container .login-animated-coins {
@@ -152,45 +160,62 @@ html, body {
 .login-auth-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    min-height: calc(100vh - 40px); /* Ajustado para el nuevo padding */
     width: 100%;
     position: relative;
     z-index: 10;
-    margin-top: 2rem;
+    margin-top: 0; /* Eliminado el margin-top */
+    justify-content: space-evenly; /* Cambiado a space-evenly como en HomeComponent */
+    align-items: center;
 }
 
 .login-auth-title {
     text-align: center;
-    margin-bottom: 1.8rem;
+    margin-top: 6rem; /* Aumentado significativamente para bajar más el título */
+    margin-bottom: 2rem; /* Aumentado el margin-bottom para similar al home */
     z-index: 15;
 }
 
-.login-brand-text {
+/* Solo aplica blanco para login, pero NO para el modal de pagos recurrentes en EgresosComponent */
+.login-container .login-brand-text,
+.login-container .login-auth-title .login-brand-text,
+.login-container .login-auth-subtitle,
+.login-container .login-auth-title .login-auth-subtitle {
+    color: #fff !important;
+}
+
+.login-container .login-brand-text,
+.login-container .login-auth-title .login-brand-text {
     font-size: clamp(2rem, 6.5vw, 2.5rem);
     font-weight: 700;
-    color: var(--text-white);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    letter-spacing: -0.03em;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    display: block;
+    margin: 2rem 0 0.5rem 0; /* Aumentado el margin-top para bajar más el título */
 }
 
 .login-auth-subtitle {
     font-size: clamp(1rem, 3vw, 1.2rem);
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 300;
-    margin-top: 0.5rem;
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin: 0.5rem 0 1.5rem 0; /* Aumentado margins para bajar más el subtítulo */
+    line-height: 1.3;
 }
 
 .login-auth-card {
     background: rgba(255, 255, 255, 0.98);
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 1rem;
+    border-radius: 14px;
     width: 100%;
-    max-width: 400px;
+    max-width: 320px;
     position: relative;
     z-index: 10;
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(3px);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    margin-top: 0.5rem; /* Margen positivo para bajar más el formulario */
+    margin-bottom: auto;
 }
 
 .login-auth-form {
@@ -235,6 +260,11 @@ html, body {
     box-shadow: 0 0 0 3px rgba(26, 43, 60, 0.1);
 }
 
+.login-auth-btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
 .login-error-message {
     color: #dc3545;
     background: rgba(220, 53, 69, 0.1);
@@ -252,7 +282,7 @@ html, body {
     padding: 0.9rem;
     border-radius: 8px;
     font-weight: 500;
-    margin: 2rem auto 1.5rem;
+    margin: 1.2rem auto 0.8rem; /* Reduce espacio arriba y abajo */
     transition: all 0.3s ease;
     display: block;
     text-align: center;
@@ -298,42 +328,33 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
     gap: 0.8rem;
-    margin-top: 1rem;
+    margin: 0;
     flex-wrap: wrap;
+}
+
+.login-auth-footer-vertical {
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-top: auto;      /* Empuja hacia abajo si hay espacio */
+    padding-top: 1.5rem;   /* Espacio arriba del footer */
+}
+
+.login-footer-separator {
+    display: none; /* Oculta el separador "|" */
 }
 
 .login-password-reset-link {
     color: var(--secondary-blue);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     transition: color 0.2s ease;
     opacity: 0.9;
     position: relative;
     padding-bottom: 2px;
-}
-
-.login-password-reset-link:hover {
-    opacity: 1;
-    text-decoration: none;
-}
-
-.login-password-reset-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 1px;
-    background: currentColor;
-    transition: width 0.3s ease;
-}
-
-.login-password-reset-link:hover::after {
+    text-align: center;
     width: 100%;
-}
-
-.login-footer-separator {
-    color: rgba(0, 0, 0, 0.3);
+    display: block;
 }
 
 /* Responsive */
@@ -350,38 +371,567 @@ html, body {
     }
     
     .login-auth-card {
-        padding: 1.5rem;
+        padding: 1.8rem 1.3rem;
+        max-width: 350px;
     }
 }
 
+/* Responsive - Mobile optimizations para error */
+@media (max-width: 768px) {
+    .login-error-popup .swal2-icon.swal2-error {
+        width: 60px !important;
+        height: 60px !important;
+        border-width: 2px !important;
+    }
+
+    .login-error-popup .swal2-icon.swal2-error::before,
+    .login-error-popup .swal2-icon.swal2-error::after {
+        width: 24px !important;
+        height: 3px !important;
+        margin-left: -12px !important;
+        margin-top: -1.5px !important;
+    }
+}
+
+/* Estilos para los títulos y contenido del modal de error */
+.login-error-popup .swal2-title {
+    color: #e74c3c !important;
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.login-error-popup .swal2-html-container {
+    color: #2c3e50 !important;
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+}
+
+.login-error-popup .swal2-confirm {
+    background: linear-gradient(45deg, #e74c3c, #c0392b) !important;
+    border: none !important;
+    padding: 10px 24px !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+}
+
+.login-error-popup .swal2-confirm:hover {
+    background: linear-gradient(45deg, #c0392b, #a93226) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3) !important;
+}
+
+/* Enlaces dentro del modal de error */
+.login-error-popup a {
+    color: #e74c3c !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    border-bottom: 1px solid transparent !important;
+    transition: border-color 0.3s ease !important;
+}
+
+.login-error-popup a:hover {
+    border-bottom-color: #e74c3c !important;
+}
+
+/* Estilos personalizados para SweetAlert2 - Mensaje de éxito */
+.login-success-popup {
+    width: 320px !important;
+    max-width: 90vw !important;
+    padding: 1.5rem !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(4px) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+.login-success-title {
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    color: var(--primary-blue) !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.login-success-content {
+    font-size: 0.9rem !important;
+    color: rgba(26, 43, 60, 0.8) !important;
+    margin-bottom: 0 !important;
+}
+
+/* Estilos personalizados para SweetAlert2 - Mensajes de error */
+.login-error-popup {
+    width: 350px !important;
+    max-width: 90vw !important;
+    padding: 1.5rem !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(4px) !important;
+    border: 1px solid rgba(231, 76, 60, 0.2) !important;
+    box-shadow: 0 8px 30px rgba(231, 76, 60, 0.1) !important;
+}
+
+.login-error-title {
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+    color: #e74c3c !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.login-error-content {
+    font-size: 0.9rem !important;
+    color: rgba(26, 43, 60, 0.8) !important;
+    margin-bottom: 0 !important;
+}
+
+/* Icono de éxito personalizado - Con animaciones mejoradas y pulso en hover */
+.login-success-popup .swal2-icon.swal2-success {
+    width: 70px !important;
+    height: 70px !important;
+    margin: 1rem auto !important;
+    border: 3px solid #22c55e !important;
+    border-radius: 50% !important;
+    position: relative !important;
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    animation: success-circle-bounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important;
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7) !important;
+}
+
+.login-success-popup .swal2-icon.swal2-success:hover {
+    animation: success-circle-bounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards, 
+               success-pulse 2s ease-in-out 0.8s infinite !important;
+}
+
+/* Animación del círculo con efecto bounce y pulso */
+@keyframes success-circle-bounce {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+        border-color: transparent;
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+    }
+    60% {
+        transform: scale(1.15) rotate(0deg);
+        opacity: 0.9;
+        border-color: #22c55e;
+        box-shadow: 0 0 0 10px rgba(34, 197, 94, 0.3);
+    }
+    80% {
+        transform: scale(0.95) rotate(10deg);
+        box-shadow: 0 0 0 20px rgba(34, 197, 94, 0.1);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+        border-color: #22c55e;
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+    }
+}
+
+/* Ocultar completamente todos los elementos nativos */
+.login-success-popup .swal2-icon.swal2-success * {
+    display: none !important;
+}
+
+/* Check mark elegante usando CSS puro - Una sola línea perfecta */
+.login-success-popup .swal2-icon.swal2-success::before {
+    content: '' !important;
+    position: absolute !important;
+    width: 15px !important;
+    height: 30px !important;
+    border: solid #22c55e !important;
+    border-width: 0 4px 4px 0 !important;
+    transform: rotate(45deg) !important;
+    top: 50% !important;
+    left: 50% !important;
+    margin-top: -17px !important;
+    margin-left: -5px !important;
+    animation: success-check-elegant 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.4s both !important;
+}
+
+/* Eliminar el ::after ya que ahora usamos una sola línea elegante */
+.login-success-popup .swal2-icon.swal2-success::after {
+    display: none !important;
+}
+
+/* Animación del check mark elegante */
+@keyframes success-check-elegant {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        transform: rotate(45deg) scale(0);
+    }
+    50% {
+        width: 17px;
+        height: 32px;
+        opacity: 0.8;
+        transform: rotate(45deg) scale(1.1);
+    }
+    100% {
+        width: 15px;
+        height: 30px;
+        opacity: 1;
+        transform: rotate(45deg) scale(1);
+    }
+}
+
+/* Animación de pulso suave para hover */
+@keyframes success-pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(34, 197, 94, 0.3);
+    }
+}
+
+/* Icono de error personalizado - Con animaciones mejoradas y pulso en hover */
+.login-error-popup .swal2-icon.swal2-error {
+    width: 70px !important;
+    height: 70px !important;
+    margin: 1rem auto !important;
+    border: 3px solid #e74c3c !important;
+    border-radius: 50% !important;
+    position: relative !important;
+    background: radial-gradient(circle, rgba(231, 76, 60, 0.1) 0%, transparent 70%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    animation: error-circle-bounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important;
+    box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7) !important;
+}
+
+.login-error-popup .swal2-icon.swal2-error:hover {
+    animation: error-circle-bounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards, 
+               error-pulse 2s ease-in-out 0.8s infinite !important;
+}
+
+/* Animación del círculo con efecto bounce y pulso */
+@keyframes error-circle-bounce {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+        border-color: transparent;
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+    }
+    60% {
+        transform: scale(1.15) rotate(0deg);
+        opacity: 0.9;
+        border-color: #e74c3c;
+        box-shadow: 0 0 0 10px rgba(231, 76, 60, 0.3);
+    }
+    80% {
+        transform: scale(0.95) rotate(10deg);
+        box-shadow: 0 0 0 20px rgba(231, 76, 60, 0.1);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+        border-color: #e74c3c;
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+    }
+}
+
+/* Ocultar completamente todos los elementos nativos del error */
+.login-error-popup .swal2-icon.swal2-error * {
+    display: none !important;
+}
+
+/* X elegante usando CSS puro - Dos líneas perfectas */
+.login-error-popup .swal2-icon.swal2-error::before {
+    content: '' !important;
+    position: absolute !important;
+    width: 28px !important;
+    height: 4px !important;
+    background: #e74c3c !important;
+    border-radius: 2px !important;
+    transform: rotate(45deg) !important;
+    top: 50% !important;
+    left: 50% !important;
+    margin-top: -2px !important;
+    margin-left: -14px !important;
+    animation: error-x-elegant 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.4s both !important;
+}
+
+.login-error-popup .swal2-icon.swal2-error::after {
+    content: '' !important;
+    position: absolute !important;
+    width: 28px !important;
+    height: 4px !important;
+    background: #e74c3c !important;
+    border-radius: 2px !important;
+    transform: rotate(-45deg) !important;
+    top: 50% !important;
+    left: 50% !important;
+    margin-top: -2px !important;
+    margin-left: -14px !important;
+    animation: error-x-elegant 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s both !important;
+}
+
+/* Animación de la X elegante - Mejorada */
+@keyframes error-x-elegant {
+    0% {
+        width: 0;
+        opacity: 0;
+        transform: rotate(45deg) scale(0);
+    }
+    30% {
+        width: 15px;
+        opacity: 0.6;
+        transform: rotate(45deg) scale(0.8);
+    }
+    70% {
+        width: 30px;
+        opacity: 0.9;
+        transform: rotate(45deg) scale(1.1);
+    }
+    100% {
+        width: 28px;
+        opacity: 1;
+        transform: rotate(45deg) scale(1);
+    }
+}
+
+/* Ajustar el segundo trazo para que esté perfectamente sincronizado */
+.login-error-popup .swal2-icon.swal2-error::after {
+    content: '' !important;
+    position: absolute !important;
+    width: 28px !important;
+    height: 4px !important;
+    background: #e74c3c !important;
+    border-radius: 2px !important;
+    transform: rotate(-45deg) !important;
+    top: 50% !important;
+    left: 50% !important;
+    margin-top: -2px !important;
+    margin-left: -14px !important;
+    animation: error-x-elegant-second 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s both !important;
+}
+
+/* Animación específica para el segundo trazo */
+@keyframes error-x-elegant-second {
+    0% {
+        width: 0;
+        opacity: 0;
+        transform: rotate(-45deg) scale(0);
+    }
+    30% {
+        width: 15px;
+        opacity: 0.6;
+        transform: rotate(-45deg) scale(0.8);
+    }
+    70% {
+        width: 30px;
+        opacity: 0.9;
+        transform: rotate(-45deg) scale(1.1);
+    }
+    100% {
+        width: 28px;
+        opacity: 1;
+        transform: rotate(-45deg) scale(1);
+    }
+}
+
+/* Animación de pulso suave para hover */
+@keyframes error-pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(231, 76, 60, 0.3);
+    }
+}
+
+/* Ajustar botones */
+.login-error-popup .swal2-confirm {
+    background: var(--primary-blue) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.6rem 1.5rem !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
+}
+
+.login-error-popup .swal2-confirm:hover {
+    background: var(--secondary-blue) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Responsive para modales */
 @media (max-width: 480px) {
-    .login-container {
-        padding: 3rem 1rem 1rem;
+    .login-success-popup, .login-error-popup {
+        width: 280px !important;
+        padding: 1.2rem !important;
     }
     
-    .login-brand-text {
-        font-size: 2rem;
+    .login-success-title, .login-error-title {
+        font-size: 1.1rem !important;
     }
     
-    .login-auth-subtitle {
-        font-size: 1rem;
+    .login-success-content, .login-error-content {
+        font-size: 0.85rem !important;
     }
     
-    .login-auth-card {
-        padding: 1.2rem;
+    /* Ajustar iconos en móvil */
+    .login-success-popup .swal2-icon.swal2-success,
+    .login-error-popup .swal2-icon.swal2-error {
+        width: 60px !important;
+        height: 60px !important;
     }
     
-    .login-auth-btn.login-login-btn {
-        max-width: 100%;
+    /* Check mark elegante más grande para móvil */
+    .login-success-popup .swal2-icon.swal2-success::before {
+        width: 11px !important;
+        height: 22px !important;
+        border-width: 0 3px 3px 0 !important;
+        margin-top: -13px !important;
+        margin-left: -3px !important;
     }
 }
 
-@media (max-width: 360px) {
-    .login-brand-text {
-        font-size: 1.8rem;
+/* Estilos personalizados para SweetAlert2 - Modal de Sesión Expirada */
+.inactivity-popup {
+    width: 340px !important;
+    max-width: 90vw !important;
+    padding: 1.5rem !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(4px) !important;
+    border: 1px solid rgba(26, 43, 60, 0.1) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+.inactivity-title {
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    color: var(--primary-blue) !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.inactivity-content {
+    font-size: 0.95rem !important;
+    color: rgba(26, 43, 60, 0.8) !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.4 !important;
+}
+
+.inactivity-confirm-btn {
+    background: linear-gradient(45deg, var(--primary-blue), var(--secondary-blue)) !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 0.7rem 1.5rem !important;
+    font-size: 0.95rem !important;
+    font-weight: 500 !important;
+    color: white !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 8px rgba(26, 43, 60, 0.2) !important;
+}
+
+.inactivity-confirm-btn:hover {
+    background: linear-gradient(45deg, var(--secondary-blue), #1a252f) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(26, 43, 60, 0.3) !important;
+}
+
+/* Icono de info personalizado para sesión expirada */
+.inactivity-popup .swal2-icon.swal2-info {
+    width: 60px !important;
+    height: 60px !important;
+    margin: 1rem auto !important;
+    border: 3px solid var(--primary-blue) !important;
+    border-radius: 50% !important;
+    position: relative !important;
+    background: radial-gradient(circle, rgba(26, 43, 60, 0.1) 0%, transparent 70%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    animation: info-circle-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important;
+}
+
+/* Ocultar elementos nativos del icono de info */
+.inactivity-popup .swal2-icon.swal2-info * {
+    display: none !important;
+}
+
+/* Icono i personalizado usando CSS */
+.inactivity-popup .swal2-icon.swal2-info::before {
+    content: 'i' !important;
+    position: absolute !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.8rem !important;
+    font-weight: 600 !important;
+    color: var(--primary-blue) !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    animation: info-i-appear 0.5s ease-out 0.3s both !important;
+}
+
+/* Animaciones para el modal de sesión expirada */
+@keyframes info-circle-bounce {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+        border-color: transparent;
+    }
+    60% {
+        transform: scale(1.1);
+        opacity: 0.9;
+        border-color: var(--primary-blue);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+        border-color: var(--primary-blue);
+    }
+}
+
+@keyframes info-i-appear {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Responsive para modal de sesión expirada */
+@media (max-width: 480px) {
+    .inactivity-popup {
+        width: 300px !important;
+        padding: 1.3rem !important;
     }
     
-    .login-auth-subtitle {
-        font-size: 0.9rem;
+    .inactivity-title {
+        font-size: 1.2rem !important;
+    }
+    
+    .inactivity-content {
+        font-size: 0.9rem !important;
+    }
+    
+    .inactivity-popup .swal2-icon.swal2-info {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    .inactivity-popup .swal2-icon.swal2-info::before {
+        font-size: 1.5rem !important;
+    }
+    
+    .inactivity-confirm-btn {
+        padding: 0.6rem 1.2rem !important;
+        font-size: 0.9rem !important;
     }
 }

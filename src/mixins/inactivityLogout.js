@@ -2,7 +2,7 @@ export default {
   data() {
     return {
       inactivityTimeout: null,
-      logoutTime: 50 * 8 * 1000 // 8 segundos en milisegundos
+      logoutTime: 50 * 8 * 1000 // 5 minutos (PRE)
     };
   },
   methods: {
@@ -19,7 +19,14 @@ export default {
         icon: 'info',
         title: 'Sesión Expirada',
         text: 'Has sido desconectado por inactividad. Por favor, inicia sesión nuevamente.',
-        showConfirmButton: true
+        showConfirmButton: true,
+        confirmButtonText: 'Iniciar Sesión',
+        customClass: {
+          popup: 'inactivity-popup',
+          title: 'inactivity-title',
+          content: 'inactivity-content',
+          confirmButton: 'inactivity-confirm-btn'
+        }
       });
     }
   },

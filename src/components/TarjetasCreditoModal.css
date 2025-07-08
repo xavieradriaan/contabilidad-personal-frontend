@@ -1,0 +1,446 @@
+/* TarjetasCreditoModal.vue */
+.tarjetas-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: modalEnter 0.3s ease-out;
+}
+
+.tarjetas-modal-card {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 16px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.tarjetas-modal-header {
+  position: relative;
+  margin-bottom: 1.5rem;
+  padding: 0 2rem;
+}
+
+.tarjetas-modal-title {
+  color: var(--primary-blue);
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 2rem;
+}
+
+.tarjetas-modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--primary-blue);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.tarjetas-modal-close:hover {
+  color: var(--accent-gold);
+  transform: rotate(90deg);
+}
+
+.nueva-tarjeta-form {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+}
+
+.tarjeta-select,
+.tarjeta-input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  background: white;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.tarjeta-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}
+
+.tarjeta-input:focus {
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px rgba(26, 43, 60, 0.1);
+}
+
+.fecha-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fecha-label {
+  color: var(--primary-blue);
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+
+.tarjeta-item {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: center;
+  padding: 1rem;
+  background: var(--light-gray);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.tarjeta-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tarjeta-nombre {
+  font-weight: 500;
+  color: var(--primary-blue);
+}
+
+.fechas-container {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.fecha-item {
+  padding: 0.3rem 0.6rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 6px;
+  color: var(--secondary-blue);
+  white-space: nowrap;
+}
+
+.btn-eliminar {
+  background: #ff4757;
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.btn-eliminar:hover {
+  background: #ff6b81;
+  transform: scale(1.1);
+}
+
+.tarjetas-modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap; /* Para manejar espacios en pantallas pequeñas */
+}
+
+.tarjetas-modal-btn {
+  padding: 0.6rem 1.2rem; /* Reducir altura ajustando el padding */
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  min-width: 180px; /* Ancho mínimo para mantener proporción */
+  justify-content: center; /* Centrado interno del texto */
+}
+
+.tarjetas-modal-btn-primary {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.tarjetas-modal-btn-primary:hover {
+  background: #2D4A5E;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.tarjetas-modal-btn-secondary {
+  background: var(--secondary-blue);
+  color: white;
+}
+
+.tarjetas-modal-btn-secondary:hover {
+  background: #3a5f76;
+  transform: translateY(-2px);
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== ESTILOS PARA MODALES DE ÉXITO DE TARJETAS ===== */
+.tarjetas-success-popup {
+    width: 340px !important;
+    max-width: 90vw !important;
+    padding: 1.5rem !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(4px) !important;
+    border: 1px solid rgba(40, 167, 69, 0.2) !important;
+    box-shadow: 0 8px 30px rgba(40, 167, 69, 0.15) !important;
+}
+
+.tarjetas-success-title {
+    font-size: 1.3rem !important;
+    font-weight: 600 !important;
+    color: #28a745 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.tarjetas-success-content {
+    font-size: 0.95rem !important;
+    color: rgba(26, 43, 60, 0.8) !important;
+    margin-bottom: 1rem !important;
+    line-height: 1.4 !important;
+}
+
+/* Icono de éxito personalizado para tarjetas */
+.tarjetas-success-popup .swal2-icon.swal2-success {
+    width: 60px !important;
+    height: 60px !important;
+    margin: 1rem auto !important;
+    border: 3px solid #28a745 !important;
+    border-radius: 50% !important;
+    position: relative !important;
+    background: radial-gradient(circle, rgba(40, 167, 69, 0.1) 0%, transparent 70%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    animation: tarjetas-success-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important;
+}
+
+/* Ocultar elementos nativos del icono de éxito */
+.tarjetas-success-popup .swal2-icon.swal2-success * {
+    display: none !important;
+}
+
+/* Check mark elegante para tarjetas usando CSS puro */
+.tarjetas-success-popup .swal2-icon.swal2-success::before {
+    content: '' !important;
+    position: absolute !important;
+    width: 12px !important;
+    height: 24px !important;
+    border: solid #28a745 !important;
+    border-width: 0 3px 3px 0 !important;
+    transform: rotate(45deg) !important;
+    top: 50% !important;
+    left: 50% !important;
+    margin-top: -14px !important;
+    margin-left: -4px !important;
+    animation: tarjetas-check-appear 0.5s ease-out 0.3s both !important;
+}
+
+/* Animaciones para el modal de éxito de tarjetas */
+@keyframes tarjetas-success-bounce {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+        border-color: transparent;
+    }
+    60% {
+        transform: scale(1.1);
+        opacity: 0.9;
+        border-color: #28a745;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+        border-color: #28a745;
+    }
+}
+
+@keyframes tarjetas-check-appear {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        transform: rotate(45deg) scale(0);
+    }
+    50% {
+        width: 6px;
+        height: 12px;
+        opacity: 0.7;
+        transform: rotate(45deg) scale(1.1);
+    }
+    100% {
+        width: 12px;
+        height: 24px;
+        opacity: 1;
+        transform: rotate(45deg) scale(1);
+    }
+}
+
+/* Responsive para modal de éxito de tarjetas */
+@media (max-width: 480px) {
+    .tarjetas-success-popup {
+        width: 300px !important;
+        padding: 1.3rem !important;
+    }
+    
+    .tarjetas-success-title {
+        font-size: 1.2rem !important;
+    }
+    
+    .tarjetas-success-content {
+        font-size: 0.9rem !important;
+    }
+    
+    .tarjetas-success-popup .swal2-icon.swal2-success {
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    .tarjetas-success-popup .swal2-icon.swal2-success::before {
+        width: 10px !important;
+        height: 20px !important;
+        border-width: 0 2px 2px 0 !important;
+        margin-top: -12px !important;
+        margin-left: -3px !important;
+    }
+}
+
+@media (max-width: 768px) {
+  .tarjetas-modal-card {
+    padding: 1.5rem;
+  }
+  
+  .nueva-tarjeta-form {
+    grid-template-columns: 1fr;
+  }
+  
+  .tarjeta-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.8rem;
+  }
+  
+  .fechas-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .tarjetas-modal-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tarjetas-modal-btn {
+    width: 100%;
+    max-width: 300px; /* Límite máximo para mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .tarjetas-modal-title {
+    font-size: 1.3rem;
+    margin: 0 1.5rem;
+  }
+  
+  .tarjeta-select,
+  .tarjeta-input {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+  }
+  
+  .tarjetas-modal-header {
+    padding: 0 1rem;
+  }
+  
+  .fecha-item {
+    font-size: 0.85rem;
+  }
+}
+
+/* Versión Desktop (769px en adelante) */
+@media (min-width: 769px) {
+  .tarjetas-modal-actions {
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 1.5rem; /* Espacio controlado entre botones */
+  }
+  
+  .tarjetas-modal-btn {
+    min-width: 180px; /* Restaurar ancho mínimo */
+    flex: 1; /* Ocupar espacio proporcional */
+    max-width: 200px; /* Límite máximo por botón */
+  }
+  
+  .tarjetas-modal-card {
+    max-width: 480px; /* Ancho óptimo para desktop */
+    padding: 2rem 2.5rem; /* Padding más generoso */
+  }
+}
+
+/* Versión Pantallas Grandes (1440px+) */
+@media (min-width: 1440px) {
+  .tarjetas-modal-card {
+    max-width: 500px; /* Recuperar ancho máximo original */
+  }
+}
+
+/* Ajuste adicional para pantallas muy grandes */
+@media (min-width: 1440px) {
+  .tarjetas-modal-card {
+    max-width: 420px; /* Más estrecho en pantallas XL */
+    padding: 1.5rem;
+  }
+}
+
+/* Mejora para pantallas pequeñas < 360px */
+@media (max-width: 359px) {
+  .tarjetas-modal-btn {
+    min-width: unset;
+    padding: 0.8rem;
+  }
+}

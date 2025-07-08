@@ -12,14 +12,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Changed from center to flex-start */
+  justify-content: flex-start;
   background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
   font-family: 'Inter', sans-serif;
   position: relative;
   overflow: hidden;
-  padding-top: 0; /* Removed unnecessary padding */
-  margin-top: -2rem; /* Adjusted margin to remove extra space */
-  padding: 4rem 1rem 1rem;
+  padding: 20px 1rem; /* Padding consistente con otros componentes */
+  isolation: isolate;
+}
+
+/* Fix para la franja blanca SOLO en móviles */
+@media screen and (max-width: 768px) and (hover: none) and (pointer: coarse) {
+    .pagos-container {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+    }
+    
+    html {
+        height: -webkit-fill-available;
+    }
+}
+
+/* Fix específico para escritorio - asegurar altura completa */
+@media screen and (min-width: 769px) {
+    .pagos-container {
+        min-height: 100vh;
+        height: 100vh;
+    }
 }
 
 .pagos-back-btn {
@@ -32,18 +51,22 @@
   height: 36px;
   cursor: pointer;
   color: rgba(255, 255, 255, 0.8);
-  z-index: 100;
+  z-index: 10000;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   padding: 0;
+  font-size: 1.2rem;
+  margin: 0;
+  max-width: none;
+  pointer-events: auto;
 }
 
 .pagos-back-btn:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--accent-gold);
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: var(--accent-gold) !important;
   transform: scale(1.1);
   box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.2);
 }
@@ -56,6 +79,7 @@
   position: relative;
   z-index: 10;
   margin-top: 2rem;
+  flex: 1; /* Permite que ocupe el espacio disponible */
 }
 
 .pagos-main-title {
@@ -99,7 +123,8 @@
   backdrop-filter: blur(4px);
   border: 1px solid rgba(0, 0, 0, 0.05);
   overflow-y: auto;
-  max-height: 80vh;
+  max-height: calc(100vh - 200px); /* Ajustar para evitar overflow */
+  margin-bottom: 2rem; /* Añadir margen inferior */
 }
 
 .pagos-tabla-container {
@@ -119,7 +144,8 @@
 
 .pagos-table th,
 .pagos-table td {
-  padding: 0.8rem;
+  padding-top: 0.05rem;
+  padding-bottom: 0.05rem;
   text-align: left;
 }
 
@@ -238,7 +264,7 @@
 
 @media (max-width: 480px) {
   .pagos-container {
-    padding: 3rem 1rem 1rem;
+    padding: 20px 1rem; /* Consistente con otros componentes */
   }
   
   .pagos-brand-text {
