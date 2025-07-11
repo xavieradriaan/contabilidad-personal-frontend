@@ -1,7 +1,6 @@
 <template>
   <div class="depositos-container">
-    <!-- Agregar el componente NavigationBar -->
-    <NavigationBar />
+    <!-- Navegación centralizada desde App.vue -->
     <!-- Animación de monedas -->
     <div class="depositos-animated-coins">
       <div v-for="index in 25" :key="index" class="depositos-coin" :class="`depositos-coin-${index}`">
@@ -101,12 +100,11 @@
 
 <script>
 import axios from 'axios'
-import NavigationBar from './NavigationBar.vue' // Reintegrado porque ahora se usa
 
 export default {
   name: 'DepositosBancosComponent',
   components: {
-    NavigationBar // Mantener porque ahora se usa
+    // Navegación centralizada desde App.vue
   },
   data() {
     return {
