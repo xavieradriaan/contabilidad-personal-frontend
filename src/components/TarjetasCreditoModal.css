@@ -68,6 +68,22 @@
   border-radius: 8px;
 }
 
+/* Contenedor para las fechas en línea horizontal */
+.fechas-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Para móviles, mantener en columna si es necesario */
+@media (max-width: 480px) {
+  .fechas-row {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+}
+
 .tarjeta-select,
 .tarjeta-input {
   width: 100%;
@@ -96,6 +112,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .fecha-label {
@@ -103,6 +120,7 @@
   font-weight: 500;
   font-size: 0.9rem;
   margin-bottom: 0.3rem;
+  text-align: left;
 }
 
 .tarjeta-item {
@@ -370,6 +388,11 @@
     gap: 0.5rem;
   }
   
+  .fechas-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+  
   .tarjetas-modal-actions {
     flex-direction: column;
     align-items: center;
@@ -382,6 +405,11 @@
 }
 
 @media (max-width: 480px) {
+  .fechas-row {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+  
   .tarjetas-modal-title {
     font-size: 1.3rem;
     margin: 0 1.5rem;
@@ -398,6 +426,10 @@
   }
   
   .fecha-item {
+    font-size: 0.85rem;
+  }
+  
+  .fecha-label {
     font-size: 0.85rem;
   }
 }

@@ -34,22 +34,26 @@
             class="tarjeta-input"
           />
           
-          <div class="fecha-field-group">
-            <label class="fecha-label">Fecha de Corte</label>
-            <input
-              type="date"
-              v-model="nuevaTarjeta.fechaCorte"
-              class="tarjeta-input"
-            />
+          <!-- Fechas en línea horizontal -->
+          <div class="fechas-row">          <div class="fechas-row">
+            <div class="fecha-field-group">
+              <label class="fecha-label">Fecha de Corte</label>
+              <input
+                type="date"
+                v-model="nuevaTarjeta.fechaCorte"
+                class="tarjeta-input"
+              />
+            </div>
+            
+            <div class="fecha-field-group">
+              <label class="fecha-label">Fecha Máximo de Pago</label>
+              <input
+                type="date"
+                v-model="nuevaTarjeta.fechaPago"
+                class="tarjeta-input"
+              />
+            </div>
           </div>
-          
-          <div class="fecha-field-group">
-            <label class="fecha-label">Fecha Máximo de Pago</label>
-            <input
-              type="date"
-              v-model="nuevaTarjeta.fechaPago"
-              class="tarjeta-input"
-            />
           </div>
         </div>
 

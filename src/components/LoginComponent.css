@@ -56,7 +56,7 @@ html, body {
     align-items: center;
     justify-content: flex-start;
     min-height: 100vh;
-    padding: 20px 1rem; /* Reducido el padding superior */
+    padding: 10px 1rem; /* Reducido aún más el padding superior */
     background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
     font-family: 'Inter', sans-serif;
     position: relative;
@@ -160,19 +160,19 @@ html, body {
 .login-auth-content {
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 40px); /* Ajustado para el nuevo padding */
+    min-height: calc(100vh - 20px); /* Ajustado para el nuevo padding reducido */
     width: 100%;
     position: relative;
     z-index: 10;
-    margin-top: 0; /* Eliminado el margin-top */
-    justify-content: space-evenly; /* Cambiado a space-evenly como en HomeComponent */
+    margin-top: 0;
+    justify-content: center; /* Cambiado de space-evenly a center para centrar mejor */
     align-items: center;
 }
 
 .login-auth-title {
     text-align: center;
-    margin-top: 6rem; /* Aumentado significativamente para bajar más el título */
-    margin-bottom: 2rem; /* Aumentado el margin-bottom para similar al home */
+    margin-top: 2rem; /* Reducido significativamente el margin-top */
+    margin-bottom: 1.5rem; /* Reducido el margin-bottom */
     z-index: 15;
 }
 
@@ -191,7 +191,7 @@ html, body {
     letter-spacing: -0.5px;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     display: block;
-    margin: 2rem 0 0.5rem 0; /* Aumentado el margin-top para bajar más el título */
+    margin: 0.5rem 0 0.5rem 0; /* Reducido los márgenes */
 }
 
 .login-auth-subtitle {
@@ -200,7 +200,7 @@ html, body {
     font-weight: 400;
     letter-spacing: 0.5px;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    margin: 0.5rem 0 1.5rem 0; /* Aumentado margins para bajar más el subtítulo */
+    margin: 0.5rem 0 1rem 0; /* Reducido los márgenes */
     line-height: 1.3;
 }
 
@@ -214,7 +214,7 @@ html, body {
     z-index: 10;
     backdrop-filter: blur(3px);
     border: 1px solid rgba(0, 0, 0, 0.04);
-    margin-top: 0.5rem; /* Margen positivo para bajar más el formulario */
+    margin-top: 0; /* Eliminado el margen superior */
     margin-bottom: auto;
 }
 
