@@ -35,7 +35,7 @@
           />
           
           <!-- Fechas en línea horizontal -->
-          <div class="fechas-row">          <div class="fechas-row">
+          <div class="fechas-row">
             <div class="fecha-field-group">
               <label class="fecha-label">Fecha de Corte</label>
               <input
@@ -53,7 +53,6 @@
                 class="tarjeta-input"
               />
             </div>
-          </div>
           </div>
         </div>
 

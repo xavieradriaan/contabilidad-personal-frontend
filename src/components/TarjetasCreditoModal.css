@@ -245,14 +245,14 @@
     border-radius: 16px !important;
     background: rgba(255, 255, 255, 0.98) !important;
     backdrop-filter: blur(4px) !important;
-    border: 1px solid rgba(40, 167, 69, 0.2) !important;
-    box-shadow: 0 8px 30px rgba(40, 167, 69, 0.15) !important;
+    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+    box-shadow: 0 8px 30px rgba(34, 197, 94, 0.15) !important;
 }
 
 .tarjetas-success-title {
     font-size: 1.3rem !important;
     font-weight: 600 !important;
-    color: #28a745 !important;
+    color: #22c55e !important;
     margin-bottom: 0.5rem !important;
 }
 
@@ -263,50 +263,39 @@
     line-height: 1.4 !important;
 }
 
-/* Icono de éxito personalizado para tarjetas - Con animaciones mejoradas y pulso en hover */
+/* Icono de éxito personalizado para tarjetas */
 .tarjetas-success-popup .swal2-icon.swal2-success {
-    width: 70px !important;
-    height: 70px !important;
+    width: 60px !important;
+    height: 60px !important;
     margin: 1rem auto !important;
-    border: 3px solid #28a745 !important;
+    border: 3px solid #22c55e !important;
     border-radius: 50% !important;
     position: relative !important;
-    background: radial-gradient(circle, rgba(40, 167, 69, 0.1) 0%, transparent 70%) !important;
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    animation: tarjetas-success-circle-bounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important;
-    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7) !important;
+    animation: tarjetas-success-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important;
 }
 
-.tarjetas-success-popup .swal2-icon.swal2-success:hover {
-    animation: tarjetas-success-circle-bounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards, 
-               tarjetas-success-pulse 2s ease-in-out 0.8s infinite !important;
-}
+
 
 /* Animación del círculo con efecto bounce y pulso */
-@keyframes tarjetas-success-circle-bounce {
+@keyframes tarjetas-success-bounce {
     0% {
-        transform: scale(0) rotate(-180deg);
+        transform: scale(0);
         opacity: 0;
         border-color: transparent;
-        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
     }
     60% {
-        transform: scale(1.15) rotate(0deg);
+        transform: scale(1.1);
         opacity: 0.9;
-        border-color: #28a745;
-        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0.3);
-    }
-    80% {
-        transform: scale(0.95) rotate(10deg);
-        box-shadow: 0 0 0 20px rgba(40, 167, 69, 0.1);
+        border-color: #22c55e;
     }
     100% {
-        transform: scale(1) rotate(0deg);
+        transform: scale(1);
         opacity: 1;
-        border-color: #28a745;
-        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+        border-color: #22c55e;
     }
 }
 
@@ -315,20 +304,20 @@
     display: none !important;
 }
 
-/* Check mark elegante usando CSS puro - Una sola línea perfecta */
+/* Check mark elegante para tarjetas usando CSS puro */
 .tarjetas-success-popup .swal2-icon.swal2-success::before {
     content: '' !important;
     position: absolute !important;
-    width: 15px !important;
-    height: 30px !important;
-    border: solid #28a745 !important;
-    border-width: 0 4px 4px 0 !important;
+    width: 12px !important;
+    height: 24px !important;
+    border: solid #22c55e !important;
+    border-width: 0 3px 3px 0 !important;
     transform: rotate(45deg) !important;
     top: 50% !important;
     left: 50% !important;
-    margin-top: -17px !important;
-    margin-left: -5px !important;
-    animation: tarjetas-success-check-elegant 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.4s both !important;
+    margin-top: -14px !important;
+    margin-left: -4px !important;
+    animation: tarjetas-check-appear 0.5s ease-out 0.3s both !important;
 }
 
 /* Eliminar el ::after ya que ahora usamos una sola línea elegante */
@@ -336,39 +325,23 @@
     display: none !important;
 }
 
-/* Animación del check mark elegante */
-@keyframes tarjetas-success-check-elegant {
+/* Animaciones para el modal de éxito de tarjetas */
+@keyframes tarjetas-check-appear {
     0% {
         width: 0;
         height: 0;
         opacity: 0;
         transform: rotate(45deg) scale(0);
     }
-    50% {
-        width: 17px;
-        height: 32px;
-        opacity: 0.8;
-        transform: rotate(45deg) scale(1.1);
-    }
     100% {
-        width: 15px;
-        height: 30px;
+        width: 12px;
+        height: 24px;
         opacity: 1;
         transform: rotate(45deg) scale(1);
     }
 }
 
 /* Animación de pulso suave para hover */
-@keyframes tarjetas-success-pulse {
-    0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
-    }
-    50% {
-        transform: scale(1.05);
-        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0.3);
-    }
-}
 
 /* Responsive para modal de éxito de tarjetas */
 @media (max-width: 480px) {
@@ -385,18 +358,18 @@
         font-size: 0.9rem !important;
     }
     
-    /* Ajustar iconos en móvil - Mismo tamaño que LoginComponent */
+    /* Ajustar iconos en móvil - Mismo tamaño que IngresosComponent */
     .tarjetas-success-popup .swal2-icon.swal2-success {
-        width: 60px !important;
-        height: 60px !important;
+        width: 50px !important;
+        height: 50px !important;
     }
     
-    /* Check mark elegante más grande para móvil - Exacto al LoginComponent */
+    /* Check mark elegante más grande para móvil - Exacto al IngresosComponent */
     .tarjetas-success-popup .swal2-icon.swal2-success::before {
-        width: 11px !important;
-        height: 22px !important;
-        border-width: 0 3px 3px 0 !important;
-        margin-top: -13px !important;
+        width: 10px !important;
+        height: 20px !important;
+        border-width: 0 2px 2px 0 !important;
+        margin-top: -12px !important;
         margin-left: -3px !important;
     }
 }
