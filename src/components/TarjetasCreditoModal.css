@@ -237,7 +237,7 @@
   }
 }
 
-/* ===== ESTILOS PARA MODALES DE ÉXITO DE TARJETAS ===== */
+/* ===== ESTILOS PARA MODALES DE ÉXITO DE TARJETAS (IDÉNTICOS A INGRESOS) ===== */
 .tarjetas-success-popup {
     width: 340px !important;
     max-width: 90vw !important;
@@ -263,7 +263,7 @@
     line-height: 1.4 !important;
 }
 
-/* Icono de éxito personalizado para tarjetas */
+/* Icono de éxito personalizado para tarjetas (IDÉNTICO A INGRESOS) */
 .tarjetas-success-popup .swal2-icon.swal2-success {
     width: 60px !important;
     height: 60px !important;
@@ -278,9 +278,33 @@
     animation: tarjetas-success-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards !important;
 }
 
+/* Ocultar elementos nativos del icono de éxito */
+.tarjetas-success-popup .swal2-icon.swal2-success * {
+    display: none !important;
+}
 
+/* Check mark elegante para tarjetas usando CSS puro (IDÉNTICO A INGRESOS) */
+.tarjetas-success-popup .swal2-icon.swal2-success::before {
+    content: '' !important;
+    position: absolute !important;
+    width: 12px !important;
+    height: 24px !important;
+    border: solid #22c55e !important;
+    border-width: 0 3px 3px 0 !important;
+    transform: rotate(45deg) !important;
+    top: 50% !important;
+    left: 50% !important;
+    margin-top: -14px !important;
+    margin-left: -4px !important;
+    animation: tarjetas-check-appear 0.5s ease-out 0.3s both !important;
+}
 
-/* Animación del círculo con efecto bounce y pulso */
+/* Eliminar el ::after ya que no se usa en ingresos */
+.tarjetas-success-popup .swal2-icon.swal2-success::after {
+    display: none !important;
+}
+
+/* Animaciones para el modal de éxito de tarjetas (IDÉNTICAS A INGRESOS) */
 @keyframes tarjetas-success-bounce {
     0% {
         transform: scale(0);
@@ -299,33 +323,6 @@
     }
 }
 
-/* Ocultar completamente todos los elementos nativos */
-.tarjetas-success-popup .swal2-icon.swal2-success * {
-    display: none !important;
-}
-
-/* Check mark elegante para tarjetas usando CSS puro */
-.tarjetas-success-popup .swal2-icon.swal2-success::before {
-    content: '' !important;
-    position: absolute !important;
-    width: 12px !important;
-    height: 24px !important;
-    border: solid #22c55e !important;
-    border-width: 0 3px 3px 0 !important;
-    transform: rotate(45deg) !important;
-    top: 50% !important;
-    left: 50% !important;
-    margin-top: -14px !important;
-    margin-left: -4px !important;
-    animation: tarjetas-check-appear 0.5s ease-out 0.3s both !important;
-}
-
-/* Eliminar el ::after ya que ahora usamos una sola línea elegante */
-.tarjetas-success-popup .swal2-icon.swal2-success::after {
-    display: none !important;
-}
-
-/* Animaciones para el modal de éxito de tarjetas */
 @keyframes tarjetas-check-appear {
     0% {
         width: 0;
@@ -341,9 +338,7 @@
     }
 }
 
-/* Animación de pulso suave para hover */
-
-/* Responsive para modal de éxito de tarjetas */
+/* Responsive para modal de éxito de tarjetas (IDÉNTICO A INGRESOS) */
 @media (max-width: 480px) {
     .tarjetas-success-popup {
         width: 300px !important;
@@ -364,7 +359,7 @@
         height: 50px !important;
     }
     
-    /* Check mark elegante más grande para móvil - Exacto al IngresosComponent */
+    /* Check mark elegante para móvil - Exacto al IngresosComponent */
     .tarjetas-success-popup .swal2-icon.swal2-success::before {
         width: 10px !important;
         height: 20px !important;
