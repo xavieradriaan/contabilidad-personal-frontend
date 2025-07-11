@@ -20,8 +20,6 @@
       <i class="fas fa-chevron-left"></i>
     </button>
 
-    <navigation-bar :showBack="true" :showHome="false" :showLogout="false" @back-clicked="$router.go(-1)" />
-
     <main class="total-main-content">
       <h1 class="total-main-title">
         <span class="total-brand-text">CONTABILÍZATE</span>
@@ -310,13 +308,9 @@
 
 <script>
 import axios from 'axios'
-import NavigationBar from './NavigationBar.vue'
 
 export default {
   name: 'TotalComponent',
-  components: {
-    NavigationBar
-  },
   data() {
     return {
       year: new Date().getFullYear(),

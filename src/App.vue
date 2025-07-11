@@ -2,7 +2,7 @@
   <div id="app">
     <router-view/>
     <NavigationBar 
-      v-if="isLoggedIn && navigationBarVisible"
+      v-if="shouldShowNavigationBar"
       :showLogout="true"
       :showHome="false"
       @logout-clicked="logout"
@@ -24,31 +24,33 @@ export default {
   mixins: [inactivityLogout],
   data() {
     return {
-      isLoggedIn: !!localStorage.getItem('token'),
-      navigationBarVisible: true
+      isLoggedIn: !!localStorage.getItem('token')
+    }
+  },
+  computed: {
+    shouldShowNavigationBar() {
+      // Rutas donde NO debe aparecer la navegación
+      const excludedRoutes = ['/', '/login', '/register', '/password_reset'];
+      const isExcludedRoute = excludedRoutes.includes(this.$route.path);
+      
+      // Solo mostrar si está logueado Y no está en ruta excluida
+      return this.isLoggedIn && !isExcludedRoute;
     }
   },
   watch: {
-    isLoggedIn(newVal) {
-      this.navigationBarVisible = newVal;
-    },
-    $route() {
-      // Ocultar barra en rutas específicas si es necesario
-      if (this.$route.path === '/login' || this.$route.path === '/register') {
-        this.navigationBarVisible = false;
-      } else if (this.isLoggedIn) {
-        this.navigationBarVisible = true;
-      }
-    }
-  },
-  mounted() {
-    // Ocultar barra en login/register
-    if (this.$route.path === '/login' || this.$route.path === '/register') {
-      this.navigationBarVisible = false;
+    $route: {
+      handler() {
+        // Verificar estado de autenticación cuando cambie la ruta
+        this.checkAuthStatus();
+      },
+      immediate: true
     }
   },
   methods: {
     ...mapActions(['applyTheme']),
+    checkAuthStatus() {
+      this.isLoggedIn = !!localStorage.getItem('token');
+    },
     async logout() {
       try {
         await axios.post('/logout', {}, {
@@ -65,7 +67,6 @@ export default {
     clearSession() {
       localStorage.clear();
       this.isLoggedIn = false;
-      this.navigationBarVisible = false;
       this.$router.push('/login');
     }
   }

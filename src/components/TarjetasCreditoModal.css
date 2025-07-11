@@ -68,6 +68,38 @@
   border-radius: 8px;
 }
 
+/* Contenedor para las fechas en línea horizontal */
+.fechas-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Asegurar que los inputs de fecha ocupen todo el espacio */
+.fechas-row .fecha-field-group {
+  min-width: 0; /* Permite que el flex-box se contraiga si es necesario */
+}
+
+.fechas-row .tarjeta-input[type="date"] {
+  width: 100% !important;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Para móviles, mantener en columna si es necesario */
+@media (max-width: 480px) {
+  .fechas-row {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+  
+  .fechas-row .tarjeta-input[type="date"] {
+    width: 100% !important;
+    min-width: 0;
+  }
+}
+
 .tarjeta-select,
 .tarjeta-input {
   width: 100%;
@@ -96,6 +128,13 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  width: 100%;
+}
+
+.fecha-field-group .tarjeta-input {
+  width: 100% !important;
+  box-sizing: border-box;
+  flex: 1;
 }
 
 .fecha-label {
@@ -103,6 +142,8 @@
   font-weight: 500;
   font-size: 0.9rem;
   margin-bottom: 0.3rem;
+  text-align: left;
+  white-space: nowrap;
 }
 
 .tarjeta-item {
@@ -219,7 +260,7 @@
   }
 }
 
-/* ===== ESTILOS PARA MODALES DE ÉXITO DE TARJETAS ===== */
+/* ===== ESTILOS PARA MODALES DE ÉXITO DE TARJETAS (IDÉNTICOS A INGRESOS) ===== */
 .tarjetas-success-popup {
     width: 340px !important;
     max-width: 90vw !important;
@@ -227,14 +268,14 @@
     border-radius: 16px !important;
     background: rgba(255, 255, 255, 0.98) !important;
     backdrop-filter: blur(4px) !important;
-    border: 1px solid rgba(40, 167, 69, 0.2) !important;
-    box-shadow: 0 8px 30px rgba(40, 167, 69, 0.15) !important;
+    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+    box-shadow: 0 8px 30px rgba(34, 197, 94, 0.15) !important;
 }
 
 .tarjetas-success-title {
     font-size: 1.3rem !important;
     font-weight: 600 !important;
-    color: #28a745 !important;
+    color: #22c55e !important;
     margin-bottom: 0.5rem !important;
 }
 
@@ -245,15 +286,15 @@
     line-height: 1.4 !important;
 }
 
-/* Icono de éxito personalizado para tarjetas */
+/* Icono de éxito personalizado para tarjetas (IDÉNTICO A INGRESOS) */
 .tarjetas-success-popup .swal2-icon.swal2-success {
     width: 60px !important;
     height: 60px !important;
     margin: 1rem auto !important;
-    border: 3px solid #28a745 !important;
+    border: 3px solid #22c55e !important;
     border-radius: 50% !important;
     position: relative !important;
-    background: radial-gradient(circle, rgba(40, 167, 69, 0.1) 0%, transparent 70%) !important;
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -265,13 +306,13 @@
     display: none !important;
 }
 
-/* Check mark elegante para tarjetas usando CSS puro */
+/* Check mark elegante para tarjetas usando CSS puro (IDÉNTICO A INGRESOS) */
 .tarjetas-success-popup .swal2-icon.swal2-success::before {
     content: '' !important;
     position: absolute !important;
     width: 12px !important;
     height: 24px !important;
-    border: solid #28a745 !important;
+    border: solid #22c55e !important;
     border-width: 0 3px 3px 0 !important;
     transform: rotate(45deg) !important;
     top: 50% !important;
@@ -281,7 +322,12 @@
     animation: tarjetas-check-appear 0.5s ease-out 0.3s both !important;
 }
 
-/* Animaciones para el modal de éxito de tarjetas */
+/* Eliminar el ::after ya que no se usa en ingresos */
+.tarjetas-success-popup .swal2-icon.swal2-success::after {
+    display: none !important;
+}
+
+/* Animaciones para el modal de éxito de tarjetas (IDÉNTICAS A INGRESOS) */
 @keyframes tarjetas-success-bounce {
     0% {
         transform: scale(0);
@@ -291,12 +337,12 @@
     60% {
         transform: scale(1.1);
         opacity: 0.9;
-        border-color: #28a745;
+        border-color: #22c55e;
     }
     100% {
         transform: scale(1);
         opacity: 1;
-        border-color: #28a745;
+        border-color: #22c55e;
     }
 }
 
@@ -307,12 +353,6 @@
         opacity: 0;
         transform: rotate(45deg) scale(0);
     }
-    50% {
-        width: 6px;
-        height: 12px;
-        opacity: 0.7;
-        transform: rotate(45deg) scale(1.1);
-    }
     100% {
         width: 12px;
         height: 24px;
@@ -321,7 +361,7 @@
     }
 }
 
-/* Responsive para modal de éxito de tarjetas */
+/* Responsive para modal de éxito de tarjetas (IDÉNTICO A INGRESOS) */
 @media (max-width: 480px) {
     .tarjetas-success-popup {
         width: 300px !important;
@@ -336,11 +376,13 @@
         font-size: 0.9rem !important;
     }
     
+    /* Ajustar iconos en móvil - Mismo tamaño que IngresosComponent */
     .tarjetas-success-popup .swal2-icon.swal2-success {
         width: 50px !important;
         height: 50px !important;
     }
     
+    /* Check mark elegante para móvil - Exacto al IngresosComponent */
     .tarjetas-success-popup .swal2-icon.swal2-success::before {
         width: 10px !important;
         height: 20px !important;
@@ -370,6 +412,11 @@
     gap: 0.5rem;
   }
   
+  .fechas-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+  
   .tarjetas-modal-actions {
     flex-direction: column;
     align-items: center;
@@ -382,6 +429,11 @@
 }
 
 @media (max-width: 480px) {
+  .fechas-row {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+  
   .tarjetas-modal-title {
     font-size: 1.3rem;
     margin: 0 1.5rem;
@@ -398,6 +450,10 @@
   }
   
   .fecha-item {
+    font-size: 0.85rem;
+  }
+  
+  .fecha-label {
     font-size: 0.85rem;
   }
 }
