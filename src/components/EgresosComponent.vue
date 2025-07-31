@@ -227,7 +227,7 @@ export default {
         bancos: ''
       },
       categorias: [
-        'Teléfono Móvil', 'GitHub', 'Mami', 'Comida', 'Movilización Trabajo',
+        'Teléfono Móvil', 'Claude Code', 'Mami', 'Comida', 'Movilización Trabajo',
         'Spotify', 'Maestría', 'Ropa', 'Zapatos', 'Tecnología', 'Restaurantes',
         'Salud', 'Cursos Online', 'Gastos Hijos', 'Videojuegos', 'Netflix',
         'Amazon Prime', 'Alquiler', 'Transporte', 'Entretenimiento', 'Manutención',
