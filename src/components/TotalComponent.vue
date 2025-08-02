@@ -16,7 +16,7 @@
       </div>
     </div>
 
-    <button class="total-back-btn" @click="$router.go(-1)">
+    <button class="total-back-btn" @click="safeGoBack('/dashboard')">
       <i class="fas fa-chevron-left"></i>
     </button>
 
@@ -308,9 +308,11 @@
 
 <script>
 import axios from 'axios'
+import navigationMixin from '../mixins/navigationMixin.js'
 
 export default {
   name: 'TotalComponent',
+  mixins: [navigationMixin],
   data() {
     return {
       year: new Date().getFullYear(),

@@ -7,7 +7,7 @@
     </div>
 
     <!-- Botón de regreso minimalista -->
-    <button class="login-back-btn" @click="$router.go(-1)">
+    <button class="login-back-btn" @click="safeGoBack('/')">
       <i class="fas fa-chevron-left"></i>
     </button>
 
@@ -89,9 +89,11 @@
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import navigationMixin from '../mixins/navigationMixin.js'
 
 export default {
   name: 'LoginComponent',
+  mixins: [navigationMixin],
   data() {
     return {
       username: '',

@@ -6,7 +6,7 @@
       </div>
     </div>
 
-    <button class="password-reset-back-btn" @click="$router.go(-1)">
+    <button class="password-reset-back-btn" @click="safeGoBack('/login')">
       <i class="fas fa-chevron-left"></i>
     </button>
 
@@ -141,9 +141,11 @@
 // Mantener el mismo script del componente original
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import navigationMixin from '../mixins/navigationMixin.js'
 
 export default {
   name: 'PasswordResetComponent',
+  mixins: [navigationMixin],
   data() {
     return {
       email: '',

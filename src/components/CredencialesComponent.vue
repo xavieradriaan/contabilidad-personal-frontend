@@ -7,7 +7,7 @@
     </div>
 
     <!-- Add this back button -->
-    <button class="credenciales-back-btn" @click="$router.go(-1)">
+    <button class="credenciales-back-btn" @click="safeGoBack('/dashboard')">
       <i class="fas fa-chevron-left"></i>
     </button>
 
@@ -178,9 +178,11 @@
 <script>
 import axios from 'axios'
 import NavigationBar from './NavigationBar.vue'
+import navigationMixin from '../mixins/navigationMixin.js'
 
 export default {
   name: 'CredencialesComponent',
+  mixins: [navigationMixin],
   components: {
     NavigationBar
   },

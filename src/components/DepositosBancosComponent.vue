@@ -9,7 +9,7 @@
     </div>
 
     <!-- Botón de regreso -->
-    <button class="depositos-back-btn" @click="$router.go(-1)">
+    <button class="depositos-back-btn" @click="safeGoBack('/dashboard')">
       <i class="fas fa-chevron-left"></i>
     </button>
 
@@ -100,9 +100,11 @@
 
 <script>
 import axios from 'axios'
+import navigationMixin from '../mixins/navigationMixin.js'
 
 export default {
   name: 'DepositosBancosComponent',
+  mixins: [navigationMixin],
   components: {
     // Navegación centralizada desde App.vue
   },
