@@ -50,6 +50,12 @@ export default {
         
         const response = await axios.get('/check_session')
         
+        // DEBUG: Log de la respuesta
+        console.log('Session check response:', response.data)
+        if (response.data.debug_info) {
+          console.log('Session debug info:', response.data.debug_info)
+        }
+        
         if (response.data.valid) {
           // Sesión válida - continuar normalmente
           this.isSessionValid = true

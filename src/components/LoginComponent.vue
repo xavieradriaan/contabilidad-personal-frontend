@@ -130,6 +130,12 @@ export default {
         // Mostrar notificación según si se reemplazó una sesión anterior
         const sessionReplaced = response.data.session_replaced
         
+        // DEBUG: Mostrar información de debug en consola
+        console.log('Login response:', response.data)
+        if (response.data.debug_info) {
+          console.log('Debug info:', response.data.debug_info)
+        }
+        
         await Swal.fire({
           icon: 'success',
           title: 'Inicio de Sesión Exitoso',
