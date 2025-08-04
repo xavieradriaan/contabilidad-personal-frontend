@@ -18,8 +18,11 @@
 </template>
 
 <script>
+import sessionValidation from '@/mixins/sessionValidation.js';
+
 export default {
   name: 'NavigationBar',
+  mixins: [sessionValidation],
   props: {
     showHome: {
       type: Boolean,

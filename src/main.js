@@ -20,6 +20,49 @@ axios.interceptors.request.use(config => {
   return config
 })
 
+// Interceptor de respuesta global para manejar sesiones expiradas
+axios.interceptors.response.use(
+  response => response,
+  async error => {
+    if (error.response?.status === 401 && error.response?.data?.session_expired) {
+      // Limpiar almacenamiento local
+      localStorage.clear()
+      
+      // Determinar mensaje apropiado
+      let message = 'Tu sesión ha expirado'
+      let icon = 'warning'
+      
+      if (error.response.data.reason === 'session_replaced') {
+        message = error.response.data.message || 'Tu sesión ha sido cerrada debido a un nuevo inicio de sesión desde otro dispositivo'
+        icon = 'info'
+      }
+      
+      // Importar SweetAlert2 dinámicamente para evitar problemas de dependencias circulares
+      const { default: Swal } = await import('sweetalert2')
+      
+      // Mostrar notificación
+      await Swal.fire({
+        icon: icon,
+        title: 'Sesión Cerrada',
+        text: message,
+        confirmButtonText: 'Iniciar Sesión',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        customClass: {
+          popup: 'session-expired-popup'
+        }
+      })
+      
+      // Redirigir al login si hay router disponible
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login'
+      }
+    }
+    
+    return Promise.reject(error)
+  }
+)
+
 // Creación de la aplicación
 const app = createApp(App)
 app.use(router)

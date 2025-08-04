@@ -76,8 +76,11 @@
 </template>
 
 <script>
+import sessionValidation from '@/mixins/sessionValidation.js';
+
 export default {
-  name: 'HomeComponent'
+  name: 'HomeComponent',
+  mixins: [sessionValidation]
 }
 </script>
 

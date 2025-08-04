@@ -5,7 +5,7 @@ export default {
   data() {
     return {
       sessionCheckInterval: null,
-      sessionCheckFrequency: 30000, // Verificar cada 30 segundos
+      sessionCheckFrequency: this.getOptimalCheckFrequency(), // Frecuencia optimizada por dispositivo
       isSessionValid: true
     }
   },
@@ -19,6 +19,24 @@ export default {
   },
   
   methods: {
+    getOptimalCheckFrequency() {
+      // Detectar si es dispositivo móvil para ajustar frecuencia
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      const isTablet = /iPad|Android.*(?!.*Mobile)/i.test(navigator.userAgent)
+      
+      // Frecuencias optimizadas:
+      // Mobile: más frecuente para mejor respuesta
+      // Desktop: estándar
+      // Tablet: intermedio
+      if (isMobile) {
+        return 20000 // 20 segundos para móviles
+      } else if (isTablet) {
+        return 25000 // 25 segundos para tablets
+      } else {
+        return 30000 // 30 segundos para desktop
+      }
+    },
+    
     startSessionValidation() {
       // Solo iniciar verificación si hay token
       if (!localStorage.getItem('token')) {
@@ -73,9 +91,9 @@ export default {
             // Sesión expirada o reemplazada
             this.handleSessionExpired(data)
           } else if (status === 500) {
-            // Error del servidor - mantener sesión pero reducir frecuencia
+            // Error del servidor - mantener sesión pero aumentar frecuencia temporalmente
             console.warn('Error del servidor al verificar sesión')
-            this.sessionCheckFrequency = 60000 // Verificar cada minuto
+            this.sessionCheckFrequency = Math.min(this.sessionCheckFrequency * 2, 60000) // Máximo 1 minuto
           }
         } else {
           // Error de red
@@ -124,7 +142,7 @@ export default {
     // Método para reiniciar la validación después del login
     restartSessionValidation() {
       this.isSessionValid = true
-      this.sessionCheckFrequency = 30000 // Restablecer frecuencia normal
+      this.sessionCheckFrequency = this.getOptimalCheckFrequency() // Restablecer frecuencia optimizada
       this.startSessionValidation()
     },
     
