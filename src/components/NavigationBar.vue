@@ -97,13 +97,24 @@ export default {
   font-size: 1rem;
 }
 
-/* Mobile navigation styles */
+/* Default: Desktop navigation styles */
 .mobile-nav {
   display: none;
 }
 
 .desktop-nav {
   display: flex;
+}
+
+/* Ensure desktop version is shown on large screens */
+@media (min-width: 769px) {
+  .desktop-nav {
+    display: flex !important;
+  }
+  
+  .mobile-nav {
+    display: none !important;
+  }
 }
 
 .nav-btn-compact {
@@ -135,16 +146,16 @@ export default {
 /* Responsive styles */
 @media (max-width: 768px) {
   .navigation-bar {
-    top: 20px; /* Back to original position since button is smaller */
+    top: 20px;
     right: 15px;
   }
   
   .desktop-nav {
-    display: none; /* Hide desktop version */
+    display: none !important; /* Force hide desktop version */
   }
   
   .mobile-nav {
-    display: flex; /* Show mobile compact version */
+    display: flex !important; /* Force show mobile compact version */
   }
   
   .nav-btn-compact {
