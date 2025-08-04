@@ -127,12 +127,17 @@ export default {
         localStorage.setItem('token', response.data.access_token)
         localStorage.setItem('username', this.username)
         
+        // Mostrar notificación según si se reemplazó una sesión anterior
+        const sessionReplaced = response.data.session_replaced
+        
         await Swal.fire({
           icon: 'success',
           title: 'Inicio de Sesión Exitoso',
-          text: 'Bienvenido de nuevo',
+          text: sessionReplaced 
+            ? 'Bienvenido de nuevo. Se cerró tu sesión anterior en otro dispositivo.' 
+            : 'Bienvenido de nuevo',
           showConfirmButton: false,
-          timer: 1500,
+          timer: sessionReplaced ? 3000 : 1500,
           customClass: {
             popup: 'login-success-popup',
             title: 'login-success-title',
