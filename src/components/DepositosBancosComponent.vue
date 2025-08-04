@@ -101,10 +101,11 @@
 <script>
 import axios from 'axios'
 import navigationMixin from '../mixins/navigationMixin.js'
+import sessionValidation from '../mixins/sessionValidation.js'
 
 export default {
   name: 'DepositosBancosComponent',
-  mixins: [navigationMixin],
+  mixins: [navigationMixin, sessionValidation],
   components: {
     // Navegación centralizada desde App.vue
   },

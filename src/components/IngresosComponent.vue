@@ -112,10 +112,11 @@
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import navigationMixin from '../mixins/navigationMixin.js'
+import sessionValidation from '../mixins/sessionValidation.js'
 
 export default {
   name: 'IngresosComponent',
-  mixins: [navigationMixin],
+  mixins: [navigationMixin, sessionValidation],
   data() {
     return {
       nuevoIngreso: {

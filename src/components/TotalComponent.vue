@@ -309,10 +309,11 @@
 <script>
 import axios from 'axios'
 import navigationMixin from '../mixins/navigationMixin.js'
+import sessionValidation from '../mixins/sessionValidation.js'
 
 export default {
   name: 'TotalComponent',
-  mixins: [navigationMixin],
+  mixins: [navigationMixin, sessionValidation],
   data() {
     return {
       year: new Date().getFullYear(),

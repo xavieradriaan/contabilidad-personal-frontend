@@ -30,9 +30,12 @@
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import NavigationBar from './NavigationBar.vue'
+import navigationMixin from '../mixins/navigationMixin.js'
+import sessionValidation from '../mixins/sessionValidation.js'
 
 export default {
   name: 'OtroIngresoComponent',
+  mixins: [navigationMixin, sessionValidation],
   components: {
     NavigationBar
   },

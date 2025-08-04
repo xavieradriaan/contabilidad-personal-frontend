@@ -254,10 +254,11 @@
 import axios from 'axios'
 import NavigationBar from './NavigationBar.vue'
 import navigationMixin from '../mixins/navigationMixin.js'
+import sessionValidation from '../mixins/sessionValidation.js'
 
 export default {
   name: 'CredencialesComponent',
-  mixins: [navigationMixin],
+  mixins: [navigationMixin, sessionValidation],
   components: {
     NavigationBar
   },

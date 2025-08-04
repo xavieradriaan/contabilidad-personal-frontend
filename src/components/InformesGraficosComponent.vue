@@ -119,10 +119,11 @@
 import axios from 'axios'
 import VueApexCharts from 'vue3-apexcharts'
 import navigationMixin from '../mixins/navigationMixin.js'
+import sessionValidation from '../mixins/sessionValidation.js'
 
 export default {
   name: 'InformesGraficosComponent',
-  mixins: [navigationMixin],
+  mixins: [navigationMixin, sessionValidation],
   components: {
     apexchart: VueApexCharts
   },

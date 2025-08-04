@@ -34,10 +34,12 @@
 
 <script>
 import NavigationBar from './NavigationBar.vue'
+import sessionValidation from '@/mixins/sessionValidation.js'
 import axios from 'axios'
 
 export default {
   name: 'DashboardComponent',
+  mixins: [sessionValidation],
   components: {
     NavigationBar
   },

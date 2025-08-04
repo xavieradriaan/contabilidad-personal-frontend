@@ -40,8 +40,12 @@
 </template>
 
 <script>
+import navigationMixin from '../mixins/navigationMixin.js'
+import sessionValidation from '../mixins/sessionValidation.js'
+
 export default {
   name: 'SeleccionTipoEgreso',
+  mixins: [navigationMixin, sessionValidation],
   mounted() {
     document.documentElement.style.setProperty('--primary-blue', '#1A2B3C');
     document.documentElement.style.setProperty('--secondary-blue', '#2D4A5E');
