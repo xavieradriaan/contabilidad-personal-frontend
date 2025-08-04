@@ -324,6 +324,30 @@ export default {
         }
       }
     },
+
+    // Método específico para cargar credenciales después de OTP exitoso
+    async loadCredentialsAfterOTP() {
+      try {
+        console.log('Cargando credenciales después de verificación OTP exitosa...')
+        const response = await axios.get('/credenciales', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        this.credenciales = response.data
+        console.log('Credenciales cargadas exitosamente:', this.credenciales.length, 'elementos')
+        
+        // Forzar actualización de la vista
+        this.$forceUpdate()
+      } catch (error) {
+        console.error('Error al cargar credenciales después de OTP:', error)
+        this.$swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudieron cargar las credenciales después de la verificación'
+        })
+      }
+    },
     async saveCredencial() {
       this.isSavingCredential = true;
       try {
@@ -522,19 +546,24 @@ export default {
         })
         
         if (response.data.success) {
-          this.closeOTPModal()
+          // Primero ejecutar la acción pendiente
+          if (this.pendingAction) {
+            await this.executePendingAction()
+          }
+          
+          // Cerrar el modal con un pequeño delay para asegurar que se procese todo
+          setTimeout(() => {
+            this.closeOTPModal()
+          }, 100)
+          
+          // Mostrar notificación de éxito
           this.$swal.fire({
             icon: 'success',
             title: 'Verificación Exitosa',
             text: 'Acceso concedido por 10 minutos',
-            timer: 2000,
+            timer: 1500,
             showConfirmButton: false
           })
-          
-          // Ejecutar la acción pendiente
-          if (this.pendingAction) {
-            await this.executePendingAction()
-          }
         }
       } catch (error) {
         console.error('Error al verificar OTP:', error)
@@ -553,7 +582,7 @@ export default {
     async executePendingAction() {
       switch (this.pendingAction) {
         case 'fetchCredenciales':
-          await this.fetchCredenciales()
+          await this.loadCredentialsAfterOTP()
           break
         case 'saveCredencial':
           await this.saveCredencial()
