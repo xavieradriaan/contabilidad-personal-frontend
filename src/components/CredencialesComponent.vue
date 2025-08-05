@@ -67,30 +67,32 @@
             <div v-for="credencial in credenciales" :key="credencial.id" class="credenciales-item">
               <div class="credenciales-item-header">
                 <strong class="credenciales-item-title">{{ credencial.descripcion }}</strong>
-                <button 
-                  @click="openEditModal(credencial)"
-                  class="credenciales-edit-btn"
-                  title="Editar"
-                >
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button 
-                  @click="confirmDeleteCredencial(credencial.id)"
-                  class="credenciales-delete-btn"
-                  title="Eliminar"
-                >
-                  <i class="fas fa-trash-alt"></i>
-                </button>
+                <div class="credenciales-buttons-group">
+                  <button 
+                    @click="toggleVisibility(credencial.id)"
+                    class="credenciales-eye-btn"
+                    :title="isVisible(credencial.id) ? 'Ocultar' : 'Mostrar'"
+                  >
+                    <i :class="isVisible(credencial.id) ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                  </button>
+                  <button 
+                    @click="openEditModal(credencial)"
+                    class="credenciales-edit-btn"
+                    title="Editar"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button 
+                    @click="confirmDeleteCredencial(credencial.id)"
+                    class="credenciales-delete-btn"
+                    title="Eliminar"
+                  >
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
               </div>
               <div class="credenciales-content-wrapper">
                 <p class="credenciales-item-content" v-html="formatCredencial(credencial.credencial, credencial.id)"></p>
-                <button 
-                  @click="toggleVisibility(credencial.id)"
-                  class="credenciales-eye-btn"
-                  :title="isVisible(credencial.id) ? 'Ocultar' : 'Mostrar'"
-                >
-                  <i :class="isVisible(credencial.id) ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-                </button>
               </div>
             </div>
           </div>
@@ -428,7 +430,7 @@ export default {
       }
       
       // Por defecto, mostrar máscara
-      return '<span style="color: #ccc; font-weight: bold;">***</span>';
+      return '<span style="color: #333; font-weight: bold;">***</span>';
     },
     toggleVisibility(credencialId) {
       console.log('Toggle clicked for credential:', credencialId);
@@ -667,21 +669,22 @@ export default {
   align-items: center;
 }
 
-.credenciales-content-wrapper {
+.credenciales-buttons-group {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-top: 0.5rem;
+  align-items: center;
   gap: 0.5rem;
 }
 
+.credenciales-content-wrapper {
+  margin-top: 0.5rem;
+}
+
 .credenciales-item-content {
-  flex: 1;
   margin: 0;
   padding: 0.5rem;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 6px;
-  color: #fff;
+  color: #333;
   line-height: 1.4;
   font-family: 'Courier New', monospace;
   font-size: 0.9rem;
@@ -692,18 +695,14 @@ export default {
   background: transparent;
   border: none;
   color: var(--primary-gold);
-  padding: 0.3rem;
-  border-radius: 50%;
+  padding: 0.5rem;
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 1rem;
-  width: 28px;
-  height: 28px;
+  font-size: 1.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  margin-top: 0.1rem;
 }
 
 .credenciales-eye-btn:hover {
