@@ -255,7 +255,7 @@
     border-radius: 50%;
     transition: all 0.2s ease;
     position: absolute;
-    top: -0.8rem; /* Posicionado más arriba del botón de editar */
+    top: -0.55rem; /* Posicionado más arriba del botón de editar - bajado 4px */
     right: 0.5rem;
     z-index: 3; /* Mayor z-index para estar encima */
 }
@@ -286,7 +286,7 @@
     border-radius: 50%;
     transition: all 0.2s ease;
     position: absolute;
-    top: 0.5rem; /* Subido un poco */
+    top: 0.75rem; /* Subido un poco - bajado 4px */
     right: 0.5rem;
     z-index: 2;
 }
@@ -316,7 +316,7 @@
     border-radius: 50%;
     transition: all 0.2s ease;
     position: absolute;
-    top: 2.1rem; /* Subido un poco */
+    top: 2.35rem; /* Subido un poco - bajado 4px */
     right: 0.5rem;
 }
 
