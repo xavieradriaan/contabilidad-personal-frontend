@@ -672,7 +672,7 @@ export default {
 .credenciales-buttons-group {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.3rem;
 }
 
 .credenciales-content-wrapper {
@@ -695,14 +695,16 @@ export default {
   background: transparent;
   border: none;
   color: var(--primary-gold);
-  padding: 0.5rem;
+  padding: 0.4rem;
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 1.2rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 32px;
+  height: 32px;
 }
 
 .credenciales-eye-btn:hover {
