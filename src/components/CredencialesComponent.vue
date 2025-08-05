@@ -82,7 +82,16 @@
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </div>
-              <p class="credenciales-item-content" v-html="formatCredencial(credencial.credencial)"></p>
+              <div class="credenciales-content-wrapper">
+                <p class="credenciales-item-content" v-html="formatCredencial(credencial.credencial, credencial.id)"></p>
+                <button 
+                  @click="toggleVisibility(credencial.id)"
+                  class="credenciales-eye-btn"
+                  :title="isVisible(credencial.id) ? 'Ocultar' : 'Mostrar'"
+                >
+                  <i :class="isVisible(credencial.id) ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </button>
+              </div>
             </div>
           </div>
           
@@ -267,6 +276,7 @@ export default {
       descripcion: '',
       credencial: '',
       credenciales: [],
+      visibleCredentials: {}, // Controla qué credenciales están visibles
       // Modal edición
       showEditModal: false,
       currentCredential: null,
@@ -409,9 +419,22 @@ export default {
         this.deleteCredencial(id)
       }
     },
-    formatCredencial(credencial) {
+    formatCredencial(credencial, credencialId) {
       if (!credencial) return '';
-      return credencial.replace(/\n/g, '<br>')
+      
+      // Si está marcada como visible, mostrar contenido real
+      if (this.visibleCredentials[credencialId]) {
+        return credencial.replace(/\n/g, '<br>');
+      }
+      
+      // Por defecto, mostrar máscara
+      return '***';
+    },
+    toggleVisibility(credencialId) {
+      this.$set(this.visibleCredentials, credencialId, !this.visibleCredentials[credencialId]);
+    },
+    isVisible(credencialId) {
+      return this.visibleCredentials[credencialId] || false;
     },
     // --- Modal edición ---
     openEditModal(credencial) {
@@ -635,6 +658,50 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.credenciales-content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  gap: 0.5rem;
+}
+
+.credenciales-item-content {
+  flex: 1;
+  margin: 0;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #fff;
+  line-height: 1.4;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  min-height: 20px;
+}
+
+.credenciales-eye-btn {
+  background: transparent;
+  border: none;
+  color: var(--primary-gold);
+  padding: 0.4rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.credenciales-eye-btn:hover {
+  background: rgba(226, 201, 133, 0.2);
+  color: #fff;
+  transform: scale(1.1);
 }
 
 .credenciales-modal {
