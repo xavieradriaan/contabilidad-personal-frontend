@@ -650,17 +650,46 @@ export default {
 <style scoped>
 @import './CredencialesComponent.css';
 
-.credenciales-delete-btn {
-  background: none;
+.credenciales-edit-btn {
+  background: transparent;
   border: none;
-  padding: 0;
-  margin: 0;
+  color: #666;
+  padding: 0.4rem;
+  border-radius: 4px;
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem; /* Adjust icon size */
-  color: #ff4d4d; /* Optional: Add color for better visibility */
+  min-width: 32px;
+  height: 32px;
+}
+
+.credenciales-edit-btn:hover {
+  background: rgba(102, 102, 102, 0.2);
+  color: #333;
+}
+
+.credenciales-delete-btn {
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  padding: 0.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+}
+
+.credenciales-delete-btn:hover {
+  background: rgba(255, 77, 77, 0.2);
+  color: #ff0000;
 }
 
 .credenciales-item-header {
