@@ -263,9 +263,9 @@
 
 <script>
 import axios from 'axios'
-import NavigationBar from './NavigationBar.vue'
 import navigationMixin from '../mixins/navigationMixin.js'
 import sessionValidation from '../mixins/sessionValidation.js'
+import NavigationBar from './NavigationBar.vue'
 
 export default {
   name: 'CredencialesComponent',
@@ -650,97 +650,7 @@ export default {
 <style scoped>
 @import './CredencialesComponent.css';
 
-.credenciales-edit-btn {
-  background: transparent;
-  border: none;
-  color: #666;
-  padding: 0.4rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 32px;
-  height: 32px;
-}
-
-.credenciales-edit-btn:hover {
-  background: rgba(102, 102, 102, 0.2);
-  color: #333;
-}
-
-.credenciales-delete-btn {
-  background: transparent;
-  border: none;
-  color: #ff4d4d;
-  padding: 0.4rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 32px;
-  height: 32px;
-}
-
-.credenciales-delete-btn:hover {
-  background: rgba(255, 77, 77, 0.2);
-  color: #ff0000;
-}
-
-.credenciales-item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.credenciales-buttons-group {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.credenciales-content-wrapper {
-  margin-top: 0.5rem;
-}
-
-.credenciales-item-content {
-  margin: 0;
-  padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  color: #333;
-  line-height: 1.4;
-  font-family: 'Courier New', monospace;
-  font-size: 0.9rem;
-  min-height: 20px;
-}
-
-.credenciales-eye-btn {
-  background: transparent;
-  border: none;
-  color: var(--primary-gold);
-  padding: 0.4rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 32px;
-  height: 32px;
-}
-
-.credenciales-eye-btn:hover {
-  background: rgba(226, 201, 133, 0.2);
-  color: #fff;
-  transform: scale(1.1);
-}
+/* Reglas específicas que solo aplican con scoped - principalmente modales OTP */
 
 .credenciales-modal {
   position: fixed;
