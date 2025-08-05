@@ -255,7 +255,7 @@
     border-radius: 50%;
     transition: all 0.2s ease;
     position: absolute;
-    top: -0.2rem; /* Posicionado arriba del botón de editar */
+    top: -0.8rem; /* Posicionado más arriba del botón de editar */
     right: 0.5rem;
     z-index: 3; /* Mayor z-index para estar encima */
 }
