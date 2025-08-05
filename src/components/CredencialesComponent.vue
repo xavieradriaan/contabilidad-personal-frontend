@@ -432,7 +432,12 @@ export default {
     },
     toggleVisibility(credencialId) {
       console.log('Toggle clicked for credential:', credencialId);
-      this.$set(this.visibleCredentials, credencialId, !this.visibleCredentials[credencialId]);
+      // Vue 3 - Crear nuevo objeto para forzar reactividad
+      const currentState = this.visibleCredentials[credencialId] || false;
+      this.visibleCredentials = {
+        ...this.visibleCredentials,
+        [credencialId]: !currentState
+      };
       console.log('New visibility state:', this.visibleCredentials[credencialId]);
     },
     isVisible(credencialId) {
