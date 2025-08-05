@@ -428,10 +428,12 @@ export default {
       }
       
       // Por defecto, mostrar máscara
-      return '***';
+      return '<span style="color: #ccc; font-weight: bold;">***</span>';
     },
     toggleVisibility(credencialId) {
+      console.log('Toggle clicked for credential:', credencialId);
       this.$set(this.visibleCredentials, credencialId, !this.visibleCredentials[credencialId]);
+      console.log('New visibility state:', this.visibleCredentials[credencialId]);
     },
     isVisible(credencialId) {
       return this.visibleCredentials[credencialId] || false;
@@ -662,7 +664,7 @@ export default {
 
 .credenciales-content-wrapper {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   margin-top: 0.5rem;
   gap: 0.5rem;
@@ -685,17 +687,18 @@ export default {
   background: transparent;
   border: none;
   color: var(--primary-gold);
-  padding: 0.4rem;
+  padding: 0.3rem;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 1rem;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  margin-top: 0.1rem;
 }
 
 .credenciales-eye-btn:hover {
