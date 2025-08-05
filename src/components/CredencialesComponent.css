@@ -267,6 +267,17 @@
 
 .credenciales-eye-btn:active {
     transform: scale(0.95);
+    background: rgba(26, 43, 60, 0.08); /* Mismo color que el botón de editar */
+}
+
+.credenciales-eye-btn:focus {
+    outline: none; /* Eliminar outline por defecto del navegador */
+    background: rgba(26, 43, 60, 0.08); /* Mismo color que el botón de editar */
+}
+
+.credenciales-eye-btn:focus:not(:focus-visible) {
+    outline: none;
+    background: none;
 }
 
 /* Botón editar igual que eliminar, pero un poco más abajo */
