@@ -1,0 +1,164 @@
+[33m8854871[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mpre[m[33m)[m cambios en credenciales otp
+[33m56a27c4[m git commit
+[33m98d36b5[m cambio
+[33m09d1f12[m fix: elimina duplicación de botón Salir - centraliza NavigationBar en App.vue
+[33m2f36508[m fix: elimina duplicación de botón Salir - centraliza NavigationBar en App.vue
+[33m19d8910[m fix: elimina duplicación de botón Salir - centraliza NavigationBar en App.vue
+[33m4ea5447[m fix: elimina duplicación de botón Salir - centraliza NavigationBar en App.vue
+[33me05b915[m fix: elimina duplicación de botón Salir - centraliza NavigationBar en App.vue
+[33mc2da9c4[m fix: elimina duplicación de botón Salir - centraliza NavigationBar en App.vue
+[33ma7b203a[m fix: elimina duplicación de botón Salir - centraliza NavigationBar en App.vue
+[33m04cda72[m fix: elimina duplicación de botón Salir - centraliza NavigationBar en App.vue
+[33m011c28c[m Resuelve conflictos del merge dev a pre - mantiene mejoras UX/UI con timeout PRE (5 minutos)
+[33mebb703b[m cambios
+[33m9d684e7[m cambios front
+[33m7f4cd90[m cambios pequeños
+[33m5d402ab[m cambios
+[33m4d2f94b[m cambios actualizados tc terminada
+[33m0bf104c[m cambios
+[33m63028e4[m fix
+[33mbf2b938[m cambio minimo
+[33m65ca90d[m se agrega funcion eliminar tc recién creada
+[33mfbf52da[m cambios
+[33m717a09b[m cambios problemas franja blancA
+[33m737631f[m cambios front
+[33ma254e5e[m cambios
+[33m8d16d51[m pueba
+[33m7ba8202[m cambios
+[33mf899e82[m arreglos front
+[33m148f712[m cambiopequeño
+[33m5c16fb0[m se han agregado aceptar terminos y condiciones al momento de registrar un usuario nuevo
+[33m7bf9683[m  cambios se agregan de credencial
+[33m50c78ee[m cambios
+[33mb39561a[m actuali
+[33m4f0c1cd[m asd
+[33ma9fb20a[m c
+[33m35f7e1f[m cambios
+[33m8cc88e6[m cambios
+[33mc64db03[m cambio
+[33m68ea72b[m cambios
+[33mb22b744[m cambios
+[33ma7e8fba[m cambios
+[33m554533f[m nueva implementacion tarjeta de credito
+[33m698fd57[m cambios
+[33m20b8a4c[m asd
+[33m0a3d8b1[m Update TotalComponent.vue
+[33mb039333[m Update TotalComponent.css
+[33m63dc4ff[m Update SeleccionTipoEgreso.css
+[33mf45ada2[m Update RegisterComponent.css
+[33m5f747d9[m Update PasswordResetComponent.css
+[33m7942d7f[m Update PagosRecurrentesComponent.css
+[33m9720732[m Update LoginComponent.css
+[33mb7f0ff6[m Update IngresosComponent.css
+[33mf27dfad[m Update InformesGraficosComponent.css
+[33mc26706f[m Update HomeComponent.vue
+[33m7e44d7f[m Update HomeComponent.css
+[33m2fcd5a5[m Update EgresosComponent.css
+[33m5c1b335[m Update DepositosBancosComponent.css
+[33m2284369[m Update DashboardComponent.css
+[33mfd08c6c[m Update CredencialesComponent.vue
+[33mf1bf49f[m Update CredencialesComponent.css
+[33mf4a273c[m Update App.vue
+[33m247fe2a[m nuevos
+[33m08abaca[m nuevos
+[33mefb8140[m nuevos
+[33me28d185[m nuevos
+[33md245fdf[m nuevos
+[33m95a309f[m cambios
+[33m8cdbd55[m prueba
+[33m90c63b8[m cambios pero para dashboard
+[33me64a9ba[m cambios pero para dashboard
+[33mf2d34d4[m cambios pero para dashboard
+[33ma3c6d45[m cambios pero para dashboard
+[33m20b7fc3[m cambios pero para dashboard
+[33m9407928[m cambios pero para dashboard
+[33m47c92c2[m cambios pero para dashboard
+[33m1203cbf[m para que no se descentre
+[33m3ee31e5[m cambios para que no sea como gelatina la app
+[33m174f334[m Merge branch 'dev' into pre
+[33m3ef4852[m cambios ahora se prepara para tc en egresos
+[33ma5db994[m cambios en credenciales
+[33mcdb3374[m cambios restablecer contraseña
+[33m6303ac2[m actualizaciones
+[33m98b04bb[m informes graficos actualizado
+[33ma8b3705[m pagos recurrentes actualizados
+[33m5bb7d5e[m depositos en bancos añadidos
+[33m450111a[m  se termina credenciales y ciertas modificaciones mejoradas
+[33m8cce47f[m  TotalComponenet terminado
+[33m882011f[m registrar egresos terminado
+[33mff16fc5[m cambios hasta registrar ingresos
+[33m07bb00a[m  cambios hasta dashboard
+[33m568fdc1[m cambios hasta reset password
+[33m25c9b5f[m hasta register
+[33m961f275[m cambios front
+[33md64e856[m Merge branch 'dev' into pre
+[33m922af78[m correccion de fecha
+[33mac27f4b[m Merge branch 'dev' into pre
+[33m4992b97[m se puso el ojito borro apenas entras a balance detalles
+[33m61b98c3[m Merge branch 'dev' into pre
+[33mb4945ba[m nuevosCambios, se agregó credenciales
+[33mec3d76d[m Merge branch 'dev' into pre
+[33mfecfc63[m ah
+[33mbb46124[m Merge branch 'dev' into pre
+[33meccb54b[m f
+[33md14c2e6[m gg
+[33m97fbd86[m sdfb
+[33m46de4ac[m sad
+[33m1278b8d[m asdasd
+[33m5d2db8a[m cambio
+[33m7c8e6d0[m pruebasencaliente
+[33m80cc611[m asd
+[33m250dfc0[m sadsd
+[33m82f2142[m ya
+[33mdbc5575[m gato
+[33mc2a5915[m nuevosCambiosFecha
+[33ma089fc3[m asdasd
+[33mf9d3a6b[m ultiimosCambios
+[33m18bb074[m asdasd
+[33m53b7a7d[m cambiosMMinimos
+[33mafa1bd0[m nuevv
+[33m7fac6ef[m asdas
+[33m69f4794[m m
+[33mece1b05[m nuevoCe
+[33m3e3d2b8[m videos
+[33mc5a6912[m nuevv
+[33mfb17164[m nuev
+[33m00189fb[m nsad
+[33m2b1a980[m nuevoCamiosSi
+[33mfd942d4[m nuevoCambiOo
+[33m5be0a1a[m actuaCNuevaAct
+[33mcba7aef[m actualizacion
+[33mea28da0[m ultimoCCCommit
+[33m21447f6[m Resolver conflictos de fusión
+[33m8a14e25[m Preparar para despliegue en Railway
+[33m75d16a5[m bellaqueo
+[33m14094db[m seee
+[33m476f6f5[m Resolved merge conflict in inactivityLogout.js
+[33m69e6ccb[m bolsa
+[33mc88b34e[m asdsadg2
+[33m06ce62f[m asdsad
+[33m22942c1[m funcionalTerminado implementacion de tiempo en pantalla inactividad 5 minutos
+[33ma4f3045[m ds
+[33m9dbc6e6[m ccc
+[33m6794755[m nuevod
+[33mc27b397[m ultimoCambio
+[33m38d3db3[m NUEVOS CAMBIOS CON TIEMPO DE EXPIRACIÓN 5 MINUTOS EN PANTALLA
+[33mcbb0819[m nuevoCommit
+[33m8639175[m commitNN
+[33mbc9c273[m grandesCambiosdeCommit
+[33m603290c[m nuevoCambio
+[33mda7d82e[m nuevosCambios
+[33m0810683[m actualizacionToken
+[33ma082a5c[m m
+[33ma0e31e7[m commmit
+[33m5db4e8d[m asdg
+[33maccd62a[m nuevo
+[33m6c68c2a[m nuevaActualizacion
+[33m033b60b[m nuevo commit
+[33mdd4e18c[m segundoIntento
+[33m76ef5ad[m segundoee
+[33m55d3a6d[m Actualizar package-lock.json con todas las dependencias necesarias
+[33md55f189[m algunCommit
+[33m8d082ef[m primerCommitt
+[33mbe4f903[m Initial commit
+[33m0777df3[m init

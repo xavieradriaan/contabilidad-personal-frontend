@@ -209,7 +209,7 @@
 }
 
 .credenciales-list-title {
-    color: var(--text-white);
+    color: var(--primary-blue);
     text-align: center;
     margin-bottom: 1.5rem;
 }
@@ -238,6 +238,34 @@
     position: relative;
 }
 
+/* Botón del ojo para mostrar/ocultar credenciales */
+.credenciales-eye-btn {
+    background: none;
+    border: none;
+    padding: 0.4rem;
+    margin: 0;
+    cursor: pointer;
+    color: var(--primary-blue);
+    font-size: 1rem;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    position: absolute;
+    top: -0.55rem; /* Posicionado más arriba del botón de editar - bajado 4px */
+    right: 0.5rem;
+    z-index: 3; /* Mayor z-index para estar encima */
+}
+
+.credenciales-eye-btn:hover {
+    background: rgba(26, 43, 60, 0.08);
+    color: var(--primary-blue);
+    transform: scale(1.1);
+}
+
 /* Botón editar igual que eliminar, pero un poco más abajo */
 .credenciales-edit-btn {
     background: none;
@@ -255,7 +283,7 @@
     border-radius: 50%;
     transition: all 0.2s ease;
     position: absolute;
-    top: 0.5rem; /* Subido un poco */
+    top: 0.75rem; /* Subido un poco - bajado 4px */
     right: 0.5rem;
     z-index: 2;
 }
@@ -285,7 +313,7 @@
     border-radius: 50%;
     transition: all 0.2s ease;
     position: absolute;
-    top: 2.1rem; /* Subido un poco */
+    top: 2.35rem; /* Subido un poco - bajado 4px */
     right: 0.5rem;
 }
 
@@ -626,6 +654,30 @@
   margin-bottom: 1.2rem;
   font-size: 1.08rem;
   color: var(--primary-blue);
+}
+
+.credenciales-modal-step {
+  width: 100%;
+}
+
+.credenciales-form .credenciales-input-group {
+  margin-bottom: 1rem;
+}
+
+.credenciales-form .credenciales-auth-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Asegurar que los inputs del modal no tengan problemas */
+.credenciales-modal .credenciales-auth-input {
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* Evitar que el contenido se desborde */
+.credenciales-modal-content * {
+  box-sizing: border-box;
 }
 
 .credenciales-modal-step {

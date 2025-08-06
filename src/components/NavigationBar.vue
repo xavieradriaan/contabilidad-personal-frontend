@@ -1,17 +1,28 @@
 <template>
   <div class="navigation-bar">
-    <div class="buttons">
+    <!-- Desktop version -->
+    <div class="buttons desktop-nav">
       <button v-if="showLogout" @click="emitLogoutClicked" class="nav-btn logout-btn">
         <i class="fas fa-sign-out-alt"></i>
         <span class="btn-text">Salir</span>
+      </button>
+    </div>
+    
+    <!-- Mobile compact version -->
+    <div class="mobile-nav">
+      <button v-if="showLogout" @click="emitLogoutClicked" class="nav-btn-compact logout-btn-compact" title="Cerrar Sesión">
+        <i class="fas fa-sign-out-alt"></i>
       </button>
     </div>
   </div>
 </template>
 
 <script>
+import sessionValidation from '@/mixins/sessionValidation.js';
+
 export default {
   name: 'NavigationBar',
+  mixins: [sessionValidation],
   props: {
     showHome: {
       type: Boolean,
@@ -89,25 +100,85 @@ export default {
   font-size: 1rem;
 }
 
-/* Estilos responsivos */
+/* Default: Desktop navigation styles */
+.mobile-nav {
+  display: none;
+}
+
+.desktop-nav {
+  display: flex;
+}
+
+/* Ensure desktop version is shown on large screens */
+@media (min-width: 769px) {
+  .desktop-nav {
+    display: flex !important;
+  }
+  
+  .mobile-nav {
+    display: none !important;
+  }
+}
+
+.nav-btn-compact {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(231, 76, 60, 0.4);
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.nav-btn-compact:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(231, 76, 60, 0.5);
+}
+
+.nav-btn-compact:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(231, 76, 60, 0.3);
+}
+
+/* Responsive styles */
 @media (max-width: 768px) {
   .navigation-bar {
-    top: 120px;
+    top: 20px;
+    right: 15px;
+  }
+  
+  .desktop-nav {
+    display: none !important; /* Force hide desktop version */
+  }
+  
+  .mobile-nav {
+    display: flex !important; /* Force show mobile compact version */
+  }
+  
+  .nav-btn-compact {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .navigation-bar {
+    top: 15px;
     right: 10px;
   }
   
-  .nav-btn {
-    height: 40px;
-    padding: 0 15px;
-  }
-  
-  .btn-text {
+  .nav-btn-compact {
+    width: 38px;
+    height: 38px;
     font-size: 0.9rem;
-  }
-  
-  .nav-btn i {
-    font-size: 1rem;
-    margin-right: 8px;
   }
 }
 </style>

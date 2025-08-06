@@ -6,7 +6,7 @@
       </div>
     </div>
 
-    <button class="register-back-btn" @click="$router.go(-1)">
+    <button class="register-back-btn" @click="safeGoBack('/')">
       <i class="fas fa-chevron-left"></i>
     </button>
 
@@ -266,9 +266,11 @@
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import navigationMixin from '../mixins/navigationMixin.js'
 
 export default {
   name: 'RegisterComponent',
+  mixins: [navigationMixin],
   data() {
     return {
       // NUEVAS PROPIEDADES

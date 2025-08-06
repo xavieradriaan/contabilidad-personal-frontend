@@ -1,7 +1,6 @@
 <template>
   <div class="depositos-container">
-    <!-- Agregar el componente NavigationBar -->
-    <NavigationBar />
+    <!-- Navegación centralizada desde App.vue -->
     <!-- Animación de monedas -->
     <div class="depositos-animated-coins">
       <div v-for="index in 25" :key="index" class="depositos-coin" :class="`depositos-coin-${index}`">
@@ -10,7 +9,7 @@
     </div>
 
     <!-- Botón de regreso -->
-    <button class="depositos-back-btn" @click="$router.go(-1)">
+    <button class="depositos-back-btn" @click="safeGoBack('/dashboard')">
       <i class="fas fa-chevron-left"></i>
     </button>
 
@@ -101,12 +100,14 @@
 
 <script>
 import axios from 'axios'
-import NavigationBar from './NavigationBar.vue' // Reintegrado porque ahora se usa
+import navigationMixin from '../mixins/navigationMixin.js'
+import sessionValidation from '../mixins/sessionValidation.js'
 
 export default {
   name: 'DepositosBancosComponent',
+  mixins: [navigationMixin, sessionValidation],
   components: {
-    NavigationBar // Mantener porque ahora se usa
+    // Navegación centralizada desde App.vue
   },
   data() {
     return {

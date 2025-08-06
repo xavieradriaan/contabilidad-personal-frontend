@@ -7,7 +7,7 @@
     </div>
 
     <!-- Add this back button -->
-    <button class="credenciales-back-btn" @click="$router.go(-1)">
+    <button class="credenciales-back-btn" @click="safeGoBack('/dashboard')">
       <i class="fas fa-chevron-left"></i>
     </button>
 
@@ -67,22 +67,33 @@
             <div v-for="credencial in credenciales" :key="credencial.id" class="credenciales-item">
               <div class="credenciales-item-header">
                 <strong class="credenciales-item-title">{{ credencial.descripcion }}</strong>
-                <button 
-                  @click="openEditModal(credencial)"
-                  class="credenciales-edit-btn"
-                  title="Editar"
-                >
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button 
-                  @click="confirmDeleteCredencial(credencial.id)"
-                  class="credenciales-delete-btn"
-                  title="Eliminar"
-                >
-                  <i class="fas fa-trash-alt"></i>
-                </button>
+                <div class="credenciales-buttons-group">
+                  <button 
+                    @click="toggleVisibility(credencial.id)"
+                    class="credenciales-eye-btn"
+                    :title="isVisible(credencial.id) ? 'Ocultar' : 'Mostrar'"
+                  >
+                    <i :class="isVisible(credencial.id) ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                  </button>
+                  <button 
+                    @click="openEditModal(credencial)"
+                    class="credenciales-edit-btn"
+                    title="Editar"
+                  >
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button 
+                    @click="confirmDeleteCredencial(credencial.id)"
+                    class="credenciales-delete-btn"
+                    title="Eliminar"
+                  >
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
               </div>
-              <p class="credenciales-item-content" v-html="formatCredencial(credencial.credencial)"></p>
+              <div class="credenciales-content-wrapper">
+                <p class="credenciales-item-content" v-html="formatCredencial(credencial.credencial, credencial.id)"></p>
+              </div>
             </div>
           </div>
           
@@ -155,6 +166,81 @@
         </div>
       </div>
 
+      <!-- Modal OTP Verificación -->
+      <div v-if="showOTPModal" class="credenciales-modal">
+        <div class="credenciales-modal-content">
+          <span class="credenciales-modal-close" @click="closeOTPModal">&times;</span>
+          <h2 class="credenciales-modal-title">Verificación de Seguridad</h2>
+          
+          <div v-if="otpStep === 'request'" class="credenciales-modal-step">
+            <p class="credenciales-otp-description">
+              <i class="fas fa-shield-alt"></i>
+              Para acceder a tus credenciales almacenadas, necesitamos verificar tu identidad.
+            </p>
+            <p class="credenciales-otp-info">
+              Se enviará un código de verificación a tu correo electrónico registrado.
+            </p>
+            <div class="credenciales-modal-actions">
+              <button 
+                @click="requestOTP" 
+                class="credenciales-modal-btn credenciales-modal-confirm"
+                :disabled="isRequestingOTP"
+              >
+                <span v-if="!isRequestingOTP">
+                  <i class="fas fa-envelope"></i> Enviar Código
+                </span>
+                <span v-else>
+                  <i class="fas fa-spinner fa-spin"></i> Enviando...
+                </span>
+              </button>
+              <button @click="closeOTPModal" class="credenciales-modal-btn credenciales-modal-cancel">
+                Cancelar
+              </button>
+            </div>
+          </div>
+
+          <div v-else-if="otpStep === 'verify'" class="credenciales-modal-step">
+            <p class="credenciales-otp-description">
+              <i class="fas fa-key"></i>
+              Ingresa el código de 6 dígitos que hemos enviado a tu correo electrónico.
+            </p>
+            <div class="credenciales-input-group">
+              <label for="otpCode" class="credenciales-input-label">
+                <i class="fas fa-lock credenciales-icon"></i>
+                <span>Código de Verificación</span>
+              </label>
+              <input
+                v-model="otpCode"
+                type="text"
+                id="otpCode"
+                class="credenciales-auth-input credenciales-otp-input"
+                placeholder="123456"
+                maxlength="6"
+                @input="otpCode = otpCode.replace(/[^0-9]/g, '')"
+                required
+              >
+            </div>
+            <div class="credenciales-modal-actions">
+              <button 
+                @click="verifyOTP" 
+                class="credenciales-modal-btn credenciales-modal-confirm"
+                :disabled="isVerifyingOTP || otpCode.length !== 6"
+              >
+                <span v-if="!isVerifyingOTP">
+                  <i class="fas fa-check"></i> Verificar
+                </span>
+                <span v-else>
+                  <i class="fas fa-spinner fa-spin"></i> Verificando...
+                </span>
+              </button>
+              <button @click="otpStep = 'request'" class="credenciales-modal-btn credenciales-modal-back">
+                <i class="fas fa-arrow-left"></i> Volver
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Notificación de éxito -->
       <transition 
         name="credenciales-notification"
@@ -177,10 +263,13 @@
 
 <script>
 import axios from 'axios'
+import navigationMixin from '../mixins/navigationMixin.js'
+import sessionValidation from '../mixins/sessionValidation.js'
 import NavigationBar from './NavigationBar.vue'
 
 export default {
   name: 'CredencialesComponent',
+  mixins: [navigationMixin, sessionValidation],
   components: {
     NavigationBar
   },
@@ -189,6 +278,7 @@ export default {
       descripcion: '',
       credencial: '',
       credenciales: [],
+      visibleCredentials: {}, // Controla qué credenciales están visibles
       // Modal edición
       showEditModal: false,
       currentCredential: null,
@@ -199,7 +289,15 @@ export default {
       isSaving: false,
       isSavingCredential: false, // Controlar estado del botón
       showSuccessNotification: false, // Mostrar notificación
-      successMessage: '¡Credencial guardada con éxito!' // Mensaje dinámico
+      successMessage: '¡Credencial guardada con éxito!', // Mensaje dinámico
+      // Modal OTP
+      showOTPModal: false,
+      otpStep: 'request', // 'request' o 'verify'
+      otpCode: '',
+      isRequestingOTP: false,
+      isVerifyingOTP: false,
+      pendingAction: null, // Guarda la acción que se ejecutará después de la verificación OTP
+      pendingActionData: null // Datos adicionales para la acción pendiente
     }
   },
   watch: {
@@ -223,7 +321,43 @@ export default {
         })
         this.credenciales = response.data
       } catch (error) {
-        console.error('Error al obtener credenciales:', error)
+        if (error.response && error.response.status === 403 && error.response.data.requires_otp) {
+          // El backend requiere verificación OTP
+          this.pendingAction = 'fetchCredenciales'
+          this.showOTPModal = true
+          this.otpStep = 'request'
+        } else {
+          console.error('Error al obtener credenciales:', error)
+          this.$swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudieron cargar las credenciales'
+          })
+        }
+      }
+    },
+
+    // Método específico para cargar credenciales después de OTP exitoso
+    async loadCredentialsAfterOTP() {
+      try {
+        console.log('Cargando credenciales después de verificación OTP exitosa...')
+        const response = await axios.get('/credenciales', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        this.credenciales = response.data
+        console.log('Credenciales cargadas exitosamente:', this.credenciales.length, 'elementos')
+        
+        // Forzar actualización de la vista
+        this.$forceUpdate()
+      } catch (error) {
+        console.error('Error al cargar credenciales después de OTP:', error)
+        this.$swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudieron cargar las credenciales después de la verificación'
+        })
       }
     },
     async saveCredencial() {
@@ -246,7 +380,13 @@ export default {
           this.showSuccessNotification = false;
         }, 1500);
       } catch (error) {
-        console.error('Error al guardar credencial:', error);
+        if (error.response && error.response.status === 403 && error.response.data.requires_otp) {
+          this.pendingAction = 'saveCredencial'
+          this.showOTPModal = true
+          this.otpStep = 'request'
+        } else {
+          console.error('Error al guardar credencial:', error);
+        }
       } finally {
         this.isSavingCredential = false;
       }
@@ -266,7 +406,14 @@ export default {
           this.showSuccessNotification = false;
         }, 1500);
       } catch (error) {
-        console.error('Error al eliminar credencial:', error)
+        if (error.response && error.response.status === 403 && error.response.data.requires_otp) {
+          this.pendingAction = 'deleteCredencial'
+          this.pendingActionData = id
+          this.showOTPModal = true
+          this.otpStep = 'request'
+        } else {
+          console.error('Error al eliminar credencial:', error)
+        }
       }
     },
     confirmDeleteCredencial(id) {
@@ -274,9 +421,29 @@ export default {
         this.deleteCredencial(id)
       }
     },
-    formatCredencial(credencial) {
+    formatCredencial(credencial, credencialId) {
       if (!credencial) return '';
-      return credencial.replace(/\n/g, '<br>')
+      
+      // Si está marcada como visible, mostrar contenido real
+      if (this.visibleCredentials[credencialId]) {
+        return credencial.replace(/\n/g, '<br>');
+      }
+      
+      // Por defecto, mostrar máscara
+      return '<span style="color: #333; font-weight: bold;">***</span>';
+    },
+    toggleVisibility(credencialId) {
+      console.log('Toggle clicked for credential:', credencialId);
+      // Vue 3 - Crear nuevo objeto para forzar reactividad
+      const currentState = this.visibleCredentials[credencialId] || false;
+      this.visibleCredentials = {
+        ...this.visibleCredentials,
+        [credencialId]: !currentState
+      };
+      console.log('New visibility state:', this.visibleCredentials[credencialId]);
+    },
+    isVisible(credencialId) {
+      return this.visibleCredentials[credencialId] || false;
     },
     // --- Modal edición ---
     openEditModal(credencial) {
@@ -341,9 +508,15 @@ export default {
         }
         this.closeEditModal();
       } catch (error) {
-        console.error('Error al actualizar credencial:', error);
-        alert('Error al actualizar credencial');
-        this.isSaving = false;
+        if (error.response && error.response.status === 403 && error.response.data.requires_otp) {
+          this.pendingAction = 'saveEditedCredential'
+          this.showOTPModal = true
+          this.otpStep = 'request'
+        } else {
+          console.error('Error al actualizar credencial:', error);
+          alert('Error al actualizar credencial');
+          this.isSaving = false;
+        }
       }
     },
     showSuccessMessage(message) {
@@ -358,6 +531,117 @@ export default {
           document.body.removeChild(notification);
         }, 300);
       }, 3000);
+    },
+    
+    // Métodos OTP
+    async requestOTP() {
+      this.isRequestingOTP = true
+      try {
+        const response = await axios.post('/credentials/request-otp', {}, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        
+        if (response.data.success) {
+          this.otpStep = 'verify'
+          this.otpCode = ''
+          this.$swal.fire({
+            icon: 'success',
+            title: 'Código Enviado',
+            text: 'Revisa tu correo electrónico',
+            timer: 2000,
+            showConfirmButton: false
+          })
+        }
+      } catch (error) {
+        console.error('Error al solicitar OTP:', error)
+        this.$swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo enviar el código de verificación'
+        })
+      } finally {
+        this.isRequestingOTP = false
+      }
+    },
+    
+    async verifyOTP() {
+      this.isVerifyingOTP = true
+      try {
+        const response = await axios.post('/credentials/verify-otp', {
+          otp: this.otpCode
+        }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        
+        if (response.data.success) {
+          // Primero ejecutar la acción pendiente
+          if (this.pendingAction) {
+            await this.executePendingAction()
+          }
+          
+          // Cerrar el modal con un pequeño delay para asegurar que se procese todo
+          setTimeout(() => {
+            this.closeOTPModal()
+          }, 100)
+          
+          // Mostrar notificación de éxito
+          this.$swal.fire({
+            icon: 'success',
+            title: 'Verificación Exitosa',
+            text: 'Acceso concedido por 10 minutos',
+            timer: 1500,
+            showConfirmButton: false
+          })
+        }
+      } catch (error) {
+        console.error('Error al verificar OTP:', error)
+        const message = error.response?.data?.message || 'Código inválido o expirado'
+        this.$swal.fire({
+          icon: 'error',
+          title: 'Error de Verificación',
+          text: message
+        })
+        this.otpCode = '' // Limpiar código incorrecto
+      } finally {
+        this.isVerifyingOTP = false
+      }
+    },
+    
+    async executePendingAction() {
+      switch (this.pendingAction) {
+        case 'fetchCredenciales':
+          await this.loadCredentialsAfterOTP()
+          break
+        case 'saveCredencial':
+          await this.saveCredencial()
+          break
+        case 'saveEditedCredential':
+          await this.saveEditedCredential()
+          break
+        case 'deleteCredencial':
+          if (this.pendingActionData) {
+            await this.deleteCredencial(this.pendingActionData)
+          }
+          break
+        default:
+          console.warn('Acción pendiente no reconocida:', this.pendingAction)
+      }
+      this.pendingAction = null
+      this.pendingActionData = null
+    },
+    
+    closeOTPModal() {
+      this.showOTPModal = false
+      this.otpStep = 'request'
+      this.otpCode = ''
+      this.isRequestingOTP = false
+      this.isVerifyingOTP = false
+      this.pendingAction = null
+      this.pendingActionData = null
     }
   }
 }
@@ -366,24 +650,7 @@ export default {
 <style scoped>
 @import './CredencialesComponent.css';
 
-.credenciales-delete-btn {
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem; /* Adjust icon size */
-  color: #ff4d4d; /* Optional: Add color for better visibility */
-}
-
-.credenciales-item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+/* Reglas específicas que solo aplican con scoped - principalmente modales OTP */
 
 .credenciales-modal {
   position: fixed;
@@ -435,6 +702,84 @@ export default {
 .credenciales-modal-btn {
   flex: 1;
   margin: 0 0.5rem;
+}
+
+/* Estilos específicos para el modal OTP */
+.credenciales-otp-description {
+  text-align: center;
+  color: #495057;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.credenciales-otp-description i {
+  margin-right: 0.5rem;
+  color: #007bff;
+}
+
+.credenciales-otp-info {
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.credenciales-otp-input {
+  text-align: center !important;
+  font-size: 1.5rem !important;
+  letter-spacing: 0.5rem !important;
+  font-weight: bold !important;
+}
+
+.credenciales-modal-confirm {
+  background: var(--primary-blue) !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+}
+
+.credenciales-modal-confirm:hover:not(:disabled) {
+  background: #2D4A5E !important;
+  transform: translateY(-2px) !important;
+}
+
+.credenciales-modal-confirm:disabled {
+  background: #6c757d !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.credenciales-modal-cancel {
+  background: #6c757d !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+}
+
+.credenciales-modal-cancel:hover {
+  background: #545b62 !important;
+  transform: translateY(-2px) !important;
+}
+
+.credenciales-modal-back {
+  background: var(--secondary-blue) !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+}
+
+.credenciales-modal-back:hover {
+  background: #3a5f76 !important;
+  transform: translateY(-2px) !important;
 }
 
 /* ELIMINAR ESTAS REGLAS (ya están en el CSS global) */

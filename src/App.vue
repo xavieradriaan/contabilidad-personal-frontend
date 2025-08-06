@@ -14,6 +14,7 @@
 import { mapActions } from 'vuex'
 import axios from 'axios'
 import inactivityLogout from './mixins/inactivityLogout.js'
+import sessionValidation from './mixins/sessionValidation.js'
 import NavigationBar from './components/NavigationBar.vue'
 
 export default {
@@ -21,7 +22,7 @@ export default {
   components: {
     NavigationBar
   },
-  mixins: [inactivityLogout],
+  mixins: [inactivityLogout, sessionValidation],
   data() {
     return {
       isLoggedIn: !!localStorage.getItem('token')

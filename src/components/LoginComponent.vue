@@ -7,7 +7,7 @@
     </div>
 
     <!-- Botón de regreso minimalista -->
-    <button class="login-back-btn" @click="$router.go(-1)">
+    <button class="login-back-btn" @click="safeGoBack('/')">
       <i class="fas fa-chevron-left"></i>
     </button>
 
@@ -89,9 +89,11 @@
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import navigationMixin from '../mixins/navigationMixin.js'
 
 export default {
   name: 'LoginComponent',
+  mixins: [navigationMixin],
   data() {
     return {
       username: '',
@@ -125,12 +127,23 @@ export default {
         localStorage.setItem('token', response.data.access_token)
         localStorage.setItem('username', this.username)
         
+        // Mostrar notificación según si se reemplazó una sesión anterior
+        const sessionReplaced = response.data.session_replaced
+        
+        // DEBUG: Mostrar información de debug en consola
+        console.log('Login response:', response.data)
+        if (response.data.debug_info) {
+          console.log('Debug info:', response.data.debug_info)
+        }
+        
         await Swal.fire({
           icon: 'success',
           title: 'Inicio de Sesión Exitoso',
-          text: 'Bienvenido de nuevo',
+          text: sessionReplaced 
+            ? 'Bienvenido de nuevo. Se cerró tu sesión anterior en otro dispositivo.' 
+            : 'Bienvenido de nuevo',
           showConfirmButton: false,
-          timer: 1500,
+          timer: sessionReplaced ? 3000 : 1500,
           customClass: {
             popup: 'login-success-popup',
             title: 'login-success-title',

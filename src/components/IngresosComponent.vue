@@ -6,7 +6,7 @@
       </div>
     </div>
 
-    <button class="ingresos-back-btn" @click="$router.go(-1)">
+    <button class="ingresos-back-btn" @click="safeGoBack('/dashboard')">
       <i class="fas fa-chevron-left"></i>
     </button>
 
@@ -111,9 +111,12 @@
 <script>
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import navigationMixin from '../mixins/navigationMixin.js'
+import sessionValidation from '../mixins/sessionValidation.js'
 
 export default {
   name: 'IngresosComponent',
+  mixins: [navigationMixin, sessionValidation],
   data() {
     return {
       nuevoIngreso: {

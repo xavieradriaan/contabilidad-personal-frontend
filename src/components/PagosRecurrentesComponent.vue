@@ -8,7 +8,7 @@
     </div>
 
     <!-- Botón de regreso -->
-    <button class="pagos-back-btn" @click="$router.go(-1)">
+    <button class="pagos-back-btn" @click="safeGoBack('/dashboard')">
       <i class="fas fa-chevron-left"></i>
     </button>
 
@@ -61,9 +61,12 @@
 
 <script>
 import axios from 'axios'
+import navigationMixin from '../mixins/navigationMixin.js'
+import sessionValidation from '../mixins/sessionValidation.js'
 
 export default {
   name: 'PagosRecurrentesComponent',
+  mixins: [navigationMixin, sessionValidation],
   data() {
     return {
       pagosRecurrentes: [],

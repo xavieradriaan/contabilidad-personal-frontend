@@ -34,25 +34,29 @@ export default {
       // Evitar configurar múltiples veces
       if (window.inactivityListenersActive) return;
       
-      window.addEventListener('mousemove', this.resetInactivityTimeout, { passive: true });
-      window.addEventListener('keydown', this.resetInactivityTimeout, { passive: true });
-      window.addEventListener('click', this.resetInactivityTimeout, { passive: true });
-      window.addEventListener('scroll', this.resetInactivityTimeout, { passive: true });
+      // Crear funciones bound para poder removerlas después
+      this.boundResetInactivityTimeout = this.resetInactivityTimeout.bind(this);
+      
+      window.addEventListener('mousemove', this.boundResetInactivityTimeout, { passive: true });
+      window.addEventListener('keydown', this.boundResetInactivityTimeout, { passive: true });
+      window.addEventListener('click', this.boundResetInactivityTimeout, { passive: true, capture: false });
+      window.addEventListener('scroll', this.boundResetInactivityTimeout, { passive: true });
       
       window.inactivityListenersActive = true;
     },
     cleanupInactivityListeners() {
-      if (window.inactivityListenersActive) {
-        window.removeEventListener('mousemove', this.resetInactivityTimeout);
-        window.removeEventListener('keydown', this.resetInactivityTimeout);
-        window.removeEventListener('click', this.resetInactivityTimeout);
-        window.removeEventListener('scroll', this.resetInactivityTimeout);
+      if (window.inactivityListenersActive && this.boundResetInactivityTimeout) {
+        window.removeEventListener('mousemove', this.boundResetInactivityTimeout);
+        window.removeEventListener('keydown', this.boundResetInactivityTimeout);
+        window.removeEventListener('click', this.boundResetInactivityTimeout);
+        window.removeEventListener('scroll', this.boundResetInactivityTimeout);
         
         window.inactivityListenersActive = false;
       }
       
       clearTimeout(this.inactivityTimeout);
       this.isInactivitySetup = false;
+      this.boundResetInactivityTimeout = null;
     }
   },
   mounted() {

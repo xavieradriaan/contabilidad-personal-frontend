@@ -8,7 +8,7 @@
     </div>
 
     <!-- Botón de regreso -->
-    <button class="informes-back-btn" @click="$router.go(-1)">
+    <button class="informes-back-btn" @click="safeGoBack('/dashboard')">
       <i class="fas fa-chevron-left"></i>
     </button>
 
@@ -118,9 +118,12 @@
 <script>
 import axios from 'axios'
 import VueApexCharts from 'vue3-apexcharts'
+import navigationMixin from '../mixins/navigationMixin.js'
+import sessionValidation from '../mixins/sessionValidation.js'
 
 export default {
   name: 'InformesGraficosComponent',
+  mixins: [navigationMixin, sessionValidation],
   components: {
     apexchart: VueApexCharts
   },

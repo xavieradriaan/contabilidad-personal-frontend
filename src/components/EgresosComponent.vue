@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <button class="egresos-back-btn" @click="$router.go(-1)">
+    <button class="egresos-back-btn" @click="safeGoBack('/dashboard')">
       <i class="fas fa-chevron-left"></i>
     </button>
 
@@ -203,9 +203,12 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import TarjetasCreditoModal from './TarjetasCreditoModal.vue';
+import navigationMixin from '../mixins/navigationMixin.js';
+import sessionValidation from '../mixins/sessionValidation.js';
 
 export default {
   name: 'EgresosComponent',
+  mixins: [navigationMixin, sessionValidation],
   components: {
     TarjetasCreditoModal
   },

@@ -95,9 +95,11 @@
 <script>
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import sessionValidation from '@/mixins/sessionValidation.js';
 
 export default {
   name: 'TarjetasCreditoModal',
+  mixins: [sessionValidation],
   data() {
     return {
       nuevaTarjeta: {
